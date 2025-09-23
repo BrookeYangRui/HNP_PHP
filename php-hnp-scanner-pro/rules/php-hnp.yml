@@ -1,0 +1,52 @@
+rules:
+  - id: php-hnp-http-host
+    languages: [php]
+    message: HNP vulnerability - HTTP_HOST used in URL construction
+    severity: ERROR
+    patterns:
+      - pattern: $_SERVER['HTTP_HOST']
+  
+  - id: php-hnp-x-forwarded-host
+    languages: [php]
+    message: HNP vulnerability - X-Forwarded-Host used in URL construction
+    severity: ERROR
+    patterns:
+      - pattern: $_SERVER['HTTP_X_FORWARDED_HOST']
+  
+  - id: php-hnp-server-name
+    languages: [php]
+    message: HNP vulnerability - SERVER_NAME used in URL construction
+    severity: ERROR
+    patterns:
+      - pattern: $_SERVER['SERVER_NAME']
+  
+  - id: php-hnp-host-header
+    languages: [php]
+    message: HNP vulnerability - Host header used in URL construction
+    severity: ERROR
+    patterns:
+      - pattern: $_SERVER['HTTP_HOST']
+      - pattern-inside: |
+          $... = ... . $_SERVER['HTTP_HOST'] . ...;
+  
+  - id: php-hnp-redirect
+    languages: [php]
+    message: HNP vulnerability - HTTP_HOST used in redirect
+    severity: ERROR
+    patterns:
+      - pattern: header("Location: ..." . $_SERVER['HTTP_HOST'] . "...")
+      - pattern: header('Location: ...' . $_SERVER['HTTP_HOST'] . '...')
+  
+  - id: php-hnp-url-construction
+    languages: [php]
+    message: HNP vulnerability - HTTP_HOST used in URL construction
+    severity: ERROR
+    patterns:
+      - pattern: |
+          $... = "http://" . $_SERVER['HTTP_HOST'] . ...;
+      - pattern: |
+          $... = "https://" . $_SERVER['HTTP_HOST'] . ...;
+      - pattern: |
+          return "http://" . $_SERVER['HTTP_HOST'] . ...;
+      - pattern: |
+          return "https://" . $_SERVER['HTTP_HOST'] . ...;

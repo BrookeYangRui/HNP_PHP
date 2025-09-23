@@ -1,0 +1,22 @@
+# 批量 HNP 扫描 - 仓库列表示例
+# 每行一个 git URL，支持 GitHub、GitLab、Bitbucket 等
+
+# Laravel 项目示例
+https://github.com/laravel/laravel
+https://github.com/laravel/framework
+
+# WordPress 项目示例  
+https://github.com/WordPress/WordPress
+https://github.com/woocommerce/woocommerce
+
+# Symfony 项目示例
+https://github.com/symfony/symfony
+https://github.com/symfony/demo
+
+# 其他 PHP 项目
+https://github.com/php/php-src
+https://github.com/composer/composer
+
+# 私有仓库示例 (需要认证)
+# git@github.com:username/private-repo.git
+# https://username:token@github.com/username/private-repo.git

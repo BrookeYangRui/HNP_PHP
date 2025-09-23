@@ -1,0 +1,21 @@
+name: HNP Scan
+on: [push, pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install Semgrep
+        run: pipx install semgrep
+      - name: Run php-hnp-scanner
+        run: |
+          python3 php-hnp-scanner-pro/cli/hnp_scan.py . --min-score HIGH --emit-sarif || true
+          echo "---- Report ----"
+          cat php-hnp-scanner-pro/out/hnp-report.md || true
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: php-hnp-scanner-pro/out/hnp.sarif
+
