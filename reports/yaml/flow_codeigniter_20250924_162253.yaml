@@ -1,0 +1,295 @@
+framework: CodeIgniter
+timestamp: '2025-09-24T16:22:53.055217'
+sources: []
+sinks:
+- &id001
+  file: system/core/Config.php
+  line: 306
+  snippet: "\tpublic function base_url($uri = '', $protocol = NULL)"
+- &id002
+  file: system/core/Config.php
+  line: 332
+  snippet: "\t * @used-by\tCI_Config::base_url()"
+- &id003
+  file: system/core/Config.php
+  line: 306
+  snippet: "\tpublic function base_url($uri = '', $protocol = NULL)"
+- &id004
+  file: system/core/Config.php
+  line: 332
+  snippet: "\t * @used-by\tCI_Config::base_url()"
+- &id005
+  file: system/helpers/html_helper.php
+  line: 203
+  snippet: "\t\t\t\t\t$img .= ' src=\"'.get_instance()->config->base_url($v).'\"';"
+- &id006
+  file: system/helpers/html_helper.php
+  line: 295
+  snippet: "\t\t\t\t\t\t$link .= 'href=\"'.$CI->config->base_url($v).'\" ';"
+- &id007
+  file: system/helpers/html_helper.php
+  line: 316
+  snippet: "\t\t\t\t$link .= 'href=\"'.$CI->config->base_url($href).'\" ';"
+- &id008
+  file: system/helpers/url_helper.php
+  line: 86
+  snippet: "\tfunction base_url($uri = '', $protocol = NULL)"
+- &id009
+  file: system/helpers/url_helper.php
+  line: 88
+  snippet: "\t\treturn get_instance()->config->base_url($uri, $protocol);"
+- &id010
+  file: system/helpers/form_helper.php
+  line: 103
+  snippet: "\t\tif ($CI->config->item('csrf_protection') === TRUE && strpos($action,\
+    \ $CI->config->base_url()) !== FALSE && ! stripos($form, 'method=\"get\"'))"
+- &id011
+  file: system/core/Config.php
+  line: 243
+  snippet: "\tpublic function site_url($uri = '', $protocol = NULL)"
+- &id012
+  file: system/core/Config.php
+  line: 331
+  snippet: "\t * @used-by\tCI_Config::site_url()"
+- &id013
+  file: system/core/Config.php
+  line: 243
+  snippet: "\tpublic function site_url($uri = '', $protocol = NULL)"
+- &id014
+  file: system/core/Config.php
+  line: 331
+  snippet: "\t * @used-by\tCI_Config::site_url()"
+- &id015
+  file: system/libraries/Calendar.php
+  line: 164
+  snippet: "\t\t\t$this->next_prev_url = $this->CI->config->site_url($this->CI->router->class.'/'.$this->CI->router->method);"
+- &id016
+  file: system/helpers/html_helper.php
+  line: 199
+  snippet: "\t\t\t\t\t$img .= ' src=\"'.get_instance()->config->site_url($v).'\"';"
+- &id017
+  file: system/helpers/html_helper.php
+  line: 291
+  snippet: "\t\t\t\t\t\t$link .= 'href=\"'.$CI->config->site_url($v).'\" ';"
+- &id018
+  file: system/helpers/html_helper.php
+  line: 312
+  snippet: "\t\t\t\t$link .= 'href=\"'.$CI->config->site_url($href).'\" ';"
+- &id019
+  file: system/helpers/url_helper.php
+  line: 65
+  snippet: "\tfunction site_url($uri = '', $protocol = NULL)"
+- &id020
+  file: system/helpers/url_helper.php
+  line: 67
+  snippet: "\t\treturn get_instance()->config->site_url($uri, $protocol);"
+- &id021
+  file: system/helpers/url_helper.php
+  line: 107
+  snippet: "\t\treturn $CI->config->site_url($CI->uri->uri_string());"
+- &id022
+  file: system/helpers/url_helper.php
+  line: 164
+  snippet: "\t\t\t? site_url($uri)"
+- &id023
+  file: system/helpers/url_helper.php
+  line: 165
+  snippet: "\t\t\t: (preg_match('#^(\\w+:)?//#i', $uri) ? $uri : site_url($uri));"
+- &id024
+  file: system/helpers/url_helper.php
+  line: 199
+  snippet: "\t\t$site_url = preg_match('#^(\\w+:)?//#i', $uri) ? $uri : site_url($uri);"
+- &id025
+  file: system/helpers/url_helper.php
+  line: 526
+  snippet: "\t\t\t$uri = site_url($uri);"
+- &id026
+  file: system/helpers/form_helper.php
+  line: 72
+  snippet: "\t\t\t$action = $CI->config->site_url($CI->uri->uri_string());"
+- &id027
+  file: system/helpers/form_helper.php
+  line: 77
+  snippet: "\t\t\t$action = $CI->config->site_url($action);"
+- &id028
+  file: system/helpers/url_helper.php
+  line: 522
+  snippet: "\tfunction redirect($uri = '', $method = 'auto', $code = NULL)"
+guards:
+- file: application/config/config.php
+  line: 26
+  snippet: $config['base_url'] = '';
+- file: application/config/config.php
+  line: 26
+  snippet: $config['base_url'] = '';
+flows:
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id001
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id002
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id003
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id004
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id005
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id006
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id007
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id008
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id009
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id010
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id011
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id012
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id013
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id014
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id015
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id016
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id017
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id018
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id019
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id020
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id021
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id022
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id023
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id024
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id025
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id026
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id027
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id028
+  guards: []
+notes:
+- 'Configuration-dependent: ensure base URL / trusted hosts / proxies are pinned.'

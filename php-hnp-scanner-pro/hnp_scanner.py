@@ -9,14 +9,20 @@ import csv
 import time
 import shutil
 from pathlib import Path
+from framework_detector import detect_framework
 
 def check_single_repo(repo_url, repo_name, expected_vuln, stars, year, index):
     """检查单个仓库并返回结果"""
     print(f"\n🔍 检查: {repo_name}")
     print(f"   预期: {expected_vuln}")
     
-    # 克隆仓库
-    clone_cmd = ["git", "clone", "--depth", "1", repo_url, f"temp_{repo_name}"]
+    # 创建tmp目录（如果不存在）
+    tmp_dir = Path("../tmp")
+    tmp_dir.mkdir(exist_ok=True)
+    
+    # 克隆仓库到tmp目录
+    clone_path = tmp_dir / f"temp_{repo_name}"
+    clone_cmd = ["git", "clone", "--depth", "1", repo_url, str(clone_path)]
     try:
         print("   正在克隆...")
         clone_result = subprocess.run(clone_cmd, capture_output=True, timeout=30)
@@ -24,17 +30,31 @@ def check_single_repo(repo_url, repo_name, expected_vuln, stars, year, index):
             print(f"   ❌ 克隆失败: {clone_result.stderr.decode('utf-8', errors='ignore')[:200]}")
             return {"status": "clone_failed", "findings": []}
         
+        # 检测框架
+        print("   正在检测框架...")
+        framework_info = detect_framework(clone_path)
+        print(f"   检测到框架: {framework_info['framework']}")
+        print(f"   风险等级: {framework_info['hnp_risk_level']}")
+        
+        # 选择扫描规则
+        if framework_info['framework'] != 'unknown':
+            rules_file = "rules/php-frameworks-hnp.yml"
+            print(f"   使用框架特定规则: {rules_file}")
+        else:
+            rules_file = "rules/php-hnp-simple.yml"
+            print(f"   使用通用规则: {rules_file}")
+        
         # 扫描
         print("   正在扫描...")
         cmd = [
             "semgrep", "scan",
-            "--config", "rules/php-hnp.yml",
+            "--config", rules_file,
             "--json",
             "--include", "*.php",
             "--exclude", "vendor/",
             "--exclude", "node_modules/",
             "--exclude", ".git/",
-            str(f"temp_{repo_name}")
+            str(clone_path)
         ]
         
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=30, encoding='utf-8', errors='ignore')
@@ -48,19 +68,23 @@ def check_single_repo(repo_url, repo_name, expected_vuln, stars, year, index):
             print(f"   ❌ 扫描失败")
         
         # 清理
-        shutil.rmtree(f"temp_{repo_name}", ignore_errors=True)
+        shutil.rmtree(clone_path, ignore_errors=True)
         
-        return {"status": "success", "findings": findings}
+        return {
+            "status": "success", 
+            "findings": findings,
+            "framework_info": framework_info
+        }
         
     except subprocess.TimeoutExpired:
         print(f"   ⏰ 超时跳过 (需要手动测试)")
         # 清理
-        shutil.rmtree(f"temp_{repo_name}", ignore_errors=True)
+        shutil.rmtree(clone_path, ignore_errors=True)
         return {"status": "timeout", "findings": []}
     except Exception as e:
         print(f"   ❌ 检查失败: {e}")
         # 清理
-        shutil.rmtree(f"temp_{repo_name}", ignore_errors=True)
+        shutil.rmtree(clone_path, ignore_errors=True)
         return {"status": "error", "findings": []}
 
 def analyze_finding(finding, project_path):

@@ -1,0 +1,16 @@
+Framework,Canonical_API,Aliases,Category,Description,Total,Unguarded,Guarded,Protected_Rate,Security_State,Recommendation
+CodeIgniter,site_url(),">site_url, CI_Config::site_url, site_url",URL Generation,Site URL,26,26,0,0.0%,Config-Dependent,Set $config[base_url] to avoid dynamic Host
+CodeIgniter,base_url(),">base_url, CI_Config::base_url, base_url",URL Generation,Base URL (must set $config[base_url]),14,14,0,0.0%,Config-Dependent,Set $config[base_url] to avoid dynamic Host
+CodeIgniter,redirect(),redirect,Redirect,HTTP redirect,2,2,0,0.0%,Config-Dependent,Set $config[base_url] to avoid dynamic Host
+Laravel,route(),route,URL Generation,Generate URL by route name,4,4,0,0.0%,Config-Dependent,Pin APP_URL and configure TrustProxies/TrustHosts (or URL::forceRootUrl)
+Laravel,url(),url,URL Generation,Build absolute/relative URL; affected by Host if APP_URL is not pinned,2,2,0,0.0%,Config-Dependent,Pin APP_URL and configure TrustProxies/TrustHosts (or URL::forceRootUrl)
+Symfony,RedirectResponse,RedirectResponse,Redirect,Construct redirect response,380,236,144,37.9%,Proxy-Vulnerable,Configure trusted_hosts and trusted_proxies
+Symfony,UrlGenerator::generate(),>generateUrl,URL Generation,Generate URL by route (requires trusted_hosts/proxies),36,36,0,0.0%,Proxy-Vulnerable,Configure trusted_hosts and trusted_proxies
+Symfony,AbstractController::redirect(),>redirect,Redirect,Controller redirect,16,16,0,0.0%,Proxy-Vulnerable,Configure trusted_hosts and trusted_proxies
+WordPress,wp_redirect(),wp_redirect,Redirect,WP redirect; recommend setting WP_HOME/WP_SITEURL,1276,178,1098,86.1%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,home_url(),home_url,URL Generation,Homepage URL,724,64,660,91.2%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,site_url(),site_url,URL Generation,Site URL,184,22,162,88.0%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,get_home_url(),get_home_url,URL Generation,Get homepage URL,46,4,42,91.3%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,get_site_url(),get_site_url,URL Generation,Get site URL,24,0,24,100.0%,Safe,Define WP_HOME and WP_SITEURL
+Yii2,Url::to(),Url::to,URL Generation,Generate URL by route (recommend setting hostInfo/baseUrl),84,16,68,81.0%,Safe,Configure request->hostInfo and UrlManager baseUrl
+Yii2,Response::redirect(),>redirect,Redirect,Response redirect,14,0,14,100.0%,Safe,Configure request->hostInfo and UrlManager baseUrl

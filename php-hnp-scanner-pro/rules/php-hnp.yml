@@ -20,15 +20,6 @@ rules:
     patterns:
       - pattern: $_SERVER['SERVER_NAME']
   
-  - id: php-hnp-host-header
-    languages: [php]
-    message: HNP vulnerability - Host header used in URL construction
-    severity: ERROR
-    patterns:
-      - pattern: $_SERVER['HTTP_HOST']
-      - pattern-inside: |
-          $... = ... . $_SERVER['HTTP_HOST'] . ...;
-  
   - id: php-hnp-redirect
     languages: [php]
     message: HNP vulnerability - HTTP_HOST used in redirect
@@ -42,11 +33,7 @@ rules:
     message: HNP vulnerability - HTTP_HOST used in URL construction
     severity: ERROR
     patterns:
-      - pattern: |
-          $... = "http://" . $_SERVER['HTTP_HOST'] . ...;
-      - pattern: |
-          $... = "https://" . $_SERVER['HTTP_HOST'] . ...;
-      - pattern: |
-          return "http://" . $_SERVER['HTTP_HOST'] . ...;
-      - pattern: |
-          return "https://" . $_SERVER['HTTP_HOST'] . ...;
+      - pattern: '$... = "http://" . $_SERVER["HTTP_HOST"] . ...;'
+      - pattern: '$... = "https://" . $_SERVER["HTTP_HOST"] . ...;'
+      - pattern: 'return "http://" . $_SERVER["HTTP_HOST"] . ...;'
+      - pattern: 'return "https://" . $_SERVER["HTTP_HOST"] . ...;'
