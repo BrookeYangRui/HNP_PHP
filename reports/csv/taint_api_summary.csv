@@ -1,3 +1,0 @@
-Framework,API,Findings,Examples
-Symfony,RedirectResponse,2,/home/rui/HNP_PHP/framework_sources/symfony/src/Symfony/Component/Security/Http/Firewall/ChannelListener.php:93 | /home/rui/HNP_PHP/framework_sources/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php:166
-Wordpress,wp_redirect,5,/home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/pluggable.php:1333 | /home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/pluggable.php:1283 | /home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/pluggable.php:1314

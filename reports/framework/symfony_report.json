@@ -1,0 +1,27 @@
+{
+  "framework": "symfony",
+  "sinks": [
+    {
+      "name": "url_generation",
+      "patterns": [
+        "$router->generate(",
+        "UrlGeneratorInterface"
+      ],
+      "total": 5,
+      "guarded": 1,
+      "unguarded": 4,
+      "security_state": "Partial"
+    },
+    {
+      "name": "template_render",
+      "patterns": [
+        "$twig->render("
+      ],
+      "total": 1,
+      "guarded": 1,
+      "unguarded": 0,
+      "security_state": "Protected"
+    }
+  ],
+  "sources_total": 0
+}

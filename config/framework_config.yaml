@@ -1,0 +1,98 @@
+version: 0.1
+description: Framework-level HNP source/sink/config schema
+frameworks:
+  laravel:
+    sources:
+      - name: host_name
+        patterns: ["request()->getHost", "Request::getHost", "$request->getHost"]
+        note: Host header/host name entry point
+    sinks:
+      - name: url_generation
+        patterns: ["url(", "route(", "Redirect::to("]
+      - name: template_render
+        patterns: ["view(", "Blade::render("]
+    validations:
+      - name: trusted_proxies
+        config_paths: ["config/trustedproxy.php", 'App\\Http\\Middleware\\TrustProxies']
+        description: Check if proxies/hosts are properly configured
+  symfony:
+    sources:
+      - name: host_name
+        patterns: ["$request->getHost(", "Request::getHost("]
+    sinks:
+      - name: url_generation
+        patterns: ["$router->generate(", "UrlGeneratorInterface"]
+      - name: template_render
+        patterns: ["$twig->render("]
+    validations:
+      - name: trusted_proxies
+        config_paths: ["config/packages/framework.yaml"]
+        description: framework.trusted_proxies/trusted_hosts
+  codeigniter:
+    sources:
+      - name: host_name
+        patterns: ["$this->request->getServer('HTTP_HOST')", "$this->request->getUri()->getHost("]
+    sinks:
+      - name: url_generation
+        patterns: ["site_url(", "base_url("]
+    validations:
+      - name: base_url
+        config_paths: ["app/Config/App.php"]
+        description: Ensure baseURL and indexPage configured
+  cakephp:
+    sources:
+      - name: host_name
+        patterns: ["$this->request->getUri()->getHost(", "ServerRequest::host("]
+    sinks:
+      - name: url_generation
+        patterns: ["Router::url("]
+    validations:
+      - name: trusted_proxies
+        config_paths: ["config/app.php"]
+        description: Check App.fullBaseUrl and trusted proxies
+  yii:
+    sources:
+      - name: host_name
+        patterns: ["Yii::$app->request->hostName", "$request->hostName"]
+    sinks:
+      - name: url_generation
+        patterns: ["Url::to(", "$urlManager->createUrl("]
+    validations:
+      - name: url_manager
+        config_paths: ["config/web.php"]
+        description: Ensure hostInfo/baseUrl configured
+  slim:
+    sources:
+      - name: host_name
+        patterns: ["$request->getUri()->getHost("]
+    sinks:
+      - name: url_generation
+        patterns: ["$routeParser->urlFor("]
+    validations:
+      - name: trusted_proxies
+        config_paths: ["settings.php", "middleware.php"]
+        description: Check proxies and base path
+  laminas:
+    sources:
+      - name: host_name
+        patterns: ["$request->getUri()->getHost("]
+    sinks:
+      - name: url_generation
+        patterns: ["$url->fromRoute("]
+    validations:
+      - name: config
+        config_paths: ["config/autoload/*.php"]
+        description: Check base URL and trusted hosts
+  phalcon:
+    sources:
+      - name: host_name
+        patterns: ["$this->request->getHttpHost(", "$this->request->getServer('HTTP_HOST')"]
+    sinks:
+      - name: url_generation
+        patterns: ["$url->get("]
+    validations:
+      - name: base_uri
+        config_paths: ["app/config/config.php"]
+        description: Ensure baseUri and host config
+
+

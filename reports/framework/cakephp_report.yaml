@@ -1,0 +1,10 @@
+framework: cakephp
+sinks:
+- name: url_generation
+  patterns:
+  - Router::url(
+  total: 0
+  guarded: 0
+  unguarded: 0
+  security_state: Safe
+sources_total: 0

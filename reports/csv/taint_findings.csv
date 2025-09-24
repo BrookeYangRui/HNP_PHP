@@ -1,8 +1,0 @@
-Framework,Check,Message,File,Line,Code
-Symfony,php-hnp-scanner-pro.rules.php-hnp-host-to-redirect,Host flows to redirect sink (potential HNP),/home/rui/HNP_PHP/framework_sources/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php,166,"return new RedirectResponse($url, $statusCode);"
-Symfony,php-hnp-scanner-pro.rules.php-hnp-host-to-redirect,Host flows to redirect sink (potential HNP),/home/rui/HNP_PHP/framework_sources/symfony/src/Symfony/Component/Security/Http/Firewall/ChannelListener.php,93,"return new RedirectResponse($url, 301);"
-Wordpress,php-hnp-scanner-pro.rules.php-hnp-host-to-redirect,Host flows to redirect sink (potential HNP),/home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/canonical.php,486,"wp_redirect( $redirect_url, 301 );"
-Wordpress,php-hnp-scanner-pro.rules.php-hnp-host-to-redirect,Host flows to redirect sink (potential HNP),/home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/canonical.php,839,"wp_redirect( $redirect_url, 301 );"
-Wordpress,php-hnp-scanner-pro.rules.php-hnp-host-to-redirect,Host flows to redirect sink (potential HNP),/home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/pluggable.php,1283,wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-Wordpress,php-hnp-scanner-pro.rules.php-hnp-host-to-redirect,Host flows to redirect sink (potential HNP),/home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/pluggable.php,1314,wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-Wordpress,php-hnp-scanner-pro.rules.php-hnp-host-to-redirect,Host flows to redirect sink (potential HNP),/home/rui/HNP_PHP/framework_sources/wordpress/wp-includes/pluggable.php,1333,wp_redirect( $login_url );

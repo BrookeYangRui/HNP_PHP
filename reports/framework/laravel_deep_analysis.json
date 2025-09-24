@@ -1,0 +1,56 @@
+{
+  "framework": "laravel",
+  "total_flows": 3,
+  "total_sources": 2,
+  "total_sinks": 2,
+  "security_states": {
+    "Safe": 0,
+    "Risk": 1,
+    "Partial": 2,
+    "Protected": 0
+  },
+  "flows": [
+    {
+      "source_type": "host_name",
+      "sink_type": "url_generation",
+      "has_guard": true,
+      "has_validation": false
+    },
+    {
+      "source_type": "http_host",
+      "sink_type": "template_render",
+      "has_guard": false,
+      "has_validation": true
+    },
+    {
+      "source_type": "server_name",
+      "sink_type": "redirect",
+      "has_guard": false,
+      "has_validation": false
+    }
+  ],
+  "sources": [
+    {
+      "type": "host_name",
+      "file": "app/Http/Controllers/Controller.php",
+      "line": 15
+    },
+    {
+      "type": "http_host",
+      "file": "app/Http/Middleware/TrustProxies.php",
+      "line": 8
+    }
+  ],
+  "sinks": [
+    {
+      "type": "url_generation",
+      "file": "app/Http/Controllers/Controller.php",
+      "line": 25
+    },
+    {
+      "type": "template_render",
+      "file": "resources/views/layout.blade.php",
+      "line": 12
+    }
+  ]
+}

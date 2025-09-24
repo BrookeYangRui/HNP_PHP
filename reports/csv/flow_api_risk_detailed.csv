@@ -14,3 +14,27 @@ WordPress,get_home_url(),get_home_url,URL Generation,Get homepage URL,46,4,42,91
 WordPress,get_site_url(),get_site_url,URL Generation,Get site URL,24,0,24,100.0%,Safe,Define WP_HOME and WP_SITEURL
 Yii2,Url::to(),Url::to,URL Generation,Generate URL by route (recommend setting hostInfo/baseUrl),84,16,68,81.0%,Safe,Configure request->hostInfo and UrlManager baseUrl
 Yii2,Response::redirect(),>redirect,Redirect,Response redirect,14,0,14,100.0%,Safe,Configure request->hostInfo and UrlManager baseUrl
+laravel,url_generation,url(|route(|Redirect::to(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
+laravel,template_render,view(|Blade::render(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
+symfony,url_generation,$router->generate(|UrlGeneratorInterface,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
+symfony,template_render,$twig->render(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
+codeigniter,url_generation,site_url(|base_url(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
+cakephp,url_generation,Router::url(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
+yii,url_generation,Url::to(|$urlManager->createUrl(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
+laravel,url_generation,url(|route(|Redirect::to(,sink,Auto scan,4,4,0,0.00,Risk,Configure validation/guards
+laravel,template_render,view(|Blade::render(,sink,Auto scan,1,1,0,0.00,Risk,Configure validation/guards
+symfony,url_generation,$router->generate(|UrlGeneratorInterface,sink,Auto scan,5,4,1,0.20,Partial,Configure validation/guards
+symfony,template_render,$twig->render(,sink,Auto scan,1,0,1,1.00,Protected,Configure validation/guards
+codeigniter,url_generation,site_url(|base_url(,sink,Auto scan,68,67,1,0.01,Partial,Configure validation/guards
+cakephp,url_generation,Router::url(,sink,Auto scan,0,0,0,1.00,Safe,Configure validation/guards
+yii,url_generation,Url::to(|$urlManager->createUrl(,sink,Auto scan,0,0,0,1.00,Safe,Configure validation/guards
+laravel,url_generation,,sink,Deep taint analysis,1,0,1,1.00,Protected,Configure guards/validation
+laravel,template_render,,sink,Deep taint analysis,1,0,1,1.00,Protected,Configure guards/validation
+laravel,redirect,,sink,Deep taint analysis,1,1,0,0.00,Risk,Configure guards/validation
+symfony,url_generation,,sink,Deep taint analysis,1,0,1,1.00,Protected,Configure guards/validation
+symfony,template_render,,sink,Deep taint analysis,1,0,1,1.00,Protected,Configure guards/validation
+codeigniter,url_generation,,sink,Deep taint analysis,1,1,0,0.00,Risk,Configure guards/validation
+codeigniter,redirect,,sink,Deep taint analysis,1,1,0,0.00,Risk,Configure guards/validation
+cakephp,url_generation,,sink,Deep taint analysis,1,0,1,1.00,Protected,Configure guards/validation
+yii,url_generation,,sink,Deep taint analysis,1,0,1,1.00,Protected,Configure guards/validation
+yii,template_render,,sink,Deep taint analysis,1,0,1,1.00,Protected,Configure guards/validation

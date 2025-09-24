@@ -1,0 +1,45 @@
+{
+  "framework": "codeigniter",
+  "total_flows": 2,
+  "total_sources": 1,
+  "total_sinks": 2,
+  "security_states": {
+    "Safe": 0,
+    "Risk": 2,
+    "Partial": 0,
+    "Protected": 0
+  },
+  "flows": [
+    {
+      "source_type": "host_name",
+      "sink_type": "url_generation",
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "http_host",
+      "sink_type": "redirect",
+      "has_guard": false,
+      "has_validation": false
+    }
+  ],
+  "sources": [
+    {
+      "type": "host_name",
+      "file": "app/Controllers/Home.php",
+      "line": 10
+    }
+  ],
+  "sinks": [
+    {
+      "type": "url_generation",
+      "file": "app/Controllers/Home.php",
+      "line": 18
+    },
+    {
+      "type": "redirect",
+      "file": "app/Controllers/Home.php",
+      "line": 22
+    }
+  ]
+}
