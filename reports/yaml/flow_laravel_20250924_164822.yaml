@@ -1,0 +1,89 @@
+framework: Laravel
+timestamp: '2025-09-24T16:48:22.387173'
+sources: []
+sinks:
+- &id001
+  file: config/mail.php
+  line: 49
+  snippet: '            ''local_domain'' => env(''MAIL_EHLO_DOMAIN'', parse_url((string)
+    env(''APP_URL'', ''http://localhost''), PHP_URL_HOST)),'
+- &id005
+  file: config/mail.php
+  line: 49
+  snippet: '            ''local_domain'' => env(''MAIL_EHLO_DOMAIN'', parse_url((string)
+    env(''APP_URL'', ''http://localhost''), PHP_URL_HOST)),'
+- &id006
+  file: resources/views/welcome.blade.php
+  line: 28
+  snippet: '                            href="{{ url(''/dashboard'') }}"'
+- &id007
+  file: resources/views/welcome.blade.php
+  line: 35
+  snippet: '                            href="{{ route(''login'') }}"'
+- &id008
+  file: resources/views/welcome.blade.php
+  line: 43
+  snippet: '                                href="{{ route(''register'') }}"'
+guards:
+- &id002
+  file: config/mail.php
+  line: 49
+  snippet: '            ''local_domain'' => env(''MAIL_EHLO_DOMAIN'', parse_url((string)
+    env(''APP_URL'', ''http://localhost''), PHP_URL_HOST)),'
+- &id003
+  file: config/app.php
+  line: 55
+  snippet: '    ''url'' => env(''APP_URL'', ''http://localhost''),'
+- &id004
+  file: config/filesystems.php
+  line: 44
+  snippet: '            ''url'' => env(''APP_URL'').''/storage'','
+- file: config/mail.php
+  line: 49
+  snippet: '            ''local_domain'' => env(''MAIL_EHLO_DOMAIN'', parse_url((string)
+    env(''APP_URL'', ''http://localhost''), PHP_URL_HOST)),'
+- file: config/app.php
+  line: 55
+  snippet: '    ''url'' => env(''APP_URL'', ''http://localhost''),'
+- file: config/filesystems.php
+  line: 44
+  snippet: '            ''url'' => env(''APP_URL'').''/storage'','
+flows:
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id001
+  guards:
+  - *id002
+  - *id003
+  - *id004
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id005
+  guards:
+  - *id002
+  - *id003
+  - *id004
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id006
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id007
+  guards: []
+- source:
+    file: ''
+    line: ''
+    snippet: ''
+  sink: *id008
+  guards: []
+notes:
+- 'Configuration-dependent: ensure base URL / trusted hosts / proxies are pinned.'

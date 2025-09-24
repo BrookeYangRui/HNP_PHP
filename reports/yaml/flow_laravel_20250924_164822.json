@@ -1,0 +1,166 @@
+{
+  "framework": "Laravel",
+  "timestamp": "2025-09-24T16:48:22.387173",
+  "sources": [],
+  "sinks": [
+    {
+      "file": "config/mail.php",
+      "line": 49,
+      "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+    },
+    {
+      "file": "config/mail.php",
+      "line": 49,
+      "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+    },
+    {
+      "file": "resources/views/welcome.blade.php",
+      "line": 28,
+      "snippet": "                            href=\"{{ url('/dashboard') }}\""
+    },
+    {
+      "file": "resources/views/welcome.blade.php",
+      "line": 35,
+      "snippet": "                            href=\"{{ route('login') }}\""
+    },
+    {
+      "file": "resources/views/welcome.blade.php",
+      "line": 43,
+      "snippet": "                                href=\"{{ route('register') }}\""
+    }
+  ],
+  "guards": [
+    {
+      "file": "config/mail.php",
+      "line": 49,
+      "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+    },
+    {
+      "file": "config/app.php",
+      "line": 55,
+      "snippet": "    'url' => env('APP_URL', 'http://localhost'),"
+    },
+    {
+      "file": "config/filesystems.php",
+      "line": 44,
+      "snippet": "            'url' => env('APP_URL').'/storage',"
+    },
+    {
+      "file": "config/mail.php",
+      "line": 49,
+      "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+    },
+    {
+      "file": "config/app.php",
+      "line": 55,
+      "snippet": "    'url' => env('APP_URL', 'http://localhost'),"
+    },
+    {
+      "file": "config/filesystems.php",
+      "line": 44,
+      "snippet": "            'url' => env('APP_URL').'/storage',"
+    }
+  ],
+  "flows": [
+    {
+      "source": {
+        "file": "",
+        "line": "",
+        "snippet": ""
+      },
+      "sink": {
+        "file": "config/mail.php",
+        "line": 49,
+        "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+      },
+      "guards": [
+        {
+          "file": "config/mail.php",
+          "line": 49,
+          "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+        },
+        {
+          "file": "config/app.php",
+          "line": 55,
+          "snippet": "    'url' => env('APP_URL', 'http://localhost'),"
+        },
+        {
+          "file": "config/filesystems.php",
+          "line": 44,
+          "snippet": "            'url' => env('APP_URL').'/storage',"
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "",
+        "line": "",
+        "snippet": ""
+      },
+      "sink": {
+        "file": "config/mail.php",
+        "line": 49,
+        "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+      },
+      "guards": [
+        {
+          "file": "config/mail.php",
+          "line": 49,
+          "snippet": "            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),"
+        },
+        {
+          "file": "config/app.php",
+          "line": 55,
+          "snippet": "    'url' => env('APP_URL', 'http://localhost'),"
+        },
+        {
+          "file": "config/filesystems.php",
+          "line": 44,
+          "snippet": "            'url' => env('APP_URL').'/storage',"
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "",
+        "line": "",
+        "snippet": ""
+      },
+      "sink": {
+        "file": "resources/views/welcome.blade.php",
+        "line": 28,
+        "snippet": "                            href=\"{{ url('/dashboard') }}\""
+      },
+      "guards": []
+    },
+    {
+      "source": {
+        "file": "",
+        "line": "",
+        "snippet": ""
+      },
+      "sink": {
+        "file": "resources/views/welcome.blade.php",
+        "line": 35,
+        "snippet": "                            href=\"{{ route('login') }}\""
+      },
+      "guards": []
+    },
+    {
+      "source": {
+        "file": "",
+        "line": "",
+        "snippet": ""
+      },
+      "sink": {
+        "file": "resources/views/welcome.blade.php",
+        "line": 43,
+        "snippet": "                                href=\"{{ route('register') }}\""
+      },
+      "guards": []
+    }
+  ],
+  "notes": [
+    "Configuration-dependent: ensure base URL / trusted hosts / proxies are pinned."
+  ]
+}
