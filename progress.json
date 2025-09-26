@@ -1,0 +1,23 @@
+{
+  "completed_indices": [
+    6
+  ],
+  "total_targets": 147,
+  "last_updated": "2025-09-24 22:12:38",
+  "progress_percentage": 0.6802721088435374,
+  "statistics": {
+    "frameworks": {
+      "Unknown": 1
+    },
+    "scenario_types": {
+      "General HNP": 8,
+      "URL Generation": 8,
+      "API Manipulation": 1
+    },
+    "total_analyzed": 1,
+    "vulnerability_totals": 17,
+    "files_analyzed_total": 16,
+    "high_risk_count": 1,
+    "taint_tracking_detected_count": 1
+  }
+}

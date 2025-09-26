@@ -9,8 +9,8 @@ import yaml
 
 PROJECT_ROOT = "/home/rui/HNP_PHP"
 FRAMEWORK_DIR = os.path.join(PROJECT_ROOT, "frameworks")
-REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework")
-METADATA_FILE = os.path.join(PROJECT_ROOT, "tools", "framework_metadata.yaml")
+REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "json")
+METADATA_FILE = os.path.join(PROJECT_ROOT, "config", "framework_config.yaml")
 
 
 def ensure_dirs() -> None:
@@ -47,7 +47,7 @@ def write_yaml_json(framework_key: str, report: Dict[str, Any]) -> None:
 
 
 def append_csv_matrix(framework_key: str, report: Dict[str, Any]) -> None:
-    # 生成 flow_api_risk_detailed.csv 所需列的占位行
+    # Generate flow_api_risk_detailed.csv 所需列的占位行
     detailed_path = os.path.join(PROJECT_ROOT, "reports", "csv", "flow_api_risk_detailed.csv")
     os.makedirs(os.path.dirname(detailed_path), exist_ok=True)
 
@@ -71,7 +71,7 @@ def append_csv_matrix(framework_key: str, report: Dict[str, Any]) -> None:
         if not file_exists:
             writer.writerow(header)
 
-        # 简化占位：对每个 sink 生成一行
+        # 简化占位：对每个 sink Generate一行
         for sink in report.get("sinks", []):
             writer.writerow(
                 [
@@ -104,7 +104,7 @@ def main():
     report = init_framework_report(fw_key, metadata)
     write_yaml_json(fw_key, report)
     append_csv_matrix(fw_key, report)
-    print(f"✅ 生成报告模板完成: {fw_key}")
+    print(f"✅ GenerateReport模板Complete: {fw_key}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,46 @@
+{
+  "framework": "laravel",
+  "sources": [
+    {
+      "name": "host_name",
+      "patterns": [
+        "request()->getHost",
+        "Request::getHost",
+        "$request->getHost"
+      ],
+      "note": "Host header/host name entry point"
+    }
+  ],
+  "sinks": [
+    {
+      "name": "url_generation",
+      "patterns": [
+        "url(",
+        "route(",
+        "Redirect::to("
+      ]
+    },
+    {
+      "name": "template_render",
+      "patterns": [
+        "view(",
+        "Blade::render("
+      ]
+    }
+  ],
+  "validations": [
+    {
+      "name": "trusted_proxies",
+      "config_paths": [
+        "config/trustedproxy.php",
+        "App\\\\Http\\\\Middleware\\\\TrustProxies"
+      ],
+      "description": "Check if proxies/hosts are properly configured"
+    }
+  ],
+  "summary": {
+    "total_sources": 1,
+    "total_sinks": 2,
+    "security_state": "Unknown"
+  }
+}

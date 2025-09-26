@@ -6,9 +6,9 @@ import csv
 
 
 PROJECT_ROOT = "/home/rui/HNP_PHP"
-CSV_DIR = os.path.join(PROJECT_ROOT, "reports", "csv")
-FIG_DIR = os.path.join(PROJECT_ROOT, "reports", "figures")
-LATEX_DIR = os.path.join(PROJECT_ROOT, "reports", "tex")
+CSV_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "csv")
+FIG_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "figures")
+LATEX_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "tex")
 
 
 def ensure_dirs() -> None:
@@ -123,7 +123,7 @@ def main():
     if not args.only_latex and have_libs:
         generate_charts()
     generate_latex_tables()
-    print("✅ 图表与表格生成完成")
+    print("✅ 图表与表格GenerateComplete")
 
 
 if __name__ == "__main__":

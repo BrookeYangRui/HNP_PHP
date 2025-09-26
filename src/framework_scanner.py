@@ -6,6 +6,7 @@ import argparse
 import csv
 import json
 import os
+import time
 from typing import Dict, Any, List, Tuple
 
 import yaml
@@ -13,8 +14,8 @@ import yaml
 
 PROJECT_ROOT = "/home/rui/HNP_PHP"
 FRAMEWORK_DIR = os.path.join(PROJECT_ROOT, "frameworks")
-REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework")
-CSV_DIR = os.path.join(PROJECT_ROOT, "reports", "csv")
+REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "json")
+CSV_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "csv")
 METADATA_FILE = os.path.join(PROJECT_ROOT, "config", "framework_config.yaml")
 
 
@@ -92,12 +93,12 @@ def scan_framework(fw_key: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
         source_patterns.extend(s.get("patterns", []))
     result["sources_total"] = find_matches_in_dir(fw_path, source_patterns, (".php", ".phtml", ".twig", ".blade.php", ".php.dist", ".yaml", ".yml"))
 
-    # 校验配置命中（作为 guard 的粗略代理）
+    # 校验Config命Medium（作为 guard 的粗略代理）
     validation_paths = fw_meta.get("validations", [])
     guard_hits = 0
     for v in validation_paths:
         for cpath in v.get("config_paths", []):
-            # 支持简单通配 * 仅在末尾目录层级
+            # 支持简单通配 * 仅在末尾Directory层级
             if "*" in cpath:
                 base = cpath.split("*")[0].rstrip("/")
                 cfg_dir = os.path.join(fw_path, os.path.dirname(base))
@@ -107,11 +108,11 @@ def scan_framework(fw_key: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
                 if os.path.exists(os.path.join(fw_path, cpath)):
                     guard_hits += 1
 
-    # 按 sink 统计
+    # 按 sink Statistics
     for sink in fw_meta.get("sinks", []):
         patterns = sink.get("patterns", [])
         total = find_matches_in_dir(fw_path, patterns, (".php", ".phtml", ".twig", ".blade.php"))
-        # 粗略估计：若存在相关验证配置文件则认为部分被保护
+        # 粗略估计：若存在相关ValidationConfigFile则认为Partial被Guard
         guarded = min(total, guard_hits)
         unguarded = max(total - guarded, 0)
         state = compute_security_state(total, unguarded, guarded)
@@ -127,16 +128,51 @@ def scan_framework(fw_key: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
     return result
 
 
-def write_reports(fw_key: str, scan: Dict[str, Any]) -> None:
-    # 更新单框架 YAML/JSON
-    ypath = os.path.join(REPORT_DIR, f"{fw_key}_report.yaml")
-    jpath = os.path.join(REPORT_DIR, f"{fw_key}_report.json")
-    with open(ypath, "w", encoding="utf-8") as fy:
-        yaml.safe_dump(scan, fy, sort_keys=False, allow_unicode=True)
-    with open(jpath, "w", encoding="utf-8") as fj:
-        json.dump(scan, fj, ensure_ascii=False, indent=2)
+def update_unified_framework_report(fw_key: str, scan: Dict[str, Any]) -> None:
+    """Update unified framework analysis JSON file"""
+    unified_report_file = os.path.join(REPORT_DIR, "unified_framework_analysis.json")
+    
+    # Load existing data or create new structure
+    if os.path.exists(unified_report_file):
+        try:
+            with open(unified_report_file, "r", encoding="utf-8") as f:
+                unified_data = json.load(f)
+        except (json.JSONDecodeError, FileNotFoundError):
+            unified_data = {
+                "metadata": {
+                    "total_frameworks": 0,
+                    "last_updated": "",
+                    "analysis_version": "1.0"
+                },
+                "frameworks": {}
+            }
+    else:
+        unified_data = {
+            "metadata": {
+                "total_frameworks": 0,
+                "last_updated": "",
+                "analysis_version": "1.0"
+            },
+            "frameworks": {}
+        }
+    
+    # Add or update framework data
+    unified_data["frameworks"][fw_key] = scan
+    
+    # Update metadata
+    unified_data["metadata"]["total_frameworks"] = len(unified_data["frameworks"])
+    unified_data["metadata"]["last_updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Save unified report
+    with open(unified_report_file, "w", encoding="utf-8") as f:
+        json.dump(unified_data, f, ensure_ascii=False, indent=2)
 
-    # 追加写入详细 CSV
+
+def write_reports(fw_key: str, scan: Dict[str, Any]) -> None:
+    # Update unified framework report only
+    update_unified_framework_report(fw_key, scan)
+
+    # Append to detailed CSV
     detailed_path = os.path.join(CSV_DIR, "flow_api_risk_detailed.csv")
     header = [
         "Framework",
@@ -174,7 +210,7 @@ def write_reports(fw_key: str, scan: Dict[str, Any]) -> None:
                 "Configure validation/guards",
             ])
 
-    # 汇总 CSV
+    # Sink总 CSV
     summary_path = os.path.join(CSV_DIR, "flow_summary.csv")
     sum_header = ["Framework", "Sources", "Sinks", "Risk", "Partial", "Protected", "Safe"]
     counts = {"Risk": 0, "Partial": 0, "Protected": 0, "Safe": 0}

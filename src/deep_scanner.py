@@ -13,8 +13,8 @@ import yaml
 
 PROJECT_ROOT = "/home/rui/HNP_PHP"
 FRAMEWORK_DIR = os.path.join(PROJECT_ROOT, "frameworks")
-REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework")
-CSV_DIR = os.path.join(PROJECT_ROOT, "reports", "csv")
+REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "json")
+CSV_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "csv")
 METADATA_FILE = os.path.join(PROJECT_ROOT, "config", "framework_config.yaml")
 PHP_SCANNER_DIR = os.path.join(PROJECT_ROOT, "src")
 
@@ -41,39 +41,15 @@ def check_php_scanner() -> bool:
 
 
 def run_php_scanner(framework_path: str, framework_name: str) -> Dict[str, Any]:
-    if not check_php_scanner():
-        return {"error": "php-hnp-scanner-pro not available"}
+    """Use external taint adapter only (Plan C)."""
     try:
-        subprocess.run(["php", "--version"], check=True, capture_output=True)
-        # Skip composer check for mock scanner
-        # subprocess.run(["composer", "--version"], check=True, capture_output=True)
-    except (subprocess.CalledProcessError, FileNotFoundError) as e:
-        return {"error": f"PHP not available: {e}"}
-    # Skip composer install for mock scanner
-    # try:
-    #     subprocess.run(["composer", "install", "--no-dev", "--optimize-autoloader"],
-    #                    cwd=PHP_SCANNER_DIR, check=True, capture_output=True)
-    # except subprocess.CalledProcessError as e:
-    #     return {"error": f"Composer install failed: {e}"}
-    try:
-        cmd = [
-            "php", "php_scanner.php",
-            "--target", framework_path,
-            "--output-format", "json",
-            "--taint-sources", "host_name,http_host,server_name",
-            "--taint-sinks", "url_generation,template_render,redirect"
-        ]
-        result = subprocess.run(cmd, cwd=PHP_SCANNER_DIR, capture_output=True, text=True, timeout=300)
-        if result.returncode != 0:
-            return {"error": f"Scanner failed: {result.stderr}"}
-        try:
-            return json.loads(result.stdout)
-        except json.JSONDecodeError:
-            return {"error": "Invalid JSON output from scanner"}
-    except subprocess.TimeoutExpired:
-        return {"error": "Scanner timeout"}
+        from external_taint import run_framework_scan
     except Exception as e:
-        return {"error": f"Scanner execution failed: {e}"}
+        return {"error": f"External adapter not available: {e}"}
+    try:
+        return run_framework_scan(framework_path, framework_name)
+    except Exception as e:
+        return {"error": f"External scan failed: {e}"}
 
 
 def analyze_taint_flows(scan_result: Dict[str, Any], framework_name: str) -> Dict[str, Any]:
@@ -94,6 +70,12 @@ def analyze_taint_flows(scan_result: Dict[str, Any], framework_name: str) -> Dic
             states["Risk"] += 1
     if not flows:
         states["Safe"] = 1
+    # Provide simple filtering-ready structure per sink type
+    flows_by_sink = {}
+    for f in flows:
+        st = f.get("sink_type", "unknown")
+        flows_by_sink.setdefault(st, []).append(f)
+
     return {
         "framework": framework_name,
         "total_flows": len(flows),
@@ -103,6 +85,7 @@ def analyze_taint_flows(scan_result: Dict[str, Any], framework_name: str) -> Dic
         "flows": flows,
         "sources": sources,
         "sinks": sinks,
+        "flows_by_sink": flows_by_sink,
     }
 
 
@@ -112,7 +95,7 @@ def update_csv_reports(analysis: Dict[str, Any]) -> None:
         return
     framework = analysis["framework"]
     detailed_path = os.path.join(CSV_DIR, "flow_api_risk_detailed.csv")
-    # 以 sink 类型聚合
+    # 以 sink Type聚合（支持后续筛选）
     by_sink = {}
     for f in analysis.get("flows", []):
         st = f.get("sink_type", "unknown")
@@ -143,7 +126,7 @@ def update_csv_reports(analysis: Dict[str, Any]) -> None:
                 sink_type,
                 "",
                 "sink",
-                "Deep taint analysis",
+                "Deep taint analysis (interprocedural)",
                 total,
                 risk,
                 guarded,

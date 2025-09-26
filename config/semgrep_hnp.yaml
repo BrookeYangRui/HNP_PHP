@@ -1,0 +1,55 @@
+rules:
+  - id: hnp-source-host
+    languages: [php]
+    message: Host header source
+    severity: INFO
+    mode: taint
+    pattern-sources:
+      - pattern: $_SERVER['HTTP_HOST']
+      - pattern: $_SERVER['SERVER_NAME']
+      - pattern: $REQ->getHost()
+      - pattern: $REQ->getHttpHost()
+      - pattern: Request::getHost(...)
+    pattern-sinks:
+      - pattern: $URL->to(...)
+      - pattern: $URL->route(...)
+      - pattern: $URL->action(...)
+      - pattern: url(...)
+      - pattern: route(...)
+      - pattern: action(...)
+      - pattern: redirect(...)
+      - pattern: Redirect::to(...)
+      - pattern: Redirect::route(...)
+      - pattern: Redirect::action(...)
+      - pattern: header(...)
+      - pattern: setcookie(...)
+      - pattern: echo $X
+      - pattern: return $X
+    pattern-propagators:
+      - pattern: $REQ->getSchemeAndHttpHost()
+      - pattern: $REQ->fullUrl()
+      - pattern: app('url')->to(...)
+      - pattern: app('url')->route(...)
+      - pattern: app('url')->action(...)
+      - pattern: $RED->to(...)
+      - pattern: $RED->route(...)
+      - pattern: $RED->action(...)
+
+  - id: hnp-symfony-host-source
+    languages: [php]
+    message: Host header source (Symfony)
+    severity: INFO
+    mode: taint
+    pattern-sources:
+      - pattern: Symfony\\Component\\HttpFoundation\\Request::getHost(...)
+      - pattern: $REQ->getHost(...)
+    pattern-sinks:
+      - pattern: $ROUTER->generate(...)
+      - pattern: $TWIG->render(...)
+      - pattern: header(...)
+      - pattern: echo $X
+      - pattern: return $X
+    pattern-propagators:
+      - pattern: $REQ->getSchemeAndHttpHost(...)
+      - pattern: $REQ->getHttpHost(...)
+

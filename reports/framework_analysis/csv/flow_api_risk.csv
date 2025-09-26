@@ -1,0 +1,16 @@
+Framework,API,Total,Unguarded,Guarded,Protected_Rate,Security_State,Recommendation
+CodeIgniter,site_url(),26,26,0,0.0%,Config-Dependent,Set $config[base_url] to avoid dynamic Host
+CodeIgniter,base_url(),14,14,0,0.0%,Config-Dependent,Set $config[base_url] to avoid dynamic Host
+CodeIgniter,redirect(),2,2,0,0.0%,Config-Dependent,Set $config[base_url] to avoid dynamic Host
+Laravel,route(),4,4,0,0.0%,Config-Dependent,Pin APP_URL and configure TrustProxies/TrustHosts (or URL::forceRootUrl)
+Laravel,url(),2,2,0,0.0%,Config-Dependent,Pin APP_URL and configure TrustProxies/TrustHosts (or URL::forceRootUrl)
+Symfony,RedirectResponse,380,236,144,37.9%,Proxy-Vulnerable,Configure trusted_hosts and trusted_proxies
+Symfony,UrlGenerator::generate(),36,36,0,0.0%,Proxy-Vulnerable,Configure trusted_hosts and trusted_proxies
+Symfony,AbstractController::redirect(),16,16,0,0.0%,Proxy-Vulnerable,Configure trusted_hosts and trusted_proxies
+WordPress,wp_redirect(),1276,178,1098,86.1%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,home_url(),724,64,660,91.2%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,site_url(),184,22,162,88.0%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,get_home_url(),46,4,42,91.3%,Safe,Define WP_HOME and WP_SITEURL
+WordPress,get_site_url(),24,0,24,100.0%,Safe,Define WP_HOME and WP_SITEURL
+Yii2,Url::to(),84,16,68,81.0%,Safe,Configure request->hostInfo and UrlManager baseUrl
+Yii2,Response::redirect(),14,0,14,100.0%,Safe,Configure request->hostInfo and UrlManager baseUrl
