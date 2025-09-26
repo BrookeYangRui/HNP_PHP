@@ -1,3 +1,0 @@
-Framework,Canonical_API,Aliases,Category,Description,Total,Unguarded,Guarded,Protected_Rate,Security_State,Recommendation
-laravel,url_generation,url(|route(|Redirect::to(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards
-laravel,template_render,view(|Blade::render(,sink,Auto-generated placeholder,0,0,0,0.0,Unknown,Review configuration and guards

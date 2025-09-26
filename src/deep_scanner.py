@@ -13,15 +13,16 @@ import yaml
 
 PROJECT_ROOT = "/home/rui/HNP_PHP"
 FRAMEWORK_DIR = os.path.join(PROJECT_ROOT, "frameworks")
-REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "json")
-CSV_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis", "csv")
+ANALYSIS_DIR = os.path.join(PROJECT_ROOT, "reports", "framework_analysis")
 METADATA_FILE = os.path.join(PROJECT_ROOT, "config", "framework_config.yaml")
 PHP_SCANNER_DIR = os.path.join(PROJECT_ROOT, "src")
 
 
-def ensure_dirs() -> None:
-    os.makedirs(REPORT_DIR, exist_ok=True)
-    os.makedirs(CSV_DIR, exist_ok=True)
+def ensure_dirs(framework_name: str) -> None:
+    """Ensure framework-specific directories exist."""
+    framework_analysis_dir = os.path.join(ANALYSIS_DIR, framework_name)
+    os.makedirs(framework_analysis_dir, exist_ok=True)
+    return framework_analysis_dir
 
 
 def load_metadata() -> Dict[str, Any]:
@@ -89,55 +90,43 @@ def analyze_taint_flows(scan_result: Dict[str, Any], framework_name: str) -> Dic
     }
 
 
-def update_csv_reports(analysis: Dict[str, Any]) -> None:
+def update_csv_reports(analysis: Dict[str, Any], framework_dir: str) -> None:
     if "error" in analysis:
         print(f"❌ Skipping CSV update: {analysis['error']}")
         return
+    
     framework = analysis["framework"]
-    detailed_path = os.path.join(CSV_DIR, "flow_api_risk_detailed.csv")
-    # 以 sink Type聚合（支持后续筛选）
-    by_sink = {}
-    for f in analysis.get("flows", []):
-        st = f.get("sink_type", "unknown")
-        by_sink.setdefault(st, {"total": 0, "risk": 0, "guarded": 0})
-        by_sink[st]["total"] += 1
-        if not f.get("has_guard") and not f.get("has_validation"):
-            by_sink[st]["risk"] += 1
-        else:
-            by_sink[st]["guarded"] += 1
+    
+    # Write framework-specific CSV in framework directory
+    csv_path = os.path.join(framework_dir, f"{framework}_api_flows.csv")
     import csv as _csv
-    for sink_type, agg in by_sink.items():
-        total = agg["total"]
-        risk = agg["risk"]
-        guarded = agg["guarded"]
-        rate = (guarded / total) if total > 0 else 1.0
-        if total == 0:
-            security_state = "Safe"
-        elif risk == 0 or rate >= 0.8:
-            security_state = "Protected"
-        elif rate >= 0.3:
-            security_state = "Partial"
-        else:
-            security_state = "Risk"
-        with open(detailed_path, "a", encoding="utf-8", newline="") as f:
-            w = _csv.writer(f)
-            w.writerow([
-                framework,
-                sink_type,
-                "",
-                "sink",
-                "Deep taint analysis (interprocedural)",
-                total,
-                risk,
-                guarded,
-                f"{rate:.2f}",
-                security_state,
-                "Configure guards/validation",
+    
+    with open(csv_path, "w", encoding="utf-8", newline="") as f:
+        writer = _csv.writer(f)
+        writer.writerow([
+            "source_file", "sink_file", "sink_line", "sink_symbol", 
+            "scenario", "has_guard", "has_validation"
+        ])
+        
+        for flow in analysis.get("flows", []):
+            sink_symbol = flow.get("sink_symbol", "")
+            impact = analysis.get("api_impact_analysis", {}).get(sink_symbol, {})
+            scenario = impact.get("scenario", "Unknown impact")
+            
+            writer.writerow([
+                flow.get("source_file", ""),
+                flow.get("sink_file", ""),
+                flow.get("sink_line", ""),
+                sink_symbol,
+                scenario,
+                flow.get("has_guard", False),
+                flow.get("has_validation", False)
             ])
+    
+    print(f"📊 CSV report saved: {csv_path}")
 
 
 def main():
-    ensure_dirs()
     parser = argparse.ArgumentParser(description="Integrate with php-hnp-scanner-pro for deep taint analysis")
     parser.add_argument("--framework", required=True, help="framework name (e.g., laravel, symfony)")
     parser.add_argument("--dry-run", action="store_true", help="Check environment only, don't run scan")
@@ -148,6 +137,9 @@ def main():
     if not os.path.exists(framework_path):
         print(f"❌ Framework directory not found: {framework_path}")
         sys.exit(1)
+
+    # Create framework-specific directory
+    framework_dir = ensure_dirs(framework_name)
 
     if args.dry_run:
         ok = check_php_scanner()
@@ -160,13 +152,27 @@ def main():
         print(f"❌ Scan failed: {scan_result['error']}")
         sys.exit(1)
     analysis = analyze_taint_flows(scan_result, framework_name)
-    update_csv_reports(analysis)
-    report_path = os.path.join(REPORT_DIR, f"{framework_name}_deep_analysis.json")
+    update_csv_reports(analysis, framework_dir)
+    
+    # Write framework-specific JSON in framework directory
+    report_path = os.path.join(framework_dir, f"{framework_name}_api_flows.json")
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(analysis, f, ensure_ascii=False, indent=2)
+    
+    # Generate optimized analysis files
+    try:
+        from analysis_generator import generate_all_analysis_files
+        generated_files = generate_all_analysis_files(analysis, framework_dir)
+        print(f"📊 Generated {len(generated_files)} optimized analysis files")
+    except Exception as e:
+        print(f"⚠️  Failed to generate optimized files: {e}")
+    
     print(f"✅ Deep scan completed: {framework_name}")
-    print(f"   Total flows: {analysis['total_flows']}")
-    print(f"   Security states: {analysis['security_states']}")
+    print(f"   Total flows: {analysis.get('total_flows', 0)}")
+    print(f"   Unique symbols: {len(analysis.get('unique_symbols', []))}")
+    print(f"   JSON report: {report_path}")
+    print(f"   CSV report: {os.path.join(framework_dir, f'{framework_name}_api_flows.csv')}")
+    print(f"   Framework directory: {framework_dir}")
 
 
 if __name__ == "__main__":

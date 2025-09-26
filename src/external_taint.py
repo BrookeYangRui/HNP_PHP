@@ -269,7 +269,7 @@ def run_framework_scan(framework_root: str, framework_name: str) -> Dict[str, An
 
 
 def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[str, Any]:
-    """Open-mode fallback: treat any function/method call as potential sink and emit flows from host sources."""
+    """Open-mode: build complete flows from sources to API sinks, one flow per source-sink path."""
     fw_meta = _load_fw_meta()
     meta_fw = fw_meta.get("frameworks", {}).get(framework_name, {})
     source_patterns = []
@@ -295,15 +295,10 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
         re.compile(r"::\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(") ,
     ]
 
-    flows: List[Dict[str, Any]] = []
-    sources: List[Dict[str, Any]] = []
-    sinks: List[Dict[str, Any]] = []
-
-    # Collect target files first for progress (limit to core directories for speed)
+    # Collect target files first for progress
     target_files: List[str] = []
     for dirpath, dirnames, filenames in os.walk(framework_root):
         dirnames[:] = [d for d in dirnames if d not in [".git", "vendor", "node_modules", "tests"]]
-        # Focus on core framework code only
         if any(core in dirpath for core in ["src/Illuminate", "src/Symfony", "app/", "config/"]) or framework_root in dirpath:
             for fn in filenames:
                 if fn.endswith((".php", ".blade.php", ".phtml")):
@@ -314,9 +309,13 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
     last_print = 0.0
     repo_has_source = False
 
+    # Build complete flows: source -> [intermediate calls] -> API sink
+    complete_flows: List[Dict[str, Any]] = []
+    api_sinks: List[Dict[str, Any]] = []
+    all_sources: List[Dict[str, Any]] = []
+
     for fpath in target_files:
         processed += 1
-        # throttle progress output to ~10/s
         now = time.time()
         if now - last_print > 0.1:
             pct = (processed / total * 100.0) if total else 100.0
@@ -330,29 +329,54 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
         except Exception:
             continue
 
-        # detect source presence in repo
-        if any(rx.search(content) for rx in source_patterns):
+        rel = os.path.relpath(fpath, framework_root)
+        lines = content.splitlines()
+        
+        # Check if file contains sources
+        has_source = any(rx.search(content) for rx in source_patterns)
+        if has_source:
             repo_has_source = True
-            sources.append({
+            all_sources.append({
                 "type": "host_name",
-                "file": os.path.relpath(fpath, framework_root),
+                "file": rel,
                 "line": 1,
             })
 
-        rel = os.path.relpath(fpath, framework_root)
-        lines = content.splitlines()
+        # Extract all function calls in this file
+        file_calls = []
         for i, line in enumerate(lines, start=1):
             for rx in call_patterns:
                 for m in rx.finditer(line):
                     callee = m.group(1)
-                    sinks.append({"type": "open_sink", "file": rel, "line": i, "symbol": callee})
-                    flows.append({
+                    file_calls.append({
+                        "symbol": callee,
+                        "line": i,
+                        "file": rel
+                    })
+
+        # If file has sources, create flows to ALL function calls in this file (open mode)
+        if has_source and file_calls:
+            # No filtering - all calls are potential sinks in open mode
+            for call in file_calls:
+                # Skip obvious internal/private methods but keep everything else
+                if not _is_obviously_internal(call["symbol"]):
+                    api_sinks.append({
+                        "type": "open_sink",
+                        "file": call["file"],
+                        "line": call["line"],
+                        "symbol": call["symbol"]
+                    })
+
+                    complete_flows.append({
                         "source_type": "host_name",
                         "sink_type": "open_sink",
-                        "path": [rel],
+                        "source_file": rel,
+                        "sink_file": call["file"],
+                        "sink_line": call["line"],
+                        "sink_symbol": call["symbol"],
+                        "flow_path": [rel],  # Simplified: source file -> sink file
                         "has_guard": False,
                         "has_validation": False,
-                        "symbol": callee,
                     })
 
     # finalize progress line
@@ -362,35 +386,77 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
     if not repo_has_source:
         return {"error": "No host sources detected; open-mode produced no flows"}
 
-    # Build unique sink symbols
-    unique_symbols = sorted({s.get("symbol") for s in sinks if s.get("symbol")})
-
-    # Filter for developer-facing APIs only
-    developer_apis = _filter_developer_apis(unique_symbols, framework_name)
+    # Get unique symbols (all functions, not just APIs)
+    unique_symbols = sorted({s.get("symbol") for s in api_sinks if s.get("symbol")})
     
-    # Diff against known curated APIs if available
-    extras: List[str] = []
-    try:
-        root = os.path.dirname(os.path.dirname(__file__))
-        known_file = os.path.join(root, "config", "known_framework_apis.yaml")
-        known = {}
-        if os.path.exists(known_file):
-            with open(known_file, "r", encoding="utf-8") as f:
-                known = yaml.safe_load(f) or {}
-        known_list = set(known.get("frameworks", {}).get(framework_name, {}).get("known_sinks", []))
-        extras = sorted([sym for sym in developer_apis if sym not in known_list])
-    except Exception:
-        extras = []
-
-    normalized = {
-        "flows": flows,
-        "sources": sources,
-        "sinks": sinks,
-        "unique_sink_symbols": unique_symbols,
-        "developer_apis": developer_apis,
-        "discovered_extra_symbols": extras,
+    # Analyze impact for each symbol (open mode - analyze everything)
+    api_impact_analysis = _analyze_api_impact(unique_symbols, framework_name)
+    
+    return {
+        "framework": framework_name,
+        "total_flows": len(complete_flows),
+        "total_sources": len(all_sources),
+        "total_sinks": len(api_sinks),
+        "unique_symbols": unique_symbols,
+        "api_impact_analysis": api_impact_analysis,
+        "flows": complete_flows,
+        "sources": all_sources,
+        "sinks": api_sinks,  # Keep sinks for compatibility
     }
-    return _annotate_flows_with_sources_and_guards(framework_name, framework_root, normalized)
+
+
+def _is_obviously_internal(symbol: str) -> bool:
+    """Check if a symbol is obviously internal (very basic filtering only)."""
+    # Only exclude the most obvious internal patterns
+    obvious_internal = [
+        r'^__',  # Magic methods
+        r'^set[A-Z]', r'^get[A-Z]', r'^is[A-Z]', r'^has[A-Z]',  # Basic getters/setters
+        r'Test$', r'Mock$', r'Stub$', r'Fake$',  # Test utilities
+        r'^serialize', r'^unserialize',  # Serialization
+    ]
+    
+    return any(re.search(pattern, symbol, re.IGNORECASE) for pattern in obvious_internal)
+
+
+def _is_developer_api(symbol: str, framework_name: str) -> bool:
+    """Check if a symbol is a developer-facing API."""
+    # Common internal/private patterns to exclude
+    exclude_patterns = [
+        r'^_', r'^__', r'^set[A-Z]', r'^get[A-Z]', r'^is[A-Z]', r'^has[A-Z]',
+        r'^create[A-Z]', r'^build[A-Z]', r'^make[A-Z]', r'^resolve[A-Z]',
+        r'^handle[A-Z]', r'^process[A-Z]', r'^execute[A-Z]', r'^run[A-Z]',
+        r'Test$', r'Mock$', r'Stub$', r'Fake$', r'Debug$', r'Log$',
+        r'Config$', r'Service$', r'Provider$', r'Manager$', r'Factory$',
+        r'Builder$', r'Compiler$', r'Parser$', r'Validator$', r'Sanitizer$',
+        r'^serialize', r'^unserialize', r'^encode', r'^decode',
+        r'^hash', r'^encrypt', r'^decrypt', r'^sign', r'^verify',
+        r'^boot', r'^register', r'^bind', r'^singleton', r'^instance',
+        r'^dispatch', r'^fire', r'^listen', r'^observe', r'^macro',
+    ]
+    
+    # Framework-specific exclusions
+    if framework_name.lower() == "laravel":
+        exclude_patterns.extend([
+            r'^boot', r'^register', r'^bind', r'^singleton', r'^instance',
+            r'^resolve', r'^make', r'^create', r'^build', r'^handle',
+            r'^dispatch', r'^fire', r'^listen', r'^observe', r'^macro',
+        ])
+    elif framework_name.lower() == "symfony":
+        exclude_patterns.extend([
+            r'^configure', r'^load', r'^process', r'^compile', r'^build',
+            r'^resolve', r'^create', r'^make', r'^handle', r'^dispatch',
+        ])
+    
+    # Check exclusions
+    if any(re.search(pattern, symbol, re.IGNORECASE) for pattern in exclude_patterns):
+        return False
+    
+    # Check if it's a developer API
+    return any(pattern in symbol.lower() for pattern in [
+        'url', 'route', 'redirect', 'view', 'render', 'response', 
+        'json', 'xml', 'html', 'text', 'download', 'stream',
+        'header', 'cookie', 'session', 'cache', 'mail', 'notification'
+    ])
 
 
 def _filter_developer_apis(symbols: List[str], framework_name: str) -> List[str]:
@@ -438,6 +504,106 @@ def _filter_developer_apis(symbols: List[str], framework_name: str) -> List[str]
                 developer_apis.append(symbol)
     
     return sorted(developer_apis)
+
+
+def _analyze_api_impact(apis: List[str], framework_name: str) -> Dict[str, Dict[str, Any]]:
+    """Analyze potential HNP impact for each developer API."""
+    impact_analysis = {}
+    
+    # Impact categories and their scenarios
+    impact_patterns = {
+        "url_generation": {
+            "patterns": ["url", "route", "link", "href", "to", "generate"],
+            "scenario": "URL generation - host header influences generated URLs",
+            "examples": ["url()", "route()", "to()", "generate()"]
+        },
+        "redirect": {
+            "patterns": ["redirect", "forward", "goto"],
+            "scenario": "Redirects - host header affects redirect destinations",
+            "examples": ["redirect()", "redirectToRoute()", "redirectToAction()"]
+        },
+        "template_render": {
+            "patterns": ["view", "render", "template", "blade", "twig"],
+            "scenario": "Template rendering - host header influences template output",
+            "examples": ["view()", "render()", "renderView()"]
+        },
+        "response_headers": {
+            "patterns": ["header", "cookie", "setcookie", "response"],
+            "scenario": "Response headers - host header affects response headers",
+            "examples": ["header()", "cookie()", "setcookie()"]
+        },
+        "email_notification": {
+            "patterns": ["mail", "email", "notification", "send"],
+            "scenario": "Email/notifications - host header influences email content",
+            "examples": ["mail()", "sendMail()", "notification()"]
+        },
+        "json_response": {
+            "patterns": ["json", "api", "response"],
+            "scenario": "JSON responses - host header affects API responses",
+            "examples": ["json()", "toJson()", "jsonResponse()"]
+        },
+        "file_download": {
+            "patterns": ["download", "file", "stream", "attachment"],
+            "scenario": "File operations - host header influences file handling",
+            "examples": ["download()", "streamDownload()", "file()"]
+        },
+        "cache_operations": {
+            "patterns": ["cache", "store", "session"],
+            "scenario": "Cache/session - host header affects cache behavior",
+            "examples": ["cache()", "session()", "store()"]
+        }
+    }
+    
+    for api in apis:
+        api_lower = api.lower()
+        matched_categories = []
+        
+        for category, info in impact_patterns.items():
+            if any(pattern in api_lower for pattern in info["patterns"]):
+                matched_categories.append({
+                    "category": category,
+                    "scenario": info["scenario"],
+                    "examples": info["examples"]
+                })
+        
+        if matched_categories:
+            impact_analysis[api] = {
+                "categories": matched_categories,
+                "scenario": matched_categories[0]["scenario"],  # Use first match
+                "potential_impact": _get_potential_impact(matched_categories)
+            }
+        else:
+            impact_analysis[api] = {
+                "categories": [],
+                "scenario": "Unknown impact - requires manual analysis",
+                "potential_impact": ["Review API usage for host header dependencies"]
+            }
+    
+    return impact_analysis
+
+
+def _get_potential_impact(categories: List[Dict[str, Any]]) -> List[str]:
+    """Get potential impact scenarios based on categories."""
+    impacts = set()
+    for category in categories:
+        cat = category["category"]
+        if cat == "url_generation":
+            impacts.update(["URL manipulation", "Cache poisoning"])
+        elif cat == "redirect":
+            impacts.update(["Redirect manipulation"])
+        elif cat == "template_render":
+            impacts.update(["Template injection", "Cache poisoning"])
+        elif cat == "response_headers":
+            impacts.update(["Header manipulation", "Cache poisoning"])
+        elif cat == "email_notification":
+            impacts.update(["Email content manipulation"])
+        elif cat == "json_response":
+            impacts.update(["API response manipulation"])
+        elif cat == "file_download":
+            impacts.update(["File operation manipulation"])
+        elif cat == "cache_operations":
+            impacts.update(["Cache behavior manipulation"])
+    return list(impacts)
 
 
 def run_app_scan(project_root: str) -> Dict[str, Any]:

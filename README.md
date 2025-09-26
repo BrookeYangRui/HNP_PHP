@@ -1,6 +1,6 @@
 # HNP PHP Analysis System
 
-A unified system for analyzing PHP web frameworks and applications for Host Header Injection (HNP) vulnerabilities.
+A unified system for analyzing PHP web frameworks and applications for Host Header Poisoning (HNP) vulnerabilities using open-source taint flow analysis.
 
 ## 🚀 Quick Start
 
@@ -76,25 +76,26 @@ python3 run.py --resume
 
 All results are saved in the `reports/` directory:
 
-- **Unified JSON**: `reports/*/json/unified_*.json` - All results in one file
-- **CSV Reports**: `reports/*/csv/*.csv` - Tabular data
-- **Progress**: `progress.json` - Analysis progress and statistics
+- **Framework Analysis**: `reports/framework_analysis/{framework}/` - Per-framework analysis
+- **CSV Reports**: `reports/framework_analysis/{framework}/*.csv` - Tabular data
+- **JSON Reports**: `reports/framework_analysis/{framework}/*.json` - Structured data
+- **HTML Reports**: `reports/framework_analysis/{framework}/*.html` - Visual analysis
 
 ## 🔍 Understanding Results
 
-### Security States
-- **Safe**: No vulnerabilities found
-- **Low Risk**: 1-5 vulnerabilities
-- **Medium Risk**: 6-10 vulnerabilities
-- **High Risk**: 10+ vulnerabilities
+### Analysis Output
+- **Total Flows**: Number of taint flows discovered
+- **Source Files**: Files containing host header sources
+- **Functions Found**: Unique functions that may be affected by host headers
+- **Scenarios**: How host headers influence function behavior
 
-### Vulnerability Scenarios
-- **URL Generation**: Host header in URL construction
-- **Authentication Bypass**: Host header in auth logic
-- **Cache Poisoning**: Host header in cache keys
-- **Email Spoofing**: Host header in email generation
-- **API Manipulation**: Host header in API responses
-- **Configuration Injection**: Host header in configuration
+### Impact Scenarios
+- **URL Generation**: Host header influences generated URLs
+- **Redirects**: Host header affects redirect destinations
+- **Response Headers**: Host header affects response headers
+- **Template Rendering**: Host header influences template output
+- **Cache Operations**: Host header affects cache behavior
+- **Email/Notifications**: Host header influences email content
 
 ## 🛠️ Prerequisites
 
@@ -108,11 +109,11 @@ All results are saved in the `reports/` directory:
 ```
 HNP_PHP/
 ├── run.py                 # 🎯 Main entry point
-├── src/                   # Core analysis scripts (Plan C external taint only)
+├── src/                   # Core analysis scripts (external taint engines)
 ├── config/                # Configuration files
-├── target-list/           # 147 vulnerable projects
 ├── reports/               # Analysis results
-└── frameworks/            # Downloaded framework source
+├── frameworks/            # Downloaded framework source
+└── docs/                  # Documentation
 ```
 
 ## 🚀 That's It!
