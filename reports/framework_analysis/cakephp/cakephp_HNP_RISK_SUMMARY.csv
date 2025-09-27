@@ -1,0 +1,44 @@
+API Function,Risk Level,Usage Count,Risk Scenario,Sample Files,Developer Recommendation
+env,MEDIUM,20,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+useLocaleParser,MEDIUM,17,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+build,MEDIUM,16,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+read,MEDIUM,14,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+consume,MEDIUM,12,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+write,MEDIUM,10,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+rules,MEDIUM,6,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+load,MEDIUM,4,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+register,MEDIUM,4,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+check,MEDIUM,4,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+addDetector,MEDIUM,4,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+CakePHP,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+Copyright,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+file_exists,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+parse,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+putenv,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+toEnv,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+toServer,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+config,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+unset,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+fullBaseUrl,HIGH,2,URL generation - host header influences generated URLs,config/bootstrap.php,Must configure trusted proxy and host validation
+MobileDetect,MEDIUM,2,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+filter_var,MEDIUM,2,Requires manual analysis for specific impact,config/app.php,Recommend configuring protection
+addEditor,MEDIUM,2,Requires manual analysis for specific impact,config/app.php,Recommend configuring protection
+declare,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+Framework,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+router,MEDIUM,1,URL generation/redirect - Host header affects generated URLs,config/bootstrap.php,Recommend configuring protection
+Loader,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+file,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+PhpConfig,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+catch,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+exit,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+date_default_timezone_set,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+mb_internal_encoding,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+ini_set,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+ErrorTrap,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+ExceptionTrap,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+php_uname,MEDIUM,1,Requires manual analysis for specific impact,config/bootstrap.php,Recommend configuring protection
+false,MEDIUM,1,Requires manual analysis for specific impact,config/app.php,Recommend configuring protection
+assets,MEDIUM,1,Requires manual analysis for specific impact,config/app.php,Recommend configuring protection
+render,MEDIUM,1,Template rendering - host header influences template output,config/app.php,Recommend configuring protection
+transports,MEDIUM,1,Requires manual analysis for specific impact,config/app.php,Recommend configuring protection
+pattern,MEDIUM,1,Requires manual analysis for specific impact,config/app.php,Recommend configuring protection

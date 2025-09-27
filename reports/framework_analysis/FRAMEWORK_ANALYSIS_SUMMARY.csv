@@ -1,0 +1,7 @@
+Framework,Total Taint Flows,Total APIs,Risky APIs,High Risk,Medium Risk,Category,Description
+WordPress,2685,256,256,239,14,大量高风险API,几乎所有API都有高风险，URL生成功能大量存在
+Symfony,1867,182,178,1,2,主要测试相关,主要是测试框架，生产环境风险有限
+CodeIgniter,681,146,133,7,2,多个高风险API,多个核心功能存在高风险API
+CakePHP,168,45,43,1,1,少量高风险API,只有少量高风险API，主要是URL生成相关
+Laravel,74,31,17,0,1,无高风险API,没有高风险API，主要是CORS和路由相关
+Yii,1329,228,213,10,5,多个高风险API,多个核心功能存在高风险API

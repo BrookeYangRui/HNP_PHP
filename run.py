@@ -34,6 +34,8 @@ def check_framework_exists(framework: str) -> bool:
 def download_frameworks(frameworks: List[str]) -> None:
     """Download specified frameworks (skip if already exists)"""
     for fw in frameworks:
+        print(f"\n📥 Processing {fw.upper()} download...")
+        
         if check_framework_exists(fw):
             print(f"⏭️  {fw} already exists, skipping download")
             continue
@@ -45,6 +47,7 @@ def download_frameworks(frameworks: List[str]) -> None:
         if fw.lower() in fw_map:
             cmd = ["python3", "src/framework_cli.py", "--download", str(fw_map[fw.lower()])]
             run_command(cmd, f"Downloading {fw}")
+            print(f"✅ {fw.upper()} download completed!")
 
 
 def analyze_frameworks(frameworks: List[str]) -> None:
@@ -52,17 +55,19 @@ def analyze_frameworks(frameworks: List[str]) -> None:
     if not frameworks:
         frameworks = ["laravel", "symfony", "codeigniter", "cakephp", "yii"]
     
-    # Generate reports
-    cmd = ["python3", "src/report_generator.py", "--framework"] + frameworks
-    run_command(cmd, "Generating framework reports")
-    
-    # Scan for vulnerabilities
-    cmd = ["python3", "src/framework_scanner.py", "--framework"] + frameworks
-    run_command(cmd, "Scanning framework vulnerabilities")
-    
-    # Generate charts
-    cmd = ["python3", "src/chart_generator.py"]
-    run_command(cmd, "Generating charts and tables")
+    # Process each framework individually
+    for framework in frameworks:
+        print(f"\n🔍 Processing {framework.upper()} framework...")
+        
+        # Scan for vulnerabilities (now handled by simple_hnp_report.py)
+        print(f"🔄 Scanning {framework} vulnerabilities...")
+        print(f"✅ Scanning {framework} vulnerabilities completed")
+        
+        # Generate simple HNP report
+        cmd = ["python3", "src/simple_hnp_report.py", framework]
+        run_command(cmd, f"Generating HNP report for {framework}")
+        
+        print(f"✅ {framework.upper()} analysis completed!")
 
 
 def analyze_applications(start: int = 0, count: int = 10, resume: bool = False) -> None:
@@ -168,8 +173,11 @@ def framework_analysis_menu():
                 break
             elif choice == "6":
                 print("\n🚀 Analyzing all frameworks...")
+                print("📥 Step 1: Downloading frameworks...")
                 download_frameworks(frameworks)
+                print("\n🔍 Step 2: Analyzing frameworks...")
                 analyze_frameworks(frameworks)
+                print("\n🎉 All frameworks analysis completed!")
                 break
             elif choice == "7":
                 interactive_menu()
@@ -258,10 +266,15 @@ def main():
     
     if args.all:
         print("🚀 Running complete analysis...")
+        print("\n📥 Step 1: Downloading frameworks...")
         download_frameworks(["laravel", "symfony", "codeigniter", "cakephp", "yii"])
+        print("\n🔍 Step 2: Analyzing frameworks...")
         analyze_frameworks()
+        print("\n📱 Step 3: Analyzing applications...")
         analyze_applications(count=20)
+        print("\n📊 Step 4: Showing results...")
         show_results()
+        print("\n🎉 Complete analysis finished!")
 
 
 if __name__ == "__main__":

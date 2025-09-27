@@ -1,0 +1,3257 @@
+{
+  "framework": "cakephp",
+  "total_flows": 168,
+  "total_sources": 2,
+  "total_sinks": 168,
+  "unique_symbols": [
+    "fullBaseUrl",
+    "render"
+  ],
+  "api_impact_analysis": {
+    "fullBaseUrl": {
+      "categories": [
+        {
+          "category": "url_generation",
+          "scenario": "URL generation - host header influences generated URLs",
+          "examples": [
+            "url()",
+            "route()",
+            "to()",
+            "generate()"
+          ]
+        }
+      ],
+      "scenario": "URL generation - host header influences generated URLs",
+      "potential_impact": [
+        "Cache poisoning",
+        "URL manipulation"
+      ]
+    },
+    "render": {
+      "categories": [
+        {
+          "category": "template_render",
+          "scenario": "Template rendering - host header influences template output",
+          "examples": [
+            "view()",
+            "render()",
+            "renderView()"
+          ]
+        }
+      ],
+      "scenario": "Template rendering - host header influences template output",
+      "potential_impact": [
+        "Cache poisoning",
+        "Template injection"
+      ]
+    }
+  },
+  "flows": [
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 2,
+      "sink_symbol": "declare",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 5,
+      "sink_symbol": "CakePHP",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 5,
+      "sink_symbol": "Framework",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 6,
+      "sink_symbol": "Copyright",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 12,
+      "sink_symbol": "Copyright",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 13,
+      "sink_symbol": "CakePHP",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 31,
+      "sink_symbol": "router",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 68,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 68,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 68,
+      "sink_symbol": "file_exists",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 69,
+      "sink_symbol": "Loader",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 70,
+      "sink_symbol": "parse",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 70,
+      "sink_symbol": "parse",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 71,
+      "sink_symbol": "putenv",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 71,
+      "sink_symbol": "putenv",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 72,
+      "sink_symbol": "toEnv",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 72,
+      "sink_symbol": "toEnv",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 73,
+      "sink_symbol": "toServer",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 73,
+      "sink_symbol": "toServer",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 77,
+      "sink_symbol": "file",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 84,
+      "sink_symbol": "config",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 84,
+      "sink_symbol": "PhpConfig",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 84,
+      "sink_symbol": "config",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 85,
+      "sink_symbol": "load",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 85,
+      "sink_symbol": "load",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 86,
+      "sink_symbol": "catch",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 87,
+      "sink_symbol": "exit",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 94,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 94,
+      "sink_symbol": "file_exists",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 95,
+      "sink_symbol": "load",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 95,
+      "sink_symbol": "load",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 101,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 101,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 101,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 102,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 102,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 103,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 103,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 110,
+      "sink_symbol": "date_default_timezone_set",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 110,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 110,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 115,
+      "sink_symbol": "mb_internal_encoding",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 115,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 115,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 121,
+      "sink_symbol": "ini_set",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 121,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 121,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 126,
+      "sink_symbol": "ErrorTrap",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 126,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 126,
+      "sink_symbol": "register",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 126,
+      "sink_symbol": "register",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 126,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 127,
+      "sink_symbol": "ExceptionTrap",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 127,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 127,
+      "sink_symbol": "register",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 127,
+      "sink_symbol": "register",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 127,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 132,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 135,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 135,
+      "sink_symbol": "php_uname",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 135,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 138,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 138,
+      "sink_symbol": "check",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 138,
+      "sink_symbol": "check",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 139,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 139,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 141,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 141,
+      "sink_symbol": "check",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 141,
+      "sink_symbol": "check",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 142,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 142,
+      "sink_symbol": "write",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 151,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 151,
+      "sink_symbol": "read",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 152,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 164,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 164,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 164,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 168,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 169,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 172,
+      "sink_symbol": "unset",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 174,
+      "sink_symbol": "if",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 175,
+      "sink_symbol": "fullBaseUrl",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 175,
+      "sink_symbol": "fullBaseUrl",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 177,
+      "sink_symbol": "unset",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 183,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 183,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 184,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 184,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 185,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 185,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 186,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 186,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 187,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 187,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 188,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 188,
+      "sink_symbol": "consume",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 195,
+      "sink_symbol": "addDetector",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 195,
+      "sink_symbol": "function",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 195,
+      "sink_symbol": "addDetector",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 196,
+      "sink_symbol": "MobileDetect",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 200,
+      "sink_symbol": "addDetector",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 200,
+      "sink_symbol": "function",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 200,
+      "sink_symbol": "addDetector",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 201,
+      "sink_symbol": "MobileDetect",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 208,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 212,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 212,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 212,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 212,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 213,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 213,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 213,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 213,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 214,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 214,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 214,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 214,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 215,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 215,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 215,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 215,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 216,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 216,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 216,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 216,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 217,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 217,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 217,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 217,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 218,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 218,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 218,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 218,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 219,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 219,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 219,
+      "sink_symbol": "useLocaleParser",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 219,
+      "sink_symbol": "build",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 226,
+      "sink_symbol": "rules",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 226,
+      "sink_symbol": "rules",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 227,
+      "sink_symbol": "rules",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 227,
+      "sink_symbol": "rules",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 228,
+      "sink_symbol": "rules",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/bootstrap.php",
+      "sink_file": "config/bootstrap.php",
+      "sink_line": 228,
+      "sink_symbol": "rules",
+      "flow_path": [
+        "config/bootstrap.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 20,
+      "sink_symbol": "filter_var",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 20,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 39,
+      "sink_symbol": "false",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 52,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 53,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 54,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 59,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 79,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 83,
+      "sink_symbol": "assets",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 102,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 117,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 132,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 157,
+      "sink_symbol": "render",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 189,
+      "sink_symbol": "addEditor",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 189,
+      "sink_symbol": "addEditor",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 212,
+      "sink_symbol": "transports",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 233,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 347,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 355,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 364,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 431,
+      "sink_symbol": "pattern",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 441,
+      "sink_symbol": "filter_var",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 441,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 442,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    },
+    {
+      "source_type": "host_name",
+      "sink_type": "open_sink",
+      "source_file": "config/app.php",
+      "sink_file": "config/app.php",
+      "sink_line": 443,
+      "sink_symbol": "env",
+      "flow_path": [
+        "config/app.php"
+      ],
+      "has_guard": false,
+      "has_validation": false
+    }
+  ],
+  "sources": [
+    {
+      "type": "host_name",
+      "file": "config/bootstrap.php",
+      "line": 168
+    },
+    {
+      "type": "host_name",
+      "file": "config/app.php",
+      "line": 40
+    }
+  ],
+  "sinks": [
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 2,
+      "symbol": "declare"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 5,
+      "symbol": "CakePHP"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 5,
+      "symbol": "Framework"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 6,
+      "symbol": "Copyright"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 12,
+      "symbol": "Copyright"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 13,
+      "symbol": "CakePHP"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 31,
+      "symbol": "router"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 68,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 68,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 68,
+      "symbol": "file_exists"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 69,
+      "symbol": "Loader"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 70,
+      "symbol": "parse"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 70,
+      "symbol": "parse"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 71,
+      "symbol": "putenv"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 71,
+      "symbol": "putenv"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 72,
+      "symbol": "toEnv"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 72,
+      "symbol": "toEnv"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 73,
+      "symbol": "toServer"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 73,
+      "symbol": "toServer"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 77,
+      "symbol": "file"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 84,
+      "symbol": "config"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 84,
+      "symbol": "PhpConfig"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 84,
+      "symbol": "config"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 85,
+      "symbol": "load"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 85,
+      "symbol": "load"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 86,
+      "symbol": "catch"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 87,
+      "symbol": "exit"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 94,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 94,
+      "symbol": "file_exists"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 95,
+      "symbol": "load"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 95,
+      "symbol": "load"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 101,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 101,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 101,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 102,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 102,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 103,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 103,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 110,
+      "symbol": "date_default_timezone_set"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 110,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 110,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 115,
+      "symbol": "mb_internal_encoding"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 115,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 115,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 121,
+      "symbol": "ini_set"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 121,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 121,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 126,
+      "symbol": "ErrorTrap"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 126,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 126,
+      "symbol": "register"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 126,
+      "symbol": "register"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 126,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 127,
+      "symbol": "ExceptionTrap"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 127,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 127,
+      "symbol": "register"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 127,
+      "symbol": "register"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 127,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 132,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 135,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 135,
+      "symbol": "php_uname"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 135,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 138,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 138,
+      "symbol": "check"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 138,
+      "symbol": "check"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 139,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 139,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 141,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 141,
+      "symbol": "check"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 141,
+      "symbol": "check"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 142,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 142,
+      "symbol": "write"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 151,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 151,
+      "symbol": "read"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 152,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 164,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 164,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 164,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 168,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 169,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 172,
+      "symbol": "unset"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 174,
+      "symbol": "if"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 175,
+      "symbol": "fullBaseUrl"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 175,
+      "symbol": "fullBaseUrl"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 177,
+      "symbol": "unset"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 183,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 183,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 184,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 184,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 185,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 185,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 186,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 186,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 187,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 187,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 188,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 188,
+      "symbol": "consume"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 195,
+      "symbol": "addDetector"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 195,
+      "symbol": "function"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 195,
+      "symbol": "addDetector"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 196,
+      "symbol": "MobileDetect"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 200,
+      "symbol": "addDetector"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 200,
+      "symbol": "function"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 200,
+      "symbol": "addDetector"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 201,
+      "symbol": "MobileDetect"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 208,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 212,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 212,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 212,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 212,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 213,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 213,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 213,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 213,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 214,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 214,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 214,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 214,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 215,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 215,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 215,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 215,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 216,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 216,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 216,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 216,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 217,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 217,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 217,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 217,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 218,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 218,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 218,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 218,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 219,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 219,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 219,
+      "symbol": "useLocaleParser"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 219,
+      "symbol": "build"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 226,
+      "symbol": "rules"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 226,
+      "symbol": "rules"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 227,
+      "symbol": "rules"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 227,
+      "symbol": "rules"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 228,
+      "symbol": "rules"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/bootstrap.php",
+      "line": 228,
+      "symbol": "rules"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 20,
+      "symbol": "filter_var"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 20,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 39,
+      "symbol": "false"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 52,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 53,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 54,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 59,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 79,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 83,
+      "symbol": "assets"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 102,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 117,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 132,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 157,
+      "symbol": "render"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 189,
+      "symbol": "addEditor"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 189,
+      "symbol": "addEditor"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 212,
+      "symbol": "transports"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 233,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 347,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 355,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 364,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 431,
+      "symbol": "pattern"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 441,
+      "symbol": "filter_var"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 441,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 442,
+      "symbol": "env"
+    },
+    {
+      "type": "open_sink",
+      "file": "config/app.php",
+      "line": 443,
+      "symbol": "env"
+    }
+  ]
+}

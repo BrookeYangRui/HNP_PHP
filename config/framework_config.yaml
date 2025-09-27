@@ -31,7 +31,7 @@ frameworks:
   codeigniter:
     sources:
       - name: host_name
-        patterns: ["$this->request->getServer('HTTP_HOST')", "$this->request->getUri()->getHost("]
+        patterns: ["getServer('HTTP_HOST')", "getServer.*HTTP_HOST", "HTTP_HOST"]
     sinks:
       - name: url_generation
         patterns: ["site_url(", "base_url("]
@@ -42,7 +42,7 @@ frameworks:
   cakephp:
     sources:
       - name: host_name
-        patterns: ["$this->request->getUri()->getHost(", "ServerRequest::host("]
+        patterns: ["HTTP_HOST", "getHost(", "ServerRequest::host("]
     sinks:
       - name: url_generation
         patterns: ["Router::url("]
@@ -53,7 +53,7 @@ frameworks:
   yii:
     sources:
       - name: host_name
-        patterns: ["Yii::$app->request->hostName", "$request->hostName"]
+        patterns: ["HTTP_HOST", "hostName", "getHostInfo", "getHostName"]
     sinks:
       - name: url_generation
         patterns: ["Url::to(", "$urlManager->createUrl("]
@@ -94,5 +94,16 @@ frameworks:
       - name: base_uri
         config_paths: ["app/config/config.php"]
         description: Ensure baseUri and host config
+  wordpress:
+    sources:
+      - name: host_name
+        patterns: ["HTTP_HOST", "wp_guess_url", "get_site_url", "get_home_url", "site_url", "home_url"]
+    sinks:
+      - name: url_generation
+        patterns: ["wp_login_url", "wp_lostpassword_url", "wp_registration_url", "wp_logout_url", "wp_mail", "wp_safe_redirect"]
+    validations:
+      - name: site_url_config
+        config_paths: ["wp-config.php", "wp-includes/load.php"]
+        description: Ensure WP_HOME and WP_SITEURL are properly configured
 
 

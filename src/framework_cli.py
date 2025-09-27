@@ -40,7 +40,7 @@ FRAMEWORKS = [
     {
         "id": 5,
         "name": "Yii",
-        "repo": "https://github.com/yiisoft/yii2-app-basic.git",
+        "repo": "https://github.com/yiisoft/yii2.git",
         "dir": "yii",
     },
     {
@@ -66,7 +66,7 @@ FRAMEWORKS = [
 
 PROJECT_ROOT = "/home/rui/HNP_PHP"
 FRAMEWORK_DIR = os.path.join(PROJECT_ROOT, "frameworks")
-REPORT_DIR = os.path.join(PROJECT_ROOT, "reports", "framework")
+# Removed unnecessary report directory
 
 
 def eprint(*args, **kwargs):
@@ -75,7 +75,7 @@ def eprint(*args, **kwargs):
 
 def ensure_dirs() -> None:
     os.makedirs(FRAMEWORK_DIR, exist_ok=True)
-    os.makedirs(REPORT_DIR, exist_ok=True)
+    # No longer creating unnecessary report directory
 
 
 def list_frameworks() -> None:

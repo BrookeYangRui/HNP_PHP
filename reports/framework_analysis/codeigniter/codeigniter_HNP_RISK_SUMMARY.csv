@@ -1,0 +1,134 @@
+API Function,Risk Level,Usage Count,Risk Scenario,Sample Files,Developer Recommendation
+get,MEDIUM,35,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+in_array,MEDIUM,28,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+server,MEDIUM,24,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+create,MEDIUM,23,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+Closure,MEDIUM,15,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+post,MEDIUM,15,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+explode,MEDIUM,14,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+implode,MEDIUM,9,Requires manual analysis for specific impact,system/Router/RouteCollection.php; system/Commands/Utilities/Routes.php,Recommend configuring protection
+array_merge,MEDIUM,8,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+str_starts_with,MEDIUM,8,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+is_array,MEDIUM,7,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+array_key_exists,MEDIUM,7,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+loadRoutesOptions,MEDIUM,7,URL generation/redirect - Host header affects generated URLs,system/Router/RouteCollection.php,Recommend configuring protection
+strtolower,MEDIUM,7,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+strtoupper,MEDIUM,7,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+array_map,MEDIUM,7,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+service,MEDIUM,6,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+esc,MEDIUM,6,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+strip_tags,MEDIUM,6,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+buildReverseRoute,HIGH,6,URL generation - host header influences generated URLs,system/Router/RouteCollection.php,Must configure trusted proxy and host validation
+write,MEDIUM,6,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+routeKey,MEDIUM,5,URL generation/redirect - Host header affects generated URLs,system/Router/RouteCollection.php,Recommend configuring protection
+discoverRoutes,MEDIUM,5,URL generation/redirect - Host header affects generated URLs,system/Router/RouteCollection.php,Recommend configuring protection
+add,MEDIUM,5,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+resource,MEDIUM,5,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+unset,MEDIUM,5,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+replaceLocale,MEDIUM,5,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+parseRequestURI,MEDIUM,5,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+ucfirst,MEDIUM,4,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+match,MEDIUM,4,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+forInvalidParameterType,MEDIUM,4,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+parse_url,HIGH,4,URL generation - host header influences generated URLs,system/HTTP/SiteURIFactory.php; system/Router/RouteCollection.php,Must configure trusted proxy and host validation
+class_basename,MEDIUM,4,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+color,MEDIUM,4,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+forUnableToParseURI,MEDIUM,4,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+removeDotSegments,MEDIUM,4,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+declare,MEDIUM,3,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php; system/Router/RouteCollection.php,Recommend configuring protection
+loadRoutes,MEDIUM,3,URL generation/redirect - Host header affects generated URLs,system/Router/RouteCollection.php; system/Commands/Utilities/Routes.php,Recommend configuring protection
+return,MEDIUM,3,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php; system/Router/RouteCollection.php,Recommend configuring protection
+shouldAutoRoute,HIGH,3,URL generation - host header influences generated URLs,system/Router/RouteCollection.php; system/Commands/Utilities/Routes.php,Must configure trusted proxy and host validation
+trigger_error,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+group,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+array_shift,MEDIUM,3,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php; system/Router/RouteCollection.php,Recommend configuring protection
+is_callable,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+put,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+patch,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+delete,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+presenter,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+fn,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php; system/Commands/Utilities/Routes.php,Recommend configuring protection
+preg_match_all,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+str_contains,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+config,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php; system/Commands/Utilities/Routes.php,Recommend configuring protection
+processArrayCallableSyntax,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+checkHostname,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+checkSubdomains,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+determineCurrentSubdomain,MEDIUM,3,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+showRequiredFilters,MEDIUM,3,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+detectRoutePath,MEDIUM,3,URL generation/redirect - Host header affects generated URLs,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+createURIFromRoutePath,MEDIUM,3,URL generation/redirect - Host header affects generated URLs,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+parseQueryString,MEDIUM,3,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+rtrim,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+realpath,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+shouldDiscover,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+search,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+elseif,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+callback,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+InvalidArgumentException,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+render,MEDIUM,2,Template rendering - host header influences template output,system/Router/RouteCollection.php,Recommend configuring protection
+reverseRoute,HIGH,2,URL generation - host header influences generated URLs,system/Router/RouteCollection.php,Must configure trusted proxy and host validation
+route,HIGH,2,URL generation - host header influences generated URLs,system/Router/RouteCollection.php,Must configure trusted proxy and host validation
+strtr,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+substr_replace,MEDIUM,2,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+substr,MEDIUM,2,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php; system/Router/RouteCollection.php,Recommend configuring protection
+FilterCollector,MEDIUM,2,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+collect,MEDIUM,2,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+AutoRouteCollectorImproved,MEDIUM,2,URL generation/redirect - Host header affects generated URLs,system/Commands/Utilities/Routes.php,Recommend configuring protection
+table,MEDIUM,2,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+SiteURI,MEDIUM,2,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+path,MEDIUM,2,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+parse_str,MEDIUM,2,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+routing,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+namespaces,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+backslash,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+var,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+methods,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+is_file,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+log_message,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+sprintf,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+addPlaceholder,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+set404Override,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+get404Override,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+shouldTranslateURIDashes,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+ksort,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+map,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+addRedirect,HIGH,1,Redirects - host header affects redirect destinations,system/Router/RouteCollection.php,Must configure trusted proxy and host validation
+array_pop,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+head,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+options,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+cli,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+view,MEDIUM,1,Template rendering - host header influences template output,system/Router/RouteCollection.php,Recommend configuring protection
+environment,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+substr_count,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+localizeRoute,HIGH,1,URL generation - host header influences generated URLs,system/Router/RouteCollection.php,Must configure trusted proxy and host validation
+fillRouteParams,MEDIUM,1,URL generation/redirect - Host header affects generated URLs,system/Router/RouteCollection.php,Recommend configuring protection
+method,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+abs,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+preg_replace,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+preg_replace_callback,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+str_ireplace,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+helper,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+is_numeric,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+subdomain,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+period,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+end,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+resetRoutes,MEDIUM,1,URL generation/redirect - Host header affects generated URLs,system/Router/RouteCollection.php,Recommend configuring protection
+array_diff_key,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+array_unique,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+param,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+useSupportedLocalesOnly,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+shouldUseSupportedLocalesOnly,MEDIUM,1,Requires manual analysis for specific impact,system/Router/RouteCollection.php,Recommend configuring protection
+run,MEDIUM,1,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+SampleURIGenerator,MEDIUM,1,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+DefinedRouteCollector,MEDIUM,1,URL generation/redirect - Host header affects generated URLs,system/Commands/Utilities/Routes.php,Recommend configuring protection
+AutoRouteCollector,MEDIUM,1,URL generation/redirect - Host header affects generated URLs,system/Commands/Utilities/Routes.php,Recommend configuring protection
+usort,MEDIUM,1,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+strcmp,MEDIUM,1,Requires manual analysis for specific impact,system/Commands/Utilities/Routes.php,Recommend configuring protection
+createFromGlobals,MEDIUM,1,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+createFromString,MEDIUM,1,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+filter_var,MEDIUM,1,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+pathinfo,MEDIUM,1,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+rawurldecode,MEDIUM,1,URL generation/redirect - Host header affects generated URLs,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+nothing,MEDIUM,1,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection
+string,MEDIUM,1,Requires manual analysis for specific impact,system/HTTP/SiteURIFactory.php,Recommend configuring protection

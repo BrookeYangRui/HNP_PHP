@@ -1,0 +1,18 @@
+API Function,Risk Level,Usage Count,Risk Scenario,Sample Files,Developer Recommendation
+get,MEDIUM,6,Requires manual analysis for specific impact,src/Illuminate/Http/Middleware/HandleCors.php,Recommend configuring protection
+matchToKeys,MEDIUM,5,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+varyHeader,MEDIUM,4,Response handling - Host header affects response content,src/Illuminate/Http/Middleware/HandleCors.php,Recommend configuring protection
+bindPathParameters,MEDIUM,3,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+bindHostParameters,MEDIUM,3,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+replaceDefaults,MEDIUM,3,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+handlePreflightRequest,MEDIUM,2,Requires manual analysis for specific impact,src/Illuminate/Http/Middleware/HandleCors.php,Recommend configuring protection
+addActualRequestHeaders,MEDIUM,2,Response handling - Host header affects response content,src/Illuminate/Http/Middleware/HandleCors.php,Recommend configuring protection
+fullUrlIs,MEDIUM,2,URL generation/redirect - Host header affects generated URLs,src/Illuminate/Http/Middleware/HandleCors.php,Recommend configuring protection
+is,MEDIUM,2,Requires manual analysis for specific impact,src/Illuminate/Http/Middleware/HandleCors.php,Recommend configuring protection
+decodedPath,MEDIUM,2,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+parameterNames,MEDIUM,2,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+parameters,MEDIUM,1,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+array_merge,MEDIUM,1,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+array_intersect_key,MEDIUM,1,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+array_flip,MEDIUM,1,Requires manual analysis for specific impact,src/Illuminate/Routing/RouteParameterBinder.php,Recommend configuring protection
+matches,MEDIUM,1,Requires manual analysis for specific impact,src/Illuminate/Routing/Matching/HostValidator.php,Recommend configuring protection

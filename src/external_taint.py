@@ -281,12 +281,105 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
                 continue
 
     if not source_patterns:
-        # generic host indicators (more permissive)
+        # Comprehensive host indicators based on framework analysis
         source_patterns = [
+            # PHP global variables
             re.compile(r"HTTP_HOST|SERVER_NAME", re.IGNORECASE),
+            
+            # Symfony/Laravel Request methods
             re.compile(r"getHost\s*\(", re.IGNORECASE),
             re.compile(r"getHttpHost\s*\(", re.IGNORECASE),
             re.compile(r"getServerName\s*\(", re.IGNORECASE),
+            re.compile(r"getSchemeAndHttpHost\s*\(", re.IGNORECASE),
+            re.compile(r"getUri\s*\(", re.IGNORECASE),
+            re.compile(r"getRequestUri\s*\(", re.IGNORECASE),
+            
+            # Symfony RequestContext
+            re.compile(r"RequestContext.*getHost", re.IGNORECASE),
+            re.compile(r"getHost.*RequestContext", re.IGNORECASE),
+            
+            # URL Generation methods
+            re.compile(r"UrlGenerator.*generate", re.IGNORECASE),
+            re.compile(r"generate.*UrlGenerator", re.IGNORECASE),
+            re.compile(r"Router.*generate", re.IGNORECASE),
+            re.compile(r"generate.*Router", re.IGNORECASE),
+            
+            # Redirect and Response methods
+            re.compile(r"RedirectResponse", re.IGNORECASE),
+            re.compile(r"redirect.*Response", re.IGNORECASE),
+            
+            # Proxy headers
+            re.compile(r"X-Forwarded-Host", re.IGNORECASE),
+            re.compile(r"FORWARDED_HOST", re.IGNORECASE),
+            re.compile(r"getTrustedProxies", re.IGNORECASE),
+            re.compile(r"setTrustedProxies", re.IGNORECASE),
+            
+            # Laravel specific
+            re.compile(r"fullUrl\s*\(", re.IGNORECASE),
+            re.compile(r"url\s*\(", re.IGNORECASE),
+            re.compile(r"route\s*\(", re.IGNORECASE),
+            re.compile(r"action\s*\(", re.IGNORECASE),
+            
+            # CodeIgniter specific
+            re.compile(r"get_server\s*\(", re.IGNORECASE),
+            re.compile(r"server\s*\(", re.IGNORECASE),
+            re.compile(r"input\s*\(.*server", re.IGNORECASE),
+            re.compile(r"getServer\s*\(", re.IGNORECASE),
+            re.compile(r"service\s*\(.*request.*getServer", re.IGNORECASE),
+            re.compile(r"getServer\s*\(.*HTTP_HOST", re.IGNORECASE),
+            
+            # CakePHP specific
+            re.compile(r"getHost\s*\(", re.IGNORECASE),
+            re.compile(r"host\s*\(", re.IGNORECASE),
+            re.compile(r"env\s*\(.*HTTP_HOST", re.IGNORECASE),
+            
+            # Yii specific
+            re.compile(r"getHostInfo\s*\(", re.IGNORECASE),
+            re.compile(r"getHostName\s*\(", re.IGNORECASE),
+            re.compile(r"getServerName\s*\(", re.IGNORECASE),
+            re.compile(r"getServerPort\s*\(", re.IGNORECASE),
+            
+            # WordPress specific
+            re.compile(r"wp_guess_url\s*\(", re.IGNORECASE),
+            re.compile(r"get_site_url\s*\(", re.IGNORECASE),
+            re.compile(r"get_home_url\s*\(", re.IGNORECASE),
+            re.compile(r"site_url\s*\(", re.IGNORECASE),
+            re.compile(r"home_url\s*\(", re.IGNORECASE),
+            re.compile(r"wp_login_url\s*\(", re.IGNORECASE),
+            re.compile(r"wp_lostpassword_url\s*\(", re.IGNORECASE),
+            re.compile(r"wp_registration_url\s*\(", re.IGNORECASE),
+            re.compile(r"wp_logout_url\s*\(", re.IGNORECASE),
+            re.compile(r"wp_mail\s*\(", re.IGNORECASE),
+            re.compile(r"wp_safe_redirect\s*\(", re.IGNORECASE),
+            re.compile(r"network_site_url\s*\(", re.IGNORECASE),
+            re.compile(r"wp_validate_redirect\s*\(", re.IGNORECASE),
+            re.compile(r"allowed_redirect_hosts", re.IGNORECASE),
+            
+            # Generic URL generation patterns
+            re.compile(r"generateUrl\s*\(", re.IGNORECASE),
+            re.compile(r"buildUrl\s*\(", re.IGNORECASE),
+            re.compile(r"createUrl\s*\(", re.IGNORECASE),
+            re.compile(r"makeUrl\s*\(", re.IGNORECASE),
+            re.compile(r"constructUrl\s*\(", re.IGNORECASE),
+            
+            # Generic redirect patterns
+            re.compile(r"redirect\s*\(", re.IGNORECASE),
+            re.compile(r"forward\s*\(", re.IGNORECASE),
+            re.compile(r"goto\s*\(", re.IGNORECASE),
+            re.compile(r"location\s*:", re.IGNORECASE),
+            
+            # Generic mail/notification patterns
+            re.compile(r"sendMail\s*\(", re.IGNORECASE),
+            re.compile(r"mail\s*\(", re.IGNORECASE),
+            re.compile(r"sendEmail\s*\(", re.IGNORECASE),
+            re.compile(r"notify\s*\(", re.IGNORECASE),
+            re.compile(r"notification\s*\(", re.IGNORECASE),
+            
+            # Generic configuration patterns
+            re.compile(r"getConfig\s*\(", re.IGNORECASE),
+            re.compile(r"getSetting\s*\(", re.IGNORECASE),
+            re.compile(r"getOption\s*\(", re.IGNORECASE),
+            re.compile(r"getParameter\s*\(", re.IGNORECASE),
         ]
 
     call_patterns = [
@@ -298,8 +391,12 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
     # Collect target files first for progress
     target_files: List[str] = []
     for dirpath, dirnames, filenames in os.walk(framework_root):
-        dirnames[:] = [d for d in dirnames if d not in [".git", "vendor", "node_modules", "tests"]]
-        if any(core in dirpath for core in ["src/Illuminate", "src/Symfony", "app/", "config/"]) or framework_root in dirpath:
+        # Skip common non-source directories
+        dirnames[:] = [d for d in dirnames if d not in [".git", "vendor", "node_modules", "tests", "test", "spec", "docs", "documentation"]]
+        
+        # Include all PHP files in framework root and common source directories
+        if (framework_root in dirpath or 
+            any(core in dirpath for core in ["src/", "app/", "config/", "system/", "application/", "lib/", "library/", "core/", "framework/", "includes/", "wp-includes/", "wp-admin/"])):
             for fn in filenames:
                 if fn.endswith((".php", ".blade.php", ".phtml")):
                     target_files.append(os.path.join(dirpath, fn))
@@ -308,6 +405,7 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
     processed = 0
     last_print = 0.0
     repo_has_source = False
+    
 
     # Build complete flows: source -> [intermediate calls] -> API sink
     complete_flows: List[Dict[str, Any]] = []
@@ -336,10 +434,16 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
         has_source = any(rx.search(content) for rx in source_patterns)
         if has_source:
             repo_has_source = True
+            # Find the actual line with the source
+            source_line = 1
+            for i, line in enumerate(lines, start=1):
+                if any(rx.search(line) for rx in source_patterns):
+                    source_line = i
+                    break
             all_sources.append({
                 "type": "host_name",
                 "file": rel,
-                "line": 1,
+                "line": source_line,
             })
 
         # Extract all function calls in this file
@@ -386,18 +490,19 @@ def run_framework_open_scan(framework_root: str, framework_name: str) -> Dict[st
     if not repo_has_source:
         return {"error": "No host sources detected; open-mode produced no flows"}
 
-    # Get unique symbols (all functions, not just APIs)
-    unique_symbols = sorted({s.get("symbol") for s in api_sinks if s.get("symbol")})
+    # Get unique symbols and filter for developer APIs only
+    all_symbols = sorted({s.get("symbol") for s in api_sinks if s.get("symbol")})
+    developer_apis = _filter_developer_apis(all_symbols, framework_name)
     
-    # Analyze impact for each symbol (open mode - analyze everything)
-    api_impact_analysis = _analyze_api_impact(unique_symbols, framework_name)
+    # Analyze impact for developer APIs only
+    api_impact_analysis = _analyze_api_impact(developer_apis, framework_name)
     
     return {
         "framework": framework_name,
         "total_flows": len(complete_flows),
         "total_sources": len(all_sources),
         "total_sinks": len(api_sinks),
-        "unique_symbols": unique_symbols,
+        "unique_symbols": developer_apis,
         "api_impact_analysis": api_impact_analysis,
         "flows": complete_flows,
         "sources": all_sources,
@@ -419,88 +524,67 @@ def _is_obviously_internal(symbol: str) -> bool:
 
 
 def _is_developer_api(symbol: str, framework_name: str) -> bool:
-    """Check if a symbol is a developer-facing API."""
-    # Common internal/private patterns to exclude
+    """Check if a symbol is a developer-facing API that could cause HNP issues."""
+    # Exclude basic PHP functions and internal framework functions
     exclude_patterns = [
-        r'^_', r'^__', r'^set[A-Z]', r'^get[A-Z]', r'^is[A-Z]', r'^has[A-Z]',
-        r'^create[A-Z]', r'^build[A-Z]', r'^make[A-Z]', r'^resolve[A-Z]',
-        r'^handle[A-Z]', r'^process[A-Z]', r'^execute[A-Z]', r'^run[A-Z]',
-        r'Test$', r'Mock$', r'Stub$', r'Fake$', r'Debug$', r'Log$',
-        r'Config$', r'Service$', r'Provider$', r'Manager$', r'Factory$',
-        r'Builder$', r'Compiler$', r'Parser$', r'Validator$', r'Sanitizer$',
-        r'^serialize', r'^unserialize', r'^encode', r'^decode',
-        r'^hash', r'^encrypt', r'^decrypt', r'^sign', r'^verify',
-        r'^boot', r'^register', r'^bind', r'^singleton', r'^instance',
-        r'^dispatch', r'^fire', r'^listen', r'^observe', r'^macro',
+        r'^_', r'^__',  # Private methods
+        r'^if$', r'^else$', r'^for$', r'^while$', r'^foreach$',  # Control flow
+        r'^array$', r'^count$', r'^strlen$', r'^strpos$', r'^str_starts_with$',  # Basic PHP
+        r'^isset$', r'^empty$', r'^is_null$', r'^is_ssl$',  # PHP checks
+        r'^add_filter$', r'^add_action$', r'^apply_filters$',  # WordPress hooks
+        r'^WP_Error$', r'^is_wp_error$',  # WordPress error handling
+        r'^force_ssl_admin$', r'^set_url_scheme$',  # Internal functions
+        r'^login_header$',  # WordPress internal
     ]
     
-    # Framework-specific exclusions
-    if framework_name.lower() == "laravel":
-        exclude_patterns.extend([
-            r'^boot', r'^register', r'^bind', r'^singleton', r'^instance',
-            r'^resolve', r'^make', r'^create', r'^build', r'^handle',
-            r'^dispatch', r'^fire', r'^listen', r'^observe', r'^macro',
-        ])
-    elif framework_name.lower() == "symfony":
-        exclude_patterns.extend([
-            r'^configure', r'^load', r'^process', r'^compile', r'^build',
-            r'^resolve', r'^create', r'^make', r'^handle', r'^dispatch',
-        ])
-    
-    # Check exclusions
+    # Check exclusions first
     if any(re.search(pattern, symbol, re.IGNORECASE) for pattern in exclude_patterns):
         return False
     
-    # Check if it's a developer API
-    return any(pattern in symbol.lower() for pattern in [
-        'url', 'route', 'redirect', 'view', 'render', 'response', 
-        'json', 'xml', 'html', 'text', 'download', 'stream',
-        'header', 'cookie', 'session', 'cache', 'mail', 'notification'
-    ])
+    # HNP-risk developer APIs
+    hnp_risk_patterns = [
+        # High HNP risk - URL generation
+        r'url$', r'route$', r'redirect$', r'link$', r'to$', r'generate$',
+        # WordPress specific URL functions
+        r'^wp_.*_url$', r'^get_.*_url$', r'^site_url$', r'^home_url$',
+        # High HNP risk - Authentication
+        r'^wp_login$', r'^wp_logout$', r'^login$', r'^logout$', r'^auth$',
+        # High HNP risk - Redirects
+        r'^wp_safe_redirect$', r'^redirect$', r'^forward$',
+        # Medium HNP risk - Email/notifications
+        r'^wp_mail$', r'^mail$', r'^send.*mail$', r'^notify$',
+        # Medium HNP risk - Response headers
+        r'^header$', r'^cookie$', r'^setcookie$', r'^response$',
+        # Medium HNP risk - Template rendering
+        r'^view$', r'^render$', r'^template$', r'^blade$', r'^twig$',
+        # Medium HNP risk - API responses
+        r'^json$', r'^api$', r'^toJson$',
+    ]
+    
+    return any(re.search(pattern, symbol, re.IGNORECASE) for pattern in hnp_risk_patterns)
 
 
 def _filter_developer_apis(symbols: List[str], framework_name: str) -> List[str]:
-    """Filter symbols to only include developer-facing APIs."""
-    # Common internal/private patterns to exclude
+    """Filter symbols to only include developer-facing APIs that could cause HNP issues."""
+    # Exclude basic PHP functions and internal framework functions
     exclude_patterns = [
-        # Private/protected methods
-        r"^_", r"^__", r"^set[A-Z]", r"^get[A-Z]", r"^is[A-Z]", r"^has[A-Z]",
-        # Internal framework methods
-        r"^create[A-Z]", r"^build[A-Z]", r"^make[A-Z]", r"^resolve[A-Z]",
-        r"^handle[A-Z]", r"^process[A-Z]", r"^execute[A-Z]", r"^run[A-Z]",
-        # Test/development utilities
-        r"Test$", r"Mock$", r"Stub$", r"Fake$", r"Debug$", r"Log$",
-        # Configuration/internal
-        r"Config$", r"Service$", r"Provider$", r"Manager$", r"Factory$",
-        r"Builder$", r"Compiler$", r"Parser$", r"Validator$", r"Sanitizer$",
-        # Low-level operations
-        r"^serialize", r"^unserialize", r"^encode", r"^decode",
-        r"^hash", r"^encrypt", r"^decrypt", r"^sign", r"^verify",
+        # Basic PHP functions
+        r'^if$', r'^else$', r'^for$', r'^while$', r'^foreach$', r'^elseif$',
+        r'^array$', r'^count$', r'^strlen$', r'^strpos$', r'^str_starts_with$',
+        r'^isset$', r'^empty$', r'^is_null$', r'^is_ssl$', r'^sprintf$',
+        r'^add$', r'^get_option$', r'^esc_attr$', r'^apply_filters$',
+        # Private methods
+        r'^_', r'^__',
+        # WordPress internal functions
+        r'^add_filter$', r'^add_action$', r'^WP_Error$', r'^is_wp_error$',
+        r'^force_ssl_admin$', r'^set_url_scheme$', r'^login_header$',
     ]
     
-    # Framework-specific exclusions
-    if framework_name.lower() == "laravel":
-        exclude_patterns.extend([
-            r"^boot", r"^register", r"^bind", r"^singleton", r"^instance",
-            r"^resolve", r"^make", r"^create", r"^build", r"^handle",
-            r"^dispatch", r"^fire", r"^listen", r"^observe", r"^macro",
-        ])
-    elif framework_name.lower() == "symfony":
-        exclude_patterns.extend([
-            r"^configure", r"^load", r"^process", r"^compile", r"^build",
-            r"^resolve", r"^create", r"^make", r"^handle", r"^dispatch",
-        ])
-    
-    # Filter symbols
+    # Filter symbols using the improved _is_developer_api function
     developer_apis = []
     for symbol in symbols:
         if not any(re.search(pattern, symbol, re.IGNORECASE) for pattern in exclude_patterns):
-            # Keep common developer APIs
-            if any(pattern in symbol.lower() for pattern in [
-                "url", "route", "redirect", "view", "render", "response", 
-                "json", "xml", "html", "text", "download", "stream",
-                "header", "cookie", "session", "cache", "mail", "notification"
-            ]):
+            if _is_developer_api(symbol, framework_name):
                 developer_apis.append(symbol)
     
     return sorted(developer_apis)
