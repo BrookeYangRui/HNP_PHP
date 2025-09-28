@@ -1,0 +1,172 @@
+{
+    "sources": [
+        {
+            "kind": "server_array",
+            "patterns": [
+                "$_SERVER['HTTP_HOST']",
+                "$_SERVER['SERVER_NAME']",
+                "$_SERVER['HTTP_X_FORWARDED_HOST']",
+                "$_SERVER['HTTP_FORWARDED']",
+                "$_SERVER['REQUEST_SCHEME']",
+                "$_SERVER['SERVER_PORT']",
+                "$_SERVER['HTTP_X_FORWARDED_PROTO']",
+                "$_SERVER['HTTP_X_FORWARDED_PORT']",
+                "$_SERVER['HTTP_X_ORIGINAL_HOST']",
+                "$_SERVER['HTTP_X_REAL_IP']"
+            ]
+        },
+        {
+            "kind": "framework_method",
+            "patterns": [
+                "$request->headers->get('host')",
+                "$request->getHost()",
+                "$request->getSchemeAndHttpHost()",
+                "$request->getUri()",
+                "$request->getScheme()",
+                "$request->getPort()",
+                "$request->getHttpHost()",
+                "$request->getHostAndPort()"
+            ]
+        },
+        {
+            "kind": "header_helper",
+            "patterns": [
+                "getallheaders()['Host']",
+                "apache_request_headers()['Host']",
+                "$_SERVER['HTTP_X_FORWARDED_HOST']",
+                "$_SERVER['HTTP_FORWARDED']"
+            ]
+        }
+    ],
+    "sinks": [
+        {
+            "name": "redirect",
+            "patterns": [
+                "header('Location:",
+                "header('Refresh:",
+                "$response->headers->set('Location'",
+                "redirect(",
+                "return redirect("
+            ]
+        },
+        {
+            "name": "cors",
+            "patterns": [
+                "'Access-Control-Allow-Origin:",
+                "$response->headers->set('Access-Control-Allow-Origin'",
+                "header('Access-Control-Allow-Origin:",
+                "'Access-Control-Allow-Credentials: true'"
+            ]
+        },
+        {
+            "name": "cookie_domain",
+            "patterns": [
+                "setcookie(",
+                "$cookie->setDomain(",
+                "cookie(",
+                "session_set_cookie_params"
+            ]
+        },
+        {
+            "name": "absolute_url_build",
+            "patterns": [
+                "'://' . $host",
+                "sprintf('%s://%s%s', $scheme, $host, $path)",
+                "http_build_url",
+                "parse_url"
+            ]
+        },
+        {
+            "name": "template_href",
+            "patterns": [
+                "<a href=\"",
+                "<base href=\"",
+                "var BASE = 'http' + '://' + host",
+                "window.location.href ="
+            ]
+        },
+        {
+            "name": "email_link",
+            "patterns": [
+                "mail(",
+                "PHPMailer",
+                "Swift_Mailer",
+                "email template"
+            ]
+        },
+        {
+            "name": "logging",
+            "patterns": [
+                "error_log(",
+                "syslog(",
+                "Log::",
+                "Logger::"
+            ]
+        },
+        {
+            "name": "config_generation",
+            "patterns": [
+                "file_put_contents",
+                "fwrite",
+                "fputs",
+                "config file"
+            ]
+        }
+    ],
+    "sanitizers": [
+        {
+            "name": "strict_domain_whitelist",
+            "patterns": [
+                "in_array($host, $allowedHosts, true)",
+                "in_array($host, ['example.com', 'www.example.com'], true)",
+                "array_key_exists($host, $allowedHosts)"
+            ]
+        },
+        {
+            "name": "filter_var_hostname",
+            "patterns": [
+                "filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)",
+                "filter_var($host, FILTER_VALIDATE_URL)"
+            ]
+        },
+        {
+            "name": "normalize_host",
+            "patterns": [
+                "strtolower($host)",
+                "rtrim($host, '.')",
+                "preg_replace('/:\\d+$/', '', $host)",
+                "parse_url($url, PHP_URL_HOST)"
+            ]
+        },
+        {
+            "name": "framework_trust",
+            "patterns": [
+                "setTrustedHosts",
+                "setTrustedProxies",
+                "isFromTrustedProxy"
+            ]
+        }
+    ],
+    "security_states": {
+        "safe": [
+            "All Host usage is validated against strict whitelist",
+            "Framework correctly configured trusted proxies",
+            "Using framework-provided secure methods"
+        ],
+        "proxy_misconfig": [
+            "Directly trusting X-Forwarded-Host without validation",
+            "No trusted proxy list configured",
+            "Trusting all proxy IPs"
+        ],
+        "abs_url_build": [
+            "Host participates in absolute URL construction",
+            "Unvalidated Host used in redirects",
+            "Host used in CORS or Cookie domain"
+        ],
+        "side_effect": [
+            "Host used in logging",
+            "Host used in template rendering",
+            "Host used in configuration file generation"
+        ]
+    }
+}

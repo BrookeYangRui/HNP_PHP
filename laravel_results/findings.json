@@ -1,0 +1,45 @@
+{
+    "scan_info": {
+        "timestamp": "2025-09-28 18:13:38",
+        "total_findings": 3,
+        "scanner_version": "1.0.0"
+    },
+    "findings": {
+        "scan_info": {
+            "timestamp": "2025-09-28 18:13:38",
+            "total_findings": 0,
+            "scanner_version": "1.0.0"
+        },
+        "findings": [],
+        "summary": {
+            "by_severity": {
+                "high": 0,
+                "medium": 0,
+                "low": 0
+            },
+            "by_state": {
+                "abs_url_build": 0,
+                "proxy_misconfig": 0,
+                "side_effect": 0,
+                "safe": 0
+            },
+            "by_rule": []
+        }
+    },
+    "summary": {
+        "by_severity": {
+            "high": 0,
+            "medium": 0,
+            "low": 3
+        },
+        "by_state": {
+            "abs_url_build": 0,
+            "proxy_misconfig": 0,
+            "side_effect": 3,
+            "safe": 0
+        },
+        "by_rule": {
+            "unknown": 3
+        }
+    }
+}

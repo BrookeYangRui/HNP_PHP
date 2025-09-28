@@ -1,9 +1,0 @@
-{
-  "name": "hnp/php-hnp-scanner-pro",
-  "description": "Minimal HNP PHP scanner (mock) for deep taint integration",
-  "type": "project",
-  "require": {},
-  "autoload": {
-    "psr-4": {"HNP\\Scanner\\": "src/"}
-  }
-}
