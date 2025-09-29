@@ -1,0 +1,73 @@
+rules:
+- id: discover-header-injection
+  languages: [php]
+  severity: INFO
+  message: "Candidate sink: potential header injection vulnerability"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_PROTO"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_PORT"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_FOR"]
+    - pattern: $_SERVER["HTTP_X_REAL_IP"]
+    - pattern: $_SERVER["HTTP_CLIENT_IP"]
+    - pattern: $_SERVER["HTTP_VIA"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_ALL"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_SSL"]
+    - pattern: $_SERVER["HTTPS"]
+    - pattern: $_SERVER["SERVER_PORT"]
+    - pattern: $_SERVER["REMOTE_PORT"]
+    - pattern: $_SERVER["REQUEST_SCHEME"]
+    - pattern: $_SERVER["REQUEST_METHOD"]
+    - pattern: $_SERVER["HTTP_USER_AGENT"]
+    - pattern: $_SERVER["HTTP_REFERER"]
+    - pattern: $_SERVER["HTTP_ACCEPT"]
+    - pattern: $_SERVER["HTTP_ACCEPT_LANGUAGE"]
+    - pattern: $_SERVER["HTTP_ACCEPT_ENCODING"]
+    - pattern: $_SERVER["HTTP_CONNECTION"]
+    - pattern: $_SERVER["HTTP_CACHE_CONTROL"]
+    - pattern: $_SERVER["HTTP_PRAGMA"]
+    - pattern: $_SERVER["HTTP_AUTHORIZATION"]
+    - pattern: $_SERVER["HTTP_COOKIE"]
+    - pattern: $_SERVER["HTTP_CONTENT_LENGTH"]
+    - pattern: $_SERVER["HTTP_CONTENT_TYPE"]
+    - pattern: $_SERVER["HTTP_ORIGIN"]
+    - pattern: $_SERVER["HTTP_X_CSRF_TOKEN"]
+    - pattern: $_SERVER["HTTP_X_REQUESTED_WITH"]
+    - pattern: $_SERVER["HTTP_X_HTTP_METHOD_OVERRIDE"]
+    - pattern: $REQ->getHost()
+    - pattern: $REQ->host()
+    - pattern: $REQ->getHttpHost()
+    - pattern: $REQ->getSchemeAndHttpHost()
+    - pattern: $REQ->fullUrl()
+    - pattern: $REQ->getHeader(...)
+    - pattern: $REQ->getHeaderLine(...)
+    - pattern: $REQ->header(...)
+    - pattern: $REQ->server(...)
+  pattern-sinks:
+    # HTTP header injection sinks
+    - pattern: header($H, $V)
+    - pattern: $RESP->$M($H, $V)
+      metavariable-pattern:
+        - metavariable: $M
+          pattern: /(withHeader|set|addHeader(Line)?|header)/i
+    - pattern: $OBJ->headers[$H] = $V
+    - pattern: $OBJ->headers->set($H, $V)
+    - pattern: $OBJ->headers->add($H, $V)
+    # Cookie injection sinks
+    - pattern: setcookie($N, $V, ...)
+    - pattern: setrawcookie($N, $V, ...)
+    - pattern: $COOKIE->set($N, $V, ...)
+    - pattern: $COOKIE->withValue($V, ...)
+    # Output sinks
+    - pattern: echo($V)
+    - pattern: print($V)
+    - pattern: printf($F, ...)
+    - pattern: sprintf($F, ...)
+    - pattern: file_put_contents($F, $V, ...)
+    - pattern: fwrite($S, $V, ...)
+    # Network sinks
+    - pattern: curl_setopt($C, $O, $V)
+    - pattern: mail($T, $S, $M, ...)
+    - pattern: $HTTP->request($U, ...)

@@ -1,0 +1,26 @@
+rules:
+- id: discover-yii2-hnp
+  languages: [php]
+  severity: INFO
+  message: "Yii2 HNP: Host pollution in URL generation or redirect"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQUEST->getHostInfo()
+    - pattern: $REQUEST->getServerName()
+    - pattern: $URLMANAGER->createAbsoluteUrl(...)
+    - pattern: Url::to($ROUTE, true)
+    - pattern: Url::home(true)
+  pattern-sinks:
+    # Yii2 redirect sinks
+    - pattern: $RESPONSE->redirect($URL, ...)
+    - pattern: $USER->loginRequired($LOGINURL)
+    # Yii2 URL generation sinks
+    - pattern: Url::to($ROUTE, true)
+    - pattern: Url::home(true)
+    - pattern: $URLMANAGER->createAbsoluteUrl(...)
+    # Yii2 email/template sinks
+    - pattern: $MESSAGE->compose($VIEW, ...)
+    - pattern: $MAILER->compose($VIEW, ...)
+    - pattern: $MESSAGE->setHtmlBody($BODY)

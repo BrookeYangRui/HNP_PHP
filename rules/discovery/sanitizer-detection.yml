@@ -1,0 +1,37 @@
+rules:
+- id: discover-sanitizer-patterns
+  languages: [php]
+  severity: INFO
+  message: "Sanitizer detection: Host validation and sanitization patterns"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQUEST->getHost()
+  pattern-sanitizers:
+    # Strong sanitizers (should stop taint)
+    - pattern: validateHost($HOST)
+    - pattern: sanitizeHost($HOST)
+    - pattern: normalizeHost($HOST)
+    - pattern: whitelistHost($HOST, $ALLOWED)
+    - pattern: getTrustedHost($HOST, $TRUSTED)
+    - pattern: buildSafeUrl($SCHEME, $HOST, $PATH)
+    - pattern: validateUrl($URL)
+    # Weak sanitizers (may not stop taint)
+    - pattern: strtolower($HOST)
+    - pattern: trim($HOST)
+    - pattern: rtrim($HOST, ".")
+    - pattern: filter_var($HOST, FILTER_VALIDATE_DOMAIN)
+    - pattern: preg_replace("/[^a-zA-Z0-9.-]/", "", $HOST)
+    - pattern: htmlspecialchars($HOST)
+    - pattern: strip_tags($HOST)
+  pattern-sinks:
+    # Sinks that should be protected by sanitizers
+    - pattern: redirect($URL)
+    - pattern: wp_redirect($URL)
+    - pattern: mail($TO, $SUBJECT, $MESSAGE)
+    - pattern: wp_mail($TO, $SUBJECT, $MESSAGE)
+    - pattern: setcookie($NAME, $VALUE, $EXPIRE, $PATH, $DOMAIN)
+    - pattern: json_response(["url" => $URL])
+    - pattern: echo '<meta property="og:url" content="' . $URL . '">'
+    - pattern: echo '<link rel="canonical" href="' . $URL . '">'

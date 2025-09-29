@@ -1,0 +1,27 @@
+rules:
+- id: discover-codeigniter-hnp
+  languages: [php]
+  severity: INFO
+  message: "CodeIgniter HNP: Host pollution in URL generation or redirect"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $this->CI->input->server('HTTP_HOST')
+    - pattern: $CONFIG->base_url()
+    - pattern: $CONFIG->site_url(...)
+    - pattern: site_url(...)
+    - pattern: base_url(...)
+    - pattern: current_url()
+  pattern-sinks:
+    # CodeIgniter redirect sinks
+    - pattern: redirect($URI, ...)
+    - pattern: $RESPONSE->redirect($URI, ...)
+    # CodeIgniter URL generation sinks
+    - pattern: site_url($URI)
+    - pattern: base_url($URI)
+    - pattern: current_url()
+    # CodeIgniter email/template sinks
+    - pattern: $EMAIL->send()
+    - pattern: $EMAIL->to($TO)
+    - pattern: $EMAIL->message($MESSAGE)

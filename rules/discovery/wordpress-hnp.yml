@@ -1,0 +1,30 @@
+rules:
+- id: discover-wordpress-hnp
+  languages: [php]
+  severity: INFO
+  message: "WordPress HNP: Host pollution in URL generation or redirect"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: wp_guess_url()
+    - pattern: get_site_url()
+    - pattern: get_home_url()
+    - pattern: site_url(...)
+    - pattern: home_url(...)
+  pattern-sinks:
+    # WordPress URL generation sinks
+    - pattern: wp_login_url(...)
+    - pattern: wp_lostpassword_url(...)
+    - pattern: wp_registration_url()
+    - pattern: wp_logout_url(...)
+    - pattern: wp_safe_redirect($URL)
+    - pattern: wp_mail($TO, $SUBJECT, $MESSAGE, ...)
+    # WordPress redirect hooks
+    - pattern: wp_redirect($URL)
+    - pattern: wp_safe_redirect($URL)
+    # WordPress URL helpers in templates
+    - pattern: site_url($PATH)
+    - pattern: home_url($PATH)
+    - pattern: get_site_url()
+    - pattern: get_home_url()

@@ -1,0 +1,29 @@
+rules:
+- id: discover-cors-like
+  languages: [php]
+  severity: INFO
+  message: "Candidate sink: writes Access-Control-Allow-Origin"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQ->getHost()
+    - pattern: $REQ->host()
+    - pattern: $REQ->getHttpHost()
+    - pattern: $REQ->getSchemeAndHttpHost()
+    - pattern: $REQ->fullUrl()
+  pattern-sinks:
+    - pattern: $RESP->$M($H, $X)
+      metavariable-pattern:
+        - metavariable: $M
+          pattern: /(withHeader|set|addHeader(Line)?|header)/i
+        - metavariable: $H
+          pattern: /^["']Access-Control-Allow-Origin["']$/i
+    - pattern: $HEADERS[$H] = $X
+      metavariable-pattern:
+        - metavariable: $H
+          pattern: /^["']Access-Control-Allow-Origin["']$/i
+    # Laravel CORS middleware patterns
+    - pattern: $CORS->addActualRequestHeaders($RESP, $REQ)
+    - pattern: $CORS->handlePreflightRequest($REQ)
+    - pattern: $CORS->varyHeader($RESP, ...)

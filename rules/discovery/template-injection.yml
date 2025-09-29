@@ -1,0 +1,42 @@
+rules:
+- id: discover-template-injection
+  languages: [php]
+  severity: INFO
+  message: "Candidate sink: template/view injection from tainted host"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQ->getHost()
+    - pattern: $REQ->host()
+    - pattern: $REQ->getHttpHost()
+    - pattern: $REQ->getSchemeAndHttpHost()
+    - pattern: $REQ->fullUrl()
+  pattern-sinks:
+    # Template rendering sinks
+    - pattern: $VIEW->render($T, $D)
+    - pattern: $TEMPLATE->render($T, $D)
+    - pattern: $BLADE->render($T, $D)
+    - pattern: $TWIG->render($T, $D)
+    - pattern: $SMARTY->assign($K, $V)
+    - pattern: $SMARTY->display($T)
+    # Laravel specific
+    - pattern: view($T, $D)
+    - pattern: $VIEW->make($T, $D)
+    - pattern: $VIEW->with($K, $V)
+    # Symfony specific
+    - pattern: $TEMPLATE->renderResponse($T, $D)
+    - pattern: $TEMPLATE->render($T, $D)
+    # CodeIgniter specific
+    - pattern: $VIEW->load($T, $D)
+    - pattern: $VIEW->set($K, $V)
+    # CakePHP specific
+    - pattern: $VIEW->set($K, $V)
+    - pattern: $VIEW->render($T)
+    # WordPress specific
+    - pattern: get_template_part($T, ...)
+    - pattern: load_template($T, ...)
+    - pattern: include($T)
+    - pattern: require($T)
+    - pattern: include_once($T)
+    - pattern: require_once($T)

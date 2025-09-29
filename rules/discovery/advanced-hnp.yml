@@ -1,0 +1,37 @@
+rules:
+- id: discover-advanced-hnp-patterns
+  languages: [php]
+  severity: INFO
+  message: "Advanced HNP: Complex host pollution patterns"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_PROTO"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_PORT"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_FOR"]
+    - pattern: $_SERVER["HTTP_X_REAL_IP"]
+    - pattern: $_SERVER["HTTP_CLIENT_IP"]
+    - pattern: $_SERVER["SERVER_NAME"]
+    - pattern: $_SERVER["REQUEST_URI"]
+    - pattern: $_SERVER["REQUEST_SCHEME"]
+    - pattern: $_SERVER["SERVER_PORT"]
+  pattern-sinks:
+    # Complex URL construction patterns
+    - pattern: $URL = $SCHEME . "://" . $HOST . $PATH
+    - pattern: $URL = sprintf("%s://%s%s", $SCHEME, $HOST, $PATH)
+    # Email template patterns
+    - pattern: str_replace("{{URL}}", $URL, $TEMPLATE)
+    - pattern: str_replace("{{HOST}}", $HOST, $TEMPLATE)
+    # Template rendering with URL injection
+    - pattern: render_template($TEMPLATE, $DATA)
+    - pattern: include_template($TEMPLATE, $DATA)
+    - pattern: echo_template($TEMPLATE, $DATA)
+    # API response patterns
+    - pattern: json_encode($DATA)
+    # Logging patterns
+    - pattern: error_log($MESSAGE)
+    - pattern: log_url($MESSAGE)
+    # Cookie domain patterns
+    - pattern: setcookie($NAME, $VALUE, $EXPIRE, $PATH, $DOMAIN)
+    - pattern: setrawcookie($NAME, $VALUE, $EXPIRE, $PATH, $DOMAIN)

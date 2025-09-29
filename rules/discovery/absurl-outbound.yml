@@ -1,0 +1,40 @@
+rules:
+- id: discover-absurl-outbound
+  languages: [php]
+  severity: INFO
+  message: "Candidate sink: absolute URL built and emitted"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQ->getHost()
+    - pattern: $REQ->host()
+    - pattern: $REQ->getHttpHost()
+    - pattern: $REQ->getSchemeAndHttpHost()
+    - pattern: $REQ->fullUrl()
+  pattern-sinks:
+    # 构造 scheme://host/...（无 API 名）
+    - pattern: $U = $SCHEME . "://" . $HOST . $PATH
+    - pattern: $U = sprintf("%s://%s%s", $SCHEME, $HOST, $PATH)
+    # Laravel URL generation
+    - pattern: $URLGEN->to($PATH)
+    - pattern: $URLGEN->route($NAME)
+    - pattern: $URLGEN->action($CONTROLLER)
+    # Laravel redirect helpers
+    - pattern: redirect($URL)
+    - pattern: redirect()->to($URL)
+    - pattern: redirect()->route($NAME)
+    - pattern: redirect()->action($CONTROLLER)
+    # Global helpers
+    - pattern: url($PATH)
+    - pattern: route($NAME)
+    - pattern: action($CONTROLLER)
+    # Symfony specific patterns
+    - pattern: $ROUTER->generate($ROUTE, [], $ABSOLUTE_URL)
+    - pattern: $URLGENERATOR->generate($ROUTE, [], $ABSOLUTE_URL)
+    - pattern: $REQUEST->getUri()
+    - pattern: $REQUEST->getSchemeAndHttpHost()
+    - pattern: $REQUESTCONTEXT->getHost()
+    # Twig template patterns
+    - pattern: url('$ROUTE_NAME')
+    - pattern: absolute_url('$ROUTE_NAME')

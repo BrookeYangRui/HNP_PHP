@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    resolveFromConfigFile="true"
+    allFunctionsGlobal="true"
+>
+    <projectFiles>
+        <directory name="frameworks" />
+    </projectFiles>
+
+    <stubs>
+        <file name="/home/rui/HNP_PHP/rules/psalm-stubs/taint_sources.phpstub" />
+        <file name="/home/rui/HNP_PHP/rules/psalm-stubs/temp_sinks.phpstub" />
+    </stubs>
+</psalm>

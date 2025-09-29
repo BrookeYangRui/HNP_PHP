@@ -1,0 +1,61 @@
+rules:
+- id: discover-context-aware-hnp
+  languages: [php]
+  severity: INFO
+  message: "Context-aware HNP: Host pollution in specific contexts"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQUEST->getHost()
+    - pattern: $REQUEST->getHttpHost()
+    - pattern: $REQUEST->getSchemeAndHttpHost()
+  pattern-sinks:
+    # Password reset context
+    - pattern: |
+        if ($ACTION === "reset_password") {
+          $RESET_URL = $BASE_URL . "/reset?token=" . $TOKEN;
+          mail($EMAIL, "Reset Password", $RESET_URL);
+        }
+    # OAuth callback context
+    - pattern: |
+        if ($PROVIDER === "oauth") {
+          $CALLBACK_URL = $BASE_URL . "/oauth/callback";
+          redirect($CALLBACK_URL);
+        }
+    # Email verification context
+    - pattern: |
+        if ($ACTION === "verify_email") {
+          $VERIFY_URL = $BASE_URL . "/verify?code=" . $CODE;
+          wp_mail($EMAIL, "Verify Email", $VERIFY_URL);
+        }
+    # API documentation context
+    - pattern: |
+        if ($FORMAT === "api_docs") {
+          $API_URL = $BASE_URL . "/api/v1";
+          json_response(["api_url" => $API_URL]);
+        }
+    # Canonical URL context
+    - pattern: |
+        if ($SEO_MODE) {
+          $CANONICAL_URL = $BASE_URL . $CURRENT_PATH;
+          echo '<link rel="canonical" href="' . $CANONICAL_URL . '">';
+        }
+    # Social sharing context
+    - pattern: |
+        if ($SHARE_MODE) {
+          $SHARE_URL = $BASE_URL . $CURRENT_PATH;
+          echo '<meta property="og:url" content="' . $SHARE_URL . '">';
+        }
+    # Webhook context
+    - pattern: |
+        if ($WEBHOOK_MODE) {
+          $WEBHOOK_URL = $BASE_URL . "/webhook";
+          curl_setopt($CH, CURLOPT_URL, $WEBHOOK_URL);
+        }
+    # Admin panel context
+    - pattern: |
+        if ($ADMIN_MODE) {
+          $ADMIN_URL = $BASE_URL . "/admin";
+          redirect($ADMIN_URL);
+        }

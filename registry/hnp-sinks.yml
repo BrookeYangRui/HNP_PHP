@@ -1,0 +1,30 @@
+version: '1.0'
+description: 'HNP (Host Header Poisoning) Sink Registry'
+created_date: '2025-09-28'
+last_updated: '2025-09-28'
+
+sinks:
+  redirect:
+    description: 'Methods that set Location headers for redirects'
+    verified_sinks: {}
+  
+  cors:
+    description: 'Methods that set CORS headers'
+    verified_sinks: {}
+  
+  cookie:
+    description: 'Methods that set cookie domains'
+    verified_sinks: {}
+  
+  absurl:
+    description: 'Methods that construct absolute URLs'
+    verified_sinks: {}
+
+# Statistics
+stats:
+  total_verified_sinks: 0
+  by_type:
+    redirect: 0
+    cors: 0
+    cookie: 0
+    absurl: 0

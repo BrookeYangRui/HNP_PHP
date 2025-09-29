@@ -1,0 +1,53 @@
+rules:
+- id: discover-redirect-like
+  languages: [php]
+  severity: INFO
+  message: "Candidate sink: writes Location or returns 3xx Response"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQ->getHost()
+    - pattern: $REQ->host()
+    - pattern: $REQ->getHttpHost()
+    - pattern: $REQ->getSchemeAndHttpHost()
+    - pattern: $REQ->fullUrl()
+  pattern-sinks:
+    # 1) 任意 withHeader()/set()/addHeaderLine() 写 Location
+    - pattern: $RESP->$M($H, $X)
+      metavariable-pattern:
+        - metavariable: $M
+          pattern: /(withHeader|set|addHeader(Line)?|header)/i
+        - metavariable: $H
+          pattern: /^["']Location["']$/i
+    # 2) 任意数组/属性对 headers['Location'] 写入
+    - pattern: $OBJ->headers[$H] = $X
+      metavariable-pattern:
+        - metavariable: $H
+          pattern: /^["']Location["']$/i
+    # 3) 设置3xx状态码
+    - pattern: $RESP->withStatus($S, ...)
+      metavariable-pattern:
+        - metavariable: $S
+          pattern: /^(301|302|303|307|308)$/
+    # 4) Laravel RedirectResponse 构造函数
+    - pattern: new $REDIRECT($URL, ...)
+      metavariable-pattern:
+        - metavariable: $REDIRECT
+          pattern: /.*RedirectResponse.*/i
+    # 5) Laravel redirect() helper
+    - pattern: redirect($URL)
+    # 6) Laravel redirect()->to()
+    - pattern: redirect()->to($URL)
+    # 7) Laravel redirect()->route()
+    - pattern: redirect()->route($NAME)
+    # 8) Laravel redirect()->action()
+    - pattern: redirect()->action($CONTROLLER)
+    # 9) Laravel global helpers
+    - pattern: route($NAME)
+    - pattern: url($PATH)
+    - pattern: action($CONTROLLER)
+    # 10) Laravel request helpers
+    - pattern: request()->fullUrl()
+    - pattern: request()->root()
+    - pattern: request()->url()

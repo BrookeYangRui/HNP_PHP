@@ -1,0 +1,697 @@
+<?php
+// Taint source definitions for HNP (Host Header Poisoning) analysis
+
+// PSR-7 Request Interface
+namespace Psr\Http\Message;
+
+class ServerRequestInterface {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeader(string $name): array {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeaderLine(string $name): string {}
+}
+
+// Symfony Request methods
+namespace Symfony\Component\HttpFoundation;
+
+class Request {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHttpHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getServer(string $key, $default = null) {}
+}
+
+// Laravel Request methods
+namespace Illuminate\Http;
+
+class Request {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function host(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHttpHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getSchemeAndHttpHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function root(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function url(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function fullUrl(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function fullUrlIs(string $pattern): bool {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function is(string $pattern): bool {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function header(string $key = null, $default = null) {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function server(string $key = null, $default = null) {}
+}
+
+// Laravel Routing - URL Generation
+namespace Illuminate\Routing;
+
+class UrlGenerator {
+    /**
+     * @psalm-taint-source input
+     */
+    public function to(string $path): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function route(string $name): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function action(string $controller): string {}
+}
+
+class Redirector {
+    /**
+     * @psalm-taint-source input
+     */
+    public function to(string $url): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function route(string $name): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function action(string $controller): string {}
+}
+
+// CodeIgniter Request methods
+namespace CodeIgniter\HTTP;
+
+class Request {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getServer(string $index = null, bool $xss_clean = false) {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeader(string $name): ?string {}
+}
+
+// CakePHP Request methods
+namespace Cake\Http;
+
+class ServerRequest {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeader(string $name): array {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeaderLine(string $name): string {}
+}
+
+// Global functions and variables (no namespace)
+// HTTP Host headers - primary sources of HNP attacks
+/**
+ * @psalm-taint-source input
+ */
+function getServerHost(): string {
+    return $_SERVER['HTTP_HOST'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getServerVar(string $key): string {
+    return $_SERVER[$key] ?? '';
+}
+
+// Advanced taint sources for HNP
+/**
+ * @psalm-taint-source input
+ */
+function getHttpHost(): string {
+    return $_SERVER['HTTP_HOST'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getServerName(): string {
+    return $_SERVER['SERVER_NAME'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getRequestUri(): string {
+    return $_SERVER['REQUEST_URI'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getRequestScheme(): string {
+    return $_SERVER['REQUEST_SCHEME'] ?? 'http';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getServerPort(): int {
+    return (int)($_SERVER['SERVER_PORT'] ?? 80);
+}
+
+// Proxy headers - common HNP attack vectors
+/**
+ * @psalm-taint-source input
+ */
+function getXForwardedHost(): string {
+    return $_SERVER['HTTP_X_FORWARDED_HOST'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getXForwardedProto(): string {
+    return $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getXForwardedPort(): string {
+    return $_SERVER['HTTP_X_FORWARDED_PORT'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getXForwardedFor(): string {
+    return $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getXRealIp(): string {
+    return $_SERVER['HTTP_X_REAL_IP'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function getClientIp(): string {
+    return $_SERVER['HTTP_CLIENT_IP'] ?? '';
+}
+
+/**
+ * @psalm-taint-sink html $value
+ */
+function withHeader(string $name, string $value): string {
+    return $value;
+}
+
+// WordPress functions
+/**
+ * @psalm-taint-source input
+ */
+function wp_guess_url(): string {
+    return $_SERVER['HTTP_HOST'] ?? '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function get_site_url(): string {
+    return wp_guess_url();
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function get_home_url(): string {
+    return wp_guess_url();
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function site_url(string $path = ''): string {
+    return get_site_url() . $path;
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function home_url(string $path = ''): string {
+    return get_home_url() . $path;
+}
+
+// WordPress global variables
+$HTTP_HOST = 'tainted input';
+$SERVER_NAME = 'tainted input';
+
+// Additional PHP frameworks
+namespace Symfony\Component\HttpFoundation;
+
+class Request {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHttpHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getSchemeAndHttpHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getUri(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getScheme(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getPort(): int {}
+}
+
+class Response {
+    /**
+     * @psalm-taint-sink html $value
+     */
+    public function headers->set(string $key, string $value): void {}
+    
+    /**
+     * @psalm-taint-sink html $value
+     */
+    public function headers->add(string $key, string $value): void {}
+}
+
+// CodeIgniter 3.x & 4.x
+namespace CodeIgniter\HTTP;
+
+class Request {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getServer(string $index = null, bool $xss_clean = false) {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeader(string $name): ?string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHost(): string {}
+}
+
+// CodeIgniter 3.x Config
+class CI_Config {
+    /**
+     * @psalm-taint-source input
+     */
+    public function base_url(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function site_url(string $uri = ''): string {}
+}
+
+// CodeIgniter 3.x Input
+class CI_Input {
+    /**
+     * @psalm-taint-source input
+     */
+    public function server(string $index = null): string {}
+}
+
+// CodeIgniter 3.x URI
+class CI_URI {
+    /**
+     * @psalm-taint-source input
+     */
+    public function current_url(): string {}
+}
+
+// CodeIgniter helpers
+/**
+ * @psalm-taint-source input
+ */
+function site_url(string $uri = ''): string {
+    return '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function base_url(string $uri = ''): string {
+    return '';
+}
+
+/**
+ * @psalm-taint-source input
+ */
+function current_url(): string {
+    return '';
+}
+
+class Response {
+    /**
+     * @psalm-taint-sink html $value
+     */
+    public function setHeader(string $name, string $value): self {}
+    
+    /**
+     * @psalm-taint-sink html $value
+     */
+    public function setCookie(string $name, string $value, array $options = []): self {}
+}
+
+// CakePHP
+namespace Cake\Http;
+
+class ServerRequest {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeader(string $name): array {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHeaderLine(string $name): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getUri(): \Psr\Http\Message\UriInterface {}
+}
+
+class Response {
+    /**
+     * @psalm-taint-sink html $value
+     */
+    public function withHeader(string $name, string $value): self {}
+    
+    /**
+     * @psalm-taint-sink html $value
+     */
+    public function withAddedHeader(string $name, string $value): self {}
+}
+
+// Sanitizer functions
+/**
+ * @psalm-taint-escape html $value
+ */
+function filter_var($value, int $filter = FILTER_DEFAULT, $options = null) {
+    return $value;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function htmlspecialchars(string $string, int $flags = ENT_COMPAT, string $encoding = 'UTF-8', bool $double_encode = true): string {
+    return $string;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function htmlentities(string $string, int $flags = ENT_COMPAT, string $encoding = 'UTF-8', bool $double_encode = true): string {
+    return $string;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function strip_tags(string $string, string $allowed_tags = null): string {
+    return $string;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function preg_replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null) {
+    return $subject;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function str_replace($search, $replace, $subject, int &$count = null) {
+    return $subject;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function trim(string $string, string $characters = " \n\r\t\v\0"): string {
+    return $string;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function strtolower(string $string): string {
+    return $string;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function strtoupper(string $string): string {
+    return $string;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function substr(string $string, int $start, int $length = null): string {
+    return $string;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function parse_url(string $url, int $component = -1) {
+    return $url;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function gethostbyname(string $hostname): string {
+    return $hostname;
+}
+
+/**
+ * @psalm-taint-escape html
+ */
+function gethostbyaddr(string $ip_address): string {
+    return $ip_address;
+}
+
+// Advanced sanitizers for HNP
+/**
+ * @psalm-taint-escape html $host
+ */
+function validateHost(string $host): string {
+    // Strong host validation - only allow alphanumeric, dots, hyphens
+    if (preg_match('/^[a-zA-Z0-9.-]+$/', $host) && strlen($host) <= 253) {
+        return strtolower($host);
+    }
+    return '';
+}
+
+/**
+ * @psalm-taint-escape html $host
+ */
+function sanitizeHost(string $host): string {
+    // Remove port, convert to lowercase, trim
+    $host = strtolower(trim(explode(':', $host)[0]));
+    // Remove trailing dot
+    $host = rtrim($host, '.');
+    return $host;
+}
+
+/**
+ * @psalm-taint-escape html $url
+ */
+function validateUrl(string $url): string {
+    $parsed = parse_url($url);
+    if ($parsed && isset($parsed['host'])) {
+        $host = sanitizeHost($parsed['host']);
+        if ($host && filter_var($host, FILTER_VALIDATE_DOMAIN)) {
+            return $url;
+        }
+    }
+    return '';
+}
+
+/**
+ * @psalm-taint-escape html $host
+ */
+function whitelistHost(string $host, array $allowedHosts): string {
+    $host = sanitizeHost($host);
+    if (in_array($host, $allowedHosts, true)) {
+        return $host;
+    }
+    return '';
+}
+
+/**
+ * @psalm-taint-escape html $host
+ */
+function normalizeHost(string $host): string {
+    // Remove port, convert to lowercase, remove trailing dot
+    $host = strtolower(trim(explode(':', $host)[0]));
+    $host = rtrim($host, '.');
+    // Validate domain format
+    if (filter_var($host, FILTER_VALIDATE_DOMAIN)) {
+        return $host;
+    }
+    return '';
+}
+
+/**
+ * @psalm-taint-escape html $url
+ */
+function buildSafeUrl(string $scheme, string $host, string $path = '/'): string {
+    $host = sanitizeHost($host);
+    if (!$host || !filter_var($host, FILTER_VALIDATE_DOMAIN)) {
+        return '';
+    }
+    return $scheme . '://' . $host . $path;
+}
+
+/**
+ * @psalm-taint-escape html $host
+ */
+function isTrustedHost(string $host, array $trustedHosts): bool {
+    $host = sanitizeHost($host);
+    foreach ($trustedHosts as $trusted) {
+        if ($host === $trusted || fnmatch($trusted, $host)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @psalm-taint-escape html $host
+ */
+function getTrustedHost(string $host, array $trustedHosts): string {
+    if (isTrustedHost($host, $trustedHosts)) {
+        return sanitizeHost($host);
+    }
+    return '';
+}
+
+// Yii2 Framework
+namespace yii\web;
+
+class Request {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHostInfo(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getServerName(): string {}
+}
+
+class UrlManager {
+    /**
+     * @psalm-taint-source input
+     */
+    public function createAbsoluteUrl(array $params, bool $scheme = true): string {}
+}
+
+namespace yii\helpers;
+
+class Url {
+    /**
+     * @psalm-taint-source input
+     */
+    public static function to($route, bool $scheme = false): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public static function home(bool $scheme = false): string {}
+}

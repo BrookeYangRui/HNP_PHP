@@ -1,0 +1,37 @@
+rules:
+- id: discover-url-construction
+  languages: [php]
+  severity: INFO
+  message: "Candidate sink: URL construction from tainted host"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQ->getHost()
+    - pattern: $REQ->host()
+    - pattern: $REQ->getHttpHost()
+    - pattern: $REQ->getSchemeAndHttpHost()
+    - pattern: $REQ->fullUrl()
+  pattern-sinks:
+    # URL construction patterns
+    - pattern: $U = $SCHEME . "://" . $HOST . $PATH
+    - pattern: $U = sprintf("%s://%s%s", $SCHEME, $HOST, $PATH)
+    - pattern: $U = "http://" . $HOST . $PATH
+    - pattern: $U = "https://" . $HOST . $PATH
+    - pattern: $U = $HOST . $PATH
+    # Framework URL generation
+    - pattern: $URLGEN->to($PATH)
+    - pattern: $URLGEN->route($NAME)
+    - pattern: $URLGEN->action($CONTROLLER)
+    - pattern: url($PATH)
+    - pattern: route($NAME)
+    - pattern: action($CONTROLLER)
+    # Redirect patterns
+    - pattern: redirect($URL)
+    - pattern: redirect()->to($URL)
+    - pattern: redirect()->route($NAME)
+    - pattern: redirect()->action($CONTROLLER)
+    - pattern: new $REDIRECT($URL, ...)
+      metavariable-pattern:
+        - metavariable: $REDIRECT
+          pattern: /.*RedirectResponse.*/i
