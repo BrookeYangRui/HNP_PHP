@@ -51,3 +51,32 @@ rules:
     - pattern: request()->fullUrl()
     - pattern: request()->root()
     - pattern: request()->url()
+  pattern-either:
+    - pattern: $RESP->$M($H, $X)
+      metavariable-pattern:
+        - metavariable: $M
+          pattern: /(withHeader|set|addHeader(Line)?|header)/i
+        - metavariable: $H
+          pattern: /^["']Location["']$/i
+    - pattern: $OBJ->headers[$H] = $X
+      metavariable-pattern:
+        - metavariable: $H
+          pattern: /^["']Location["']$/i
+    - pattern: $RESP->withStatus($S, ...)
+      metavariable-pattern:
+        - metavariable: $S
+          pattern: /^(301|302|303|307|308)$/
+    - pattern: new $REDIRECT($URL, ...)
+      metavariable-pattern:
+        - metavariable: $REDIRECT
+          pattern: /.*RedirectResponse.*/i
+    - pattern: redirect($URL)
+    - pattern: redirect()->to($URL)
+    - pattern: redirect()->route($NAME)
+    - pattern: redirect()->action($CONTROLLER)
+    - pattern: route($NAME)
+    - pattern: url($PATH)
+    - pattern: action($CONTROLLER)
+    - pattern: request()->fullUrl()
+    - pattern: request()->root()
+    - pattern: request()->url()

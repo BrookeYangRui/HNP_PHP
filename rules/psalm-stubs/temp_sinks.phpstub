@@ -1,363 +1,43 @@
 <?php
-// Auto-generated temporary sink stubs for Laravel HNP analysis
-// Generated from Semgrep discovery results
+// Auto-generated temporary sink stubs
+// Generated from candidate sink discovery
 
-// Laravel CORS Middleware - potential sinks
-namespace Illuminate\Http\Middleware;
-
-class HandleCors {
-    /**
-     * @psalm-taint-sink html $request
-     */
-    protected function hasMatchingPath($request): bool {}
-    
-    /**
-     * @psalm-taint-sink html $host
-     */
-    protected function getPathsByHost(string $host): array {}
-}
-
-// Laravel Response classes - potential sinks
 namespace Illuminate\Http;
-
 class Response {
     /**
+     * @psalm-taint-sink html $name
      * @psalm-taint-sink html $value
      */
-    public function header(string $name, string $value): self {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function withHeaders(array $headers): self {}
+    public function header($name = null, $value = null, $replace = true) {}
 }
 
-class RedirectResponse extends Response {
+namespace Symfony\Component\HttpFoundation;
+class RedirectResponse {
     /**
      * @psalm-taint-sink html $url
      */
-    public function __construct(string $url, int $status = 302, array $headers = []) {}
+    public function __construct($url = '', $status = 302, $headers = []) {}
 }
 
-// Laravel Routing - potential sinks
 namespace Illuminate\Routing;
-
 class UrlGenerator {
-    /**
-     * @psalm-taint-sink html $path
-     */
-    public function to(string $path): string {}
-    
-    /**
-     * @psalm-taint-sink html $name
-     */
-    public function route(string $name): string {}
-    
-    /**
-     * @psalm-taint-sink html $controller
-     */
-    public function action(string $controller): string {}
+    /** @psalm-taint-sink html $a */ public function to($a = null, $b = null, $c = null) {}
+    /** @psalm-taint-sink html $a */ public function route($a = null, $b = null, $c = null) {}
+    /** @psalm-taint-sink html $a */ public function action($a = null, $b = null, $c = null) {}
 }
 
 class Redirector {
-    /**
-     * @psalm-taint-sink html $url
-     */
-    public function to(string $url): string {}
-    
-    /**
-     * @psalm-taint-sink html $name
-     */
-    public function route(string $name): string {}
-    
-    /**
-     * @psalm-taint-sink html $controller
-     */
-    public function action(string $controller): string {}
+    /** @psalm-taint-sink html $a */ public function to($a = null, $b = null, $c = null) {}
+    /** @psalm-taint-sink html $a */ public function route($a = null, $b = null, $c = null) {}
+    /** @psalm-taint-sink html $a */ public function action($a = null, $b = null, $c = null) {}
 }
 
-// Symfony HttpFoundation sinks
-namespace Symfony\Component\HttpFoundation;
-
-class Response {
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function headers->set(string $key, string $value): void {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function headers->add(string $key, string $value): void {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function setContent(string $content): self {}
+namespace {
+/**
+ * @psalm-taint-sink html $a
+ * @psalm-taint-sink html $b
+ */
+function header($a = null, $b = null, $c = null) {}
 }
 
-class RedirectResponse extends Response {
-    /**
-     * @psalm-taint-sink html $url
-     */
-    public function __construct(string $url, int $status = 302, array $headers = []) {}
-}
 
-// CodeIgniter 4 sinks
-namespace CodeIgniter\HTTP;
-
-class Response {
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function setHeader(string $name, string $value): self {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function setCookie(string $name, string $value, array $options = []): self {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function setContent(string $content): self {}
-}
-
-// CakePHP sinks
-namespace Cake\Http;
-
-class Response {
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function withHeader(string $name, string $value): self {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function withAddedHeader(string $name, string $value): self {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function withBody($body): self {}
-}
-
-// WordPress sinks
-namespace WordPress;
-
-class WP_Http {
-    /**
-     * @psalm-taint-sink html $url
-     */
-    public function request(string $url, array $args = []): array {}
-}
-
-// Global PHP functions that are sinks
-/**
- * @psalm-taint-sink html $value
- */
-function header(string $header, bool $replace = true, int $response_code = 0): void {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function setcookie(string $name, string $value = "", int $expires = 0, string $path = "", string $domain = "", bool $secure = false, bool $httponly = false): bool {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function setrawcookie(string $name, string $value = "", int $expires = 0, string $path = "", string $domain = "", bool $secure = false, bool $httponly = false): bool {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function printf(string $format, ...$args): int {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function sprintf(string $format, ...$args): string {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function echo(string $value): void {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function print(string $value): int {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function file_put_contents(string $filename, $data, int $flags = 0, $context = null): int|false {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function fwrite($stream, string $data, int $length = null): int|false {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function curl_setopt($ch, int $option, $value): bool {}
-
-/**
- * @psalm-taint-sink html $value
- */
-function mail(string $to, string $subject, string $message, string $additional_headers = "", string $additional_params = ""): bool {}
-
-// Advanced HNP sinks
-/**
- * @psalm-taint-sink html $url
- */
-function wp_redirect(string $url, int $status = 302): void {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function wp_safe_redirect(string $url, int $status = 302): void {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function redirect(string $url, int $status = 302): void {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function safe_redirect(string $url, int $status = 302): void {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function redirect_to(string $url): void {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function redirect_away(string $url): void {}
-
-// Email sinks with URL construction
-/**
- * @psalm-taint-sink html $message
- */
-function wp_mail(string $to, string $subject, string $message, string $headers = '', array $attachments = []): bool {}
-
-/**
- * @psalm-taint-sink html $message
- */
-function mail_with_url(string $to, string $subject, string $message): bool {}
-
-// Template rendering sinks
-/**
- * @psalm-taint-sink html $content
- */
-function render_template(string $template, array $data = []): string {}
-
-/**
- * @psalm-taint-sink html $content
- */
-function echo_template(string $template, array $data = []): void {}
-
-/**
- * @psalm-taint-sink html $content
- */
-function include_template(string $template, array $data = []): void {}
-
-// API response sinks
-/**
- * @psalm-taint-sink html $url
- */
-function json_response(array $data, int $status = 200): string {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function api_response(array $data): string {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function xml_response(string $xml): string {}
-
-// Logging sinks
-/**
- * @psalm-taint-sink html $message
- */
-function log_url(string $message): void {}
-
-/**
- * @psalm-taint-sink html $message
- */
-function error_log_url(string $message): void {}
-
-/**
- * @psalm-taint-sink html $message
- */
-function debug_log(string $message): void {}
-
-// WordPress sinks
-/**
- * @psalm-taint-sink html $url
- */
-function wp_login_url(string $redirect = ''): string {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function wp_lostpassword_url(string $redirect = ''): string {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function wp_registration_url(): string {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function wp_logout_url(string $redirect = ''): string {}
-
-/**
- * @psalm-taint-sink html $url
- */
-function wp_safe_redirect(string $url): void {}
-
-/**
- * @psalm-taint-sink html $message
- */
-function wp_mail(string $to, string $subject, string $message, string $headers = '', array $attachments = []): bool {}
-
-// CodeIgniter sinks
-/**
- * @psalm-taint-sink html $uri
- */
-function redirect(string $uri, string $method = 'auto', int $code = null): void {}
-
-// Yii2 sinks
-namespace yii\web;
-
-class Response {
-    /**
-     * @psalm-taint-sink html $url
-     */
-    public function redirect(string $url, int $statusCode = 302): void {}
-}
-
-class User {
-    /**
-     * @psalm-taint-sink html $url
-     */
-    public function loginRequired(string $loginUrl = null): void {}
-}
-
-namespace yii\swiftmailer;
-
-class Message {
-    /**
-     * @psalm-taint-sink html $view
-     */
-    public function compose(string $view = null, array $params = []): self {}
-}

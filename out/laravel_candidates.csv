@@ -1,4 +1,0 @@
-rule_id,file_path,line_number,sink_type,score,method_name,header_name,class_name,message
-rules.discovery.discover-cookie-domain-like,frameworks/laravel/src/Illuminate/Http/Middleware/HandleCors.php,78,cookie,2,,,,
-rules.discovery.discover-cookie-domain-like,frameworks/laravel/src/Illuminate/Http/Middleware/HandleCors.php,85,cookie,2,,,,
-rules.discovery.discover-cookie-domain-like,frameworks/laravel/src/Illuminate/Http/Middleware/HandleCors.php,85,cookie,2,,,,

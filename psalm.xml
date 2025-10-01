@@ -3,13 +3,29 @@
     errorLevel="1"
     resolveFromConfigFile="true"
     allFunctionsGlobal="true"
+    useDocblockTypes="false"
+    phpVersion="8.3"
 >
     <projectFiles>
-        <directory name="frameworks" />
+        <directory name="." />
+        <ignoreFiles>
+            <directory name="frameworks/laravel/tests" />
+            <directory name="frameworks/laravel/src/Illuminate/Support/Testing/Fakes" />
+            <directory name="frameworks/laravel/src/Illuminate/Console" />
+            <directory name="frameworks/laravel/src/Illuminate/Database" />
+        </ignoreFiles>
     </projectFiles>
 
     <stubs>
         <file name="/home/rui/HNP_PHP/rules/psalm-stubs/taint_sources.phpstub" />
         <file name="/home/rui/HNP_PHP/rules/psalm-stubs/temp_sinks.phpstub" />
+        <file name="/home/rui/HNP_PHP/rules/psalm-stubs/framework_fixes.phpstub" />
     </stubs>
+
+    
+
+    <issueHandlers>
+        <InvalidDocblock errorLevel="suppress" />
+        <DocblockTypeContradiction errorLevel="suppress" />
+    </issueHandlers>
 </psalm>

@@ -8,7 +8,11 @@ import re
 from typing import List, Dict, Any
 
 def generate_psalm_stub(candidates: List[Dict[str, Any]]) -> str:
-    """Generate Psalm stub content for candidate sinks."""
+    """Generate Psalm stub content for candidate sinks.
+    Policy change: treat ALL candidate function calls as sinks.
+    If class_name present => method sink; otherwise => global function sink.
+    Unknown params => mark first three params ($a,$b,$c) as taint-sink.
+    """
     stub_content = "<?php\n"
     stub_content += "// Auto-generated temporary sink stubs\n"
     stub_content += "// Generated from candidate sink discovery\n\n"
@@ -17,40 +21,39 @@ def generate_psalm_stub(candidates: List[Dict[str, Any]]) -> str:
     seen_signatures = set()
     
     for candidate in candidates:
-        if int(candidate['score']) < 1:  # Skip low-scoring candidates
+        try:
+            method_name = (candidate.get('method_name') or '').strip()
+            class_name = (candidate.get('class_name') or '').strip()
+            func_name = (candidate.get('function_name') or '').strip()
+        except Exception:
             continue
-            
-        method_name = candidate['method_name']
-        class_name = candidate['class_name']
-        header_name = candidate['header_name']
-        sink_type = candidate['sink_type']
-        
-        # Generate signature based on sink type
-        if sink_type == "redirect" and method_name and header_name:
-            if header_name.lower() in ['"location"', "'location'", 'location']:
-                signature = f"{class_name}::{method_name}"
-                if signature not in seen_signatures:
-                    seen_signatures.add(signature)
-                    stub_content += generate_redirect_stub(class_name, method_name)
-        
-        elif sink_type == "cors" and method_name and header_name:
-            if "access-control-allow-origin" in header_name.lower():
-                signature = f"{class_name}::{method_name}"
-                if signature not in seen_signatures:
-                    seen_signatures.add(signature)
-                    stub_content += generate_cors_stub(class_name, method_name)
-        
-        elif sink_type == "cookie" and method_name:
-            if "domain" in method_name.lower():
-                signature = f"{class_name}::{method_name}"
-                if signature not in seen_signatures:
-                    seen_signatures.add(signature)
-                    stub_content += generate_cookie_stub(class_name, method_name)
+
+        # Prefer function_name when class is empty
+        if class_name and method_name:
+            signature = f"{class_name}::{method_name}"
+            if signature in seen_signatures:
+                continue
+            seen_signatures.add(signature)
+            stub_content += generate_generic_method_sink(class_name, method_name)
+        elif func_name:
+            signature = func_name
+            if signature in seen_signatures:
+                continue
+            seen_signatures.add(signature)
+            stub_content += generate_generic_function_sink(func_name)
+        elif method_name:  # method without class (fallback to global func)
+            signature = method_name
+            if signature in seen_signatures:
+                continue
+            seen_signatures.add(signature)
+            stub_content += generate_generic_function_sink(method_name)
     
+    # Always append framework-specific critical sinks (Laravel/Symfony)
+    stub_content += generate_fixed_framework_sinks()
     return stub_content
 
 def generate_redirect_stub(class_name: str, method_name: str) -> str:
-    """Generate stub for redirect-related methods."""
+    """(Deprecated) Kept for compatibility; not used after policy change."""
     # Extract namespace from class name if present
     if '\\' in class_name:
         namespace = '\\'.join(class_name.split('\\')[:-1])
@@ -70,7 +73,7 @@ def generate_redirect_stub(class_name: str, method_name: str) -> str:
     return stub
 
 def generate_cors_stub(class_name: str, method_name: str) -> str:
-    """Generate stub for CORS-related methods."""
+    """(Deprecated) Kept for compatibility; not used after policy change."""
     if '\\' in class_name:
         namespace = '\\'.join(class_name.split('\\')[:-1])
         class_short = class_name.split('\\')[-1]
@@ -89,7 +92,7 @@ def generate_cors_stub(class_name: str, method_name: str) -> str:
     return stub
 
 def generate_cookie_stub(class_name: str, method_name: str) -> str:
-    """Generate stub for cookie domain methods."""
+    """(Deprecated) Kept for compatibility; not used after policy change."""
     if '\\' in class_name:
         namespace = '\\'.join(class_name.split('\\')[:-1])
         class_short = class_name.split('\\')[-1]
@@ -106,6 +109,82 @@ def generate_cookie_stub(class_name: str, method_name: str) -> str:
     stub += f"}}\n\n"
     
     return stub
+
+def generate_generic_method_sink(class_name: str, method_name: str) -> str:
+    if '\\' in class_name:
+        namespace = '\\'.join(class_name.split('\\')[:-1])
+        class_short = class_name.split('\\')[-1]
+        stub = f"namespace {namespace};\n"
+    else:
+        class_short = class_name
+        stub = ""
+
+    stub += f"class {class_short} {{\n"
+    stub += f"    /**\n"
+    stub += f"     * @psalm-taint-sink html $a\n"
+    stub += f"     * @psalm-taint-sink html $b\n"
+    stub += f"     * @psalm-taint-sink html $c\n"
+    stub += f"     */\n"
+    stub += f"    public function {method_name}($a = null, $b = null, $c = null) {{}}\n"
+    stub += f"}}\n\n"
+    return stub
+
+def generate_generic_function_sink(function_name: str) -> str:
+    stub = ""
+    # global namespace function
+    stub += f"/**\n"
+    stub += f" * @psalm-taint-sink html $a\n"
+    stub += f" * @psalm-taint-sink html $b\n"
+    stub += f" * @psalm-taint-sink html $c\n"
+    stub += f" */\n"
+    stub += f"function {function_name}($a = null, $b = null, $c = null) {{}}\n\n"
+    return stub
+
+def generate_fixed_framework_sinks() -> str:
+    """Append explicit sinks for Laravel/Symfony redirect/url APIs and header()."""
+    parts: List[str] = []
+    # Illuminate\\Http\\Response::header
+    parts.append("namespace Illuminate\\Http;\n")
+    parts.append("class Response {\n")
+    parts.append("    /**\n")
+    parts.append("     * @psalm-taint-sink html $name\n")
+    parts.append("     * @psalm-taint-sink html $value\n")
+    parts.append("     */\n")
+    parts.append("    public function header($name = null, $value = null, $replace = true) {}\n")
+    parts.append("}\n\n")
+
+    # Symfony\\Component\\HttpFoundation\\RedirectResponse::__construct
+    parts.append("namespace Symfony\\Component\\HttpFoundation;\n")
+    parts.append("class RedirectResponse {\n")
+    parts.append("    /**\n")
+    parts.append("     * @psalm-taint-sink html $url\n")
+    parts.append("     */\n")
+    parts.append("    public function __construct($url = '', $status = 302, $headers = []) {}\n")
+    parts.append("}\n\n")
+
+    # Illuminate Routing UrlGenerator and Redirector
+    parts.append("namespace Illuminate\\Routing;\n")
+    parts.append("class UrlGenerator {\n")
+    parts.append("    /** @psalm-taint-sink html $a */ public function to($a = null, $b = null, $c = null) {}\n")
+    parts.append("    /** @psalm-taint-sink html $a */ public function route($a = null, $b = null, $c = null) {}\n")
+    parts.append("    /** @psalm-taint-sink html $a */ public function action($a = null, $b = null, $c = null) {}\n")
+    parts.append("}\n\n")
+    parts.append("class Redirector {\n")
+    parts.append("    /** @psalm-taint-sink html $a */ public function to($a = null, $b = null, $c = null) {}\n")
+    parts.append("    /** @psalm-taint-sink html $a */ public function route($a = null, $b = null, $c = null) {}\n")
+    parts.append("    /** @psalm-taint-sink html $a */ public function action($a = null, $b = null, $c = null) {}\n")
+    parts.append("}\n\n")
+
+    # Global header() sink
+    parts.append("namespace {\n")
+    parts.append("/**\n")
+    parts.append(" * @psalm-taint-sink html $a\n")
+    parts.append(" * @psalm-taint-sink html $b\n")
+    parts.append(" */\n")
+    parts.append("function header($a = null, $b = null, $c = null) {}\n")
+    parts.append("}\n\n")
+
+    return "".join(parts)
 
 def main():
     if len(sys.argv) != 2:

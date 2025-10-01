@@ -35,3 +35,23 @@ rules:
       metavariable-pattern:
         - metavariable: $REDIRECT
           pattern: /.*RedirectResponse.*/i
+  pattern-either:
+    - pattern: $U = $SCHEME . "://" . $HOST . $PATH
+    - pattern: $U = sprintf("%s://%s%s", $SCHEME, $HOST, $PATH)
+    - pattern: $U = "http://" . $HOST . $PATH
+    - pattern: $U = "https://" . $HOST . $PATH
+    - pattern: $U = $HOST . $PATH
+    - pattern: $URLGEN->to($PATH)
+    - pattern: $URLGEN->route($NAME)
+    - pattern: $URLGEN->action($CONTROLLER)
+    - pattern: url($PATH)
+    - pattern: route($NAME)
+    - pattern: action($CONTROLLER)
+    - pattern: redirect($URL)
+    - pattern: redirect()->to($URL)
+    - pattern: redirect()->route($NAME)
+    - pattern: redirect()->action($CONTROLLER)
+    - pattern: new $REDIRECT($URL, ...)
+      metavariable-pattern:
+        - metavariable: $REDIRECT
+          pattern: /.*RedirectResponse.*/i

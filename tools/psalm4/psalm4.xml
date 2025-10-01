@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<psalm errorLevel="1" resolveFromConfigFile="true" allFunctionsGlobal="true" useDocblockTypes="false">
+  <projectFiles>
+    <file name="/home/rui/HNP_PHP/results/laravel/harness/laravel_hnp_harness.php" />
+    <file name="/home/rui/HNP_PHP/results/laravel/harness/real_sink.php" />
+  </projectFiles>
+  <stubs>
+    <file name="/home/rui/HNP_PHP/rules/psalm-stubs/taint_sources.phpstub" />
+    <file name="/home/rui/HNP_PHP/rules/psalm-stubs/temp_sinks.phpstub" />
+    <file name="/home/rui/HNP_PHP/rules/psalm-stubs/framework_fixes.phpstub" />
+  </stubs>
+</psalm>

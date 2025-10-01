@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<psalm errorLevel="1" resolveFromConfigFile="true" allFunctionsGlobal="true" useDocblockTypes="false">
+  <projectFiles>
+    <file name="/home/rui/HNP_PHP/results/laravel/harness/exploration_harness.php" />
+  </projectFiles>
+  <stubs>
+    <file name="/home/rui/HNP_PHP/rules/psalm-stubs/open_exploration.phpstub" />
+  </stubs>
+</psalm>

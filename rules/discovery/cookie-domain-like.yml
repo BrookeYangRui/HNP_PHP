@@ -18,3 +18,12 @@ rules:
       metavariable-pattern:
         - metavariable: $M
           pattern: /(set|with)[A-Za-z]*Domain/i
+  pattern-either:
+    - pattern: setcookie($NAME, $VALUE, ..., $OPTS)
+      metavariable-pattern:
+        - metavariable: $OPTS
+          pattern: /.*('|"|)domain('|"|)\s*=>\s*.*/
+    - pattern: $COOKIE->$M($D)
+      metavariable-pattern:
+        - metavariable: $M
+          pattern: /(set|with)[A-Za-z]*Domain/i

@@ -21,102 +21,150 @@ class ServerRequestInterface {
     public function getHeaderLine(string $name): string {}
 }
 
-// Symfony Request methods
+// Symfony Request methods - HNP attack vectors
 namespace Symfony\Component\HttpFoundation;
 
 class Request {
     /**
      * @psalm-taint-source input
+     * Returns the request's host. Reads $_SERVER['HTTP_HOST'] directly.
+     * Source: https://github.com/symfony/http-foundation/blob/6.0/Request.php#L1060
      */
     public function getHost(): string {}
     
     /**
      * @psalm-taint-source input
+     * Returns the HTTP host with port
      */
     public function getHttpHost(): string {}
     
     /**
      * @psalm-taint-source input
+     * Gets a server variable - can access $_SERVER['HTTP_HOST']
      */
     public function getServer(string $key, $default = null) {}
-}
-
-// Laravel Request methods
-namespace Illuminate\Http;
-
-class Request {
-    /**
-     * @psalm-taint-source input
-     */
-    public function getHost(): string {}
     
     /**
      * @psalm-taint-source input
-     */
-    public function host(): string {}
-    
-    /**
-     * @psalm-taint-source input
-     */
-    public function getHttpHost(): string {}
-    
-    /**
-     * @psalm-taint-source input
+     * Returns scheme://host - calls getHost() internally
      */
     public function getSchemeAndHttpHost(): string {}
     
     /**
      * @psalm-taint-source input
+     * Returns the full URI
+     */
+    public function getUri(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     * Returns the request scheme
+     */
+    public function getScheme(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     * Returns the request port
+     */
+    public function getPort(): int {}
+}
+
+// Laravel Request methods - HNP attack vectors
+namespace Illuminate\Http;
+
+class Request {
+    /**
+     * @psalm-taint-source input
+     * Returns the request's host. This method reads $_SERVER['HTTP_HOST'] directly.
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Http/Request.php
+     */
+    public function getHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     * Alias for getHost()
+     */
+    public function host(): string {}
+
+    /**
+     * @psalm-taint-source input
+     * Returns the HTTP host with port
+     */
+    public function getHttpHost(): string {}
+
+    /**
+     * @psalm-taint-source input
+     * Returns scheme://host - calls getHost() internally
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Http/Request.php
+     */
+    public function getSchemeAndHttpHost(): string {}
+
+    /**
+     * @psalm-taint-source input
+     * Returns the root URL - calls getSchemeAndHttpHost()
      */
     public function root(): string {}
-    
+
     /**
      * @psalm-taint-source input
+     * Returns the current URL without query string
      */
     public function url(): string {}
-    
+
     /**
      * @psalm-taint-source input
+     * Returns the full URL including query string - calls getSchemeAndHttpHost()
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Http/Request.php
      */
     public function fullUrl(): string {}
     
     /**
      * @psalm-taint-source input
+     * Checks if the full URL matches a pattern
      */
     public function fullUrlIs(string $pattern): bool {}
     
     /**
      * @psalm-taint-source input
+     * Checks if the request matches a pattern
      */
     public function is(string $pattern): bool {}
-    
+
     /**
      * @psalm-taint-source input
+     * Gets a header value
      */
     public function header(string $key = null, $default = null) {}
-    
+
     /**
      * @psalm-taint-source input
+     * Gets a server variable - can access $_SERVER['HTTP_HOST']
      */
     public function server(string $key = null, $default = null) {}
 }
 
-// Laravel Routing - URL Generation
+// Laravel Routing - URL Generation (HNP sinks)
 namespace Illuminate\Routing;
 
 class UrlGenerator {
     /**
      * @psalm-taint-source input
+     * Generates absolute URL - calls Request::getSchemeAndHttpHost()
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Routing/UrlGenerator.php
      */
     public function to(string $path): string {}
     
     /**
      * @psalm-taint-source input
+     * Generates URL from route name - calls toRoute() → to()
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Routing/UrlGenerator.php
      */
     public function route(string $name): string {}
     
     /**
      * @psalm-taint-source input
+     * Generates URL from controller action - calls to()
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Routing/UrlGenerator.php
      */
     public function action(string $controller): string {}
 }
@@ -124,16 +172,22 @@ class UrlGenerator {
 class Redirector {
     /**
      * @psalm-taint-source input
+     * Creates redirect response - calls UrlGenerator::to()
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Routing/Redirector.php
      */
     public function to(string $url): string {}
     
     /**
      * @psalm-taint-source input
+     * Creates redirect to route - calls UrlGenerator::route()
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Routing/Redirector.php
      */
     public function route(string $name): string {}
     
     /**
      * @psalm-taint-source input
+     * Creates redirect to controller action - calls UrlGenerator::action()
+     * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Routing/Redirector.php
      */
     public function action(string $controller): string {}
 }
@@ -264,6 +318,16 @@ function getClientIp(): string {
 }
 
 /**
+ * @psalm-taint-sink input $v
+ */
+function hnp_test_sink(string $v): void {}
+
+/**
+ * @psalm-taint-source input
+ */
+function hnp_test_source(): string { return 'tainted'; }
+
+/**
  * @psalm-taint-sink html $value
  */
 function withHeader(string $name, string $value): string {
@@ -310,6 +374,35 @@ function home_url(string $path = ''): string {
 $HTTP_HOST = 'tainted input';
 $SERVER_NAME = 'tainted input';
 
+// Laravel Global Helper Functions - HNP attack vectors
+/**
+ * @psalm-taint-source input
+ * Global helper for route() - calls app('url')->route()
+ * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Foundation/helpers.php
+ */
+function route(string $name, array $parameters = [], bool $absolute = true): string {}
+
+/**
+ * @psalm-taint-source input
+ * Global helper for url()->to() - calls UrlGenerator::to()
+ * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Foundation/helpers.php
+ */
+function url(string $path = null, array $parameters = [], bool $secure = null): string {}
+
+/**
+ * @psalm-taint-source input
+ * Global helper for action() - calls UrlGenerator::action()
+ * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Foundation/helpers.php
+ */
+function action(string $name, array $parameters = [], bool $absolute = true): string {}
+
+/**
+ * @psalm-taint-source input
+ * Global helper for redirect()->route() - calls Redirector::route()
+ * Source: https://github.com/laravel/framework/blob/10.x/src/Illuminate/Foundation/helpers.php
+ */
+function redirect(string $to = null, int $status = 302, array $headers = [], bool $secure = null): string {}
+
 // Additional PHP frameworks
 namespace Symfony\Component\HttpFoundation;
 
@@ -346,15 +439,7 @@ class Request {
 }
 
 class Response {
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function headers->set(string $key, string $value): void {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function headers->add(string $key, string $value): void {}
+    // escape annotations removed for flow preservation
 }
 
 // CodeIgniter 3.x & 4.x
@@ -429,15 +514,7 @@ function current_url(): string {
 }
 
 class Response {
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function setHeader(string $name, string $value): self {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function setCookie(string $name, string $value, array $options = []): self {}
+    // escape annotations removed for flow preservation
 }
 
 // CakePHP
@@ -461,113 +538,63 @@ class ServerRequest {
 }
 
 class Response {
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function withHeader(string $name, string $value): self {}
-    
-    /**
-     * @psalm-taint-sink html $value
-     */
-    public function withAddedHeader(string $name, string $value): self {}
+    // escape annotations removed for flow preservation
 }
 
 // Sanitizer functions
-/**
- * @psalm-taint-escape html $value
- */
 function filter_var($value, int $filter = FILTER_DEFAULT, $options = null) {
     return $value;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function htmlspecialchars(string $string, int $flags = ENT_COMPAT, string $encoding = 'UTF-8', bool $double_encode = true): string {
     return $string;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function htmlentities(string $string, int $flags = ENT_COMPAT, string $encoding = 'UTF-8', bool $double_encode = true): string {
     return $string;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function strip_tags(string $string, string $allowed_tags = null): string {
     return $string;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function preg_replace($pattern, $replacement, $subject, int $limit = -1, int &$count = null) {
     return $subject;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function str_replace($search, $replace, $subject, int &$count = null) {
     return $subject;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function trim(string $string, string $characters = " \n\r\t\v\0"): string {
     return $string;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function strtolower(string $string): string {
     return $string;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function strtoupper(string $string): string {
     return $string;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function substr(string $string, int $start, int $length = null): string {
     return $string;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function parse_url(string $url, int $component = -1) {
     return $url;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function gethostbyname(string $hostname): string {
     return $hostname;
 }
 
-/**
- * @psalm-taint-escape html
- */
 function gethostbyaddr(string $ip_address): string {
     return $ip_address;
 }
 
 // Advanced sanitizers for HNP
-/**
- * @psalm-taint-escape html $host
- */
 function validateHost(string $host): string {
     // Strong host validation - only allow alphanumeric, dots, hyphens
     if (preg_match('/^[a-zA-Z0-9.-]+$/', $host) && strlen($host) <= 253) {
@@ -576,9 +603,6 @@ function validateHost(string $host): string {
     return '';
 }
 
-/**
- * @psalm-taint-escape html $host
- */
 function sanitizeHost(string $host): string {
     // Remove port, convert to lowercase, trim
     $host = strtolower(trim(explode(':', $host)[0]));
@@ -587,9 +611,6 @@ function sanitizeHost(string $host): string {
     return $host;
 }
 
-/**
- * @psalm-taint-escape html $url
- */
 function validateUrl(string $url): string {
     $parsed = parse_url($url);
     if ($parsed && isset($parsed['host'])) {
@@ -601,9 +622,6 @@ function validateUrl(string $url): string {
     return '';
 }
 
-/**
- * @psalm-taint-escape html $host
- */
 function whitelistHost(string $host, array $allowedHosts): string {
     $host = sanitizeHost($host);
     if (in_array($host, $allowedHosts, true)) {
@@ -612,9 +630,6 @@ function whitelistHost(string $host, array $allowedHosts): string {
     return '';
 }
 
-/**
- * @psalm-taint-escape html $host
- */
 function normalizeHost(string $host): string {
     // Remove port, convert to lowercase, remove trailing dot
     $host = strtolower(trim(explode(':', $host)[0]));
@@ -626,9 +641,6 @@ function normalizeHost(string $host): string {
     return '';
 }
 
-/**
- * @psalm-taint-escape html $url
- */
 function buildSafeUrl(string $scheme, string $host, string $path = '/'): string {
     $host = sanitizeHost($host);
     if (!$host || !filter_var($host, FILTER_VALIDATE_DOMAIN)) {
@@ -637,9 +649,6 @@ function buildSafeUrl(string $scheme, string $host, string $path = '/'): string 
     return $scheme . '://' . $host . $path;
 }
 
-/**
- * @psalm-taint-escape html $host
- */
 function isTrustedHost(string $host, array $trustedHosts): bool {
     $host = sanitizeHost($host);
     foreach ($trustedHosts as $trusted) {
@@ -650,11 +659,74 @@ function isTrustedHost(string $host, array $trustedHosts): bool {
     return false;
 }
 
-/**
- * @psalm-taint-escape html $host
- */
 function getTrustedHost(string $host, array $trustedHosts): string {
     if (isTrustedHost($host, $trustedHosts)) {
+        return sanitizeHost($host);
+    }
+    return '';
+}
+
+// Laravel Trusted Hosts - Security Guards
+/**
+ * Laravel's trusted hosts validation
+ * Source: https://laravel.com/docs/12.x/requests#configuring-trusted-hosts
+ */
+function isLaravelTrustedHost(string $host): bool {
+    $trustedHosts = config('app.trusted_hosts', []);
+    $host = strtolower(trim($host));
+    foreach ($trustedHosts as $trusted) {
+        if ($host === $trusted || fnmatch($trusted, $host)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Laravel's trusted hosts sanitizer
+ */
+function getLaravelTrustedHost(string $host): string {
+    if (isLaravelTrustedHost($host)) {
+        return strtolower(trim($host));
+    }
+    return '';
+}
+
+// Laravel Trusted Proxies - Security Guards
+/**
+ * Laravel's trusted proxies validation
+ * Source: https://laravel.com/docs/12.x/requests#configuring-trusted-proxies
+ */
+function isLaravelTrustedProxy(string $ip): bool {
+    $trustedProxies = config('app.trusted_proxies', []);
+    return in_array($ip, $trustedProxies, true);
+}
+
+/**
+ * Laravel's trusted proxies sanitizer
+ */
+function getLaravelTrustedProxyHost(string $host): string {
+    if (isLaravelTrustedProxy($host)) {
+        return sanitizeHost($host);
+    }
+    return '';
+}
+
+// Symfony Trusted Proxies - Security Guards
+/**
+ * Symfony's trusted proxies validation
+ * Source: https://symfony.com/doc/current/deployment/proxies.html
+ */
+function isSymfonyTrustedProxy(string $ip): bool {
+    // Symfony trusted proxies configuration
+    return false; // Implementation depends on Symfony configuration
+}
+
+/**
+ * Symfony's trusted proxies sanitizer
+ */
+function getSymfonyTrustedProxyHost(string $host): string {
+    if (isSymfonyTrustedProxy($host)) {
         return sanitizeHost($host);
     }
     return '';

@@ -27,3 +27,17 @@ rules:
     - pattern: $CORS->addActualRequestHeaders($RESP, $REQ)
     - pattern: $CORS->handlePreflightRequest($REQ)
     - pattern: $CORS->varyHeader($RESP, ...)
+  pattern-either:
+    - pattern: $RESP->$M($H, $X)
+      metavariable-pattern:
+        - metavariable: $M
+          pattern: /(withHeader|set|addHeader(Line)?|header)/i
+        - metavariable: $H
+          pattern: /^["']Access-Control-Allow-Origin["']$/i
+    - pattern: $HEADERS[$H] = $X
+      metavariable-pattern:
+        - metavariable: $H
+          pattern: /^["']Access-Control-Allow-Origin["']$/i
+    - pattern: $CORS->addActualRequestHeaders($RESP, $REQ)
+    - pattern: $CORS->handlePreflightRequest($REQ)
+    - pattern: $CORS->varyHeader($RESP, ...)

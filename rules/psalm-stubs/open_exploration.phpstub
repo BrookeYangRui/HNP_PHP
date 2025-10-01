@@ -1,0 +1,52 @@
+<?php
+// 开放式 HNP 探索 - 不限制任何 sink
+// 目标：发现所有使用 host 的 API
+
+namespace Illuminate\Http;
+class Request {
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function host(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getHttpHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function getSchemeAndHttpHost(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function fullUrl(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function url(): string {}
+    
+    /**
+     * @psalm-taint-source input
+     */
+    public function root(): string {}
+}
+
+// 不定义任何 sink，让污点自由传播
+// 这样可以看到 host 数据流到哪里去
+
+// 全局函数
+namespace {
+    /**
+     * @psalm-taint-source input
+     */
+    function getHost(): string {}
+}

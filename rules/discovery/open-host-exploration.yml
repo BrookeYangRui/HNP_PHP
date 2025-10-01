@@ -1,0 +1,40 @@
+rules:
+- id: discover-all-host-usage
+  languages: [php]
+  severity: INFO
+  message: "Host usage detected: ${{API_CALL}}"
+  mode: taint
+  pattern-sources:
+    - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $REQ->getHost()
+    - pattern: $REQ->host()
+    - pattern: $REQ->getHttpHost()
+    - pattern: $REQ->getSchemeAndHttpHost()
+    - pattern: $REQ->fullUrl()
+    - pattern: $REQ->url()
+    - pattern: $REQ->root()
+  pattern-sinks:
+    # 不限制任何 sink，让污点传播到所有地方
+    - pattern: $ANY
+  pattern-either:
+    # 捕获所有使用 host 的地方
+    - pattern: $VAR = $HOST
+    - pattern: $VAR = $HOST . $REST
+    - pattern: $VAR = $REST . $HOST
+    - pattern: $VAR = $REST . $HOST . $REST2
+    - pattern: $OBJ->$METHOD($HOST)
+    - pattern: $OBJ->$METHOD($REST, $HOST)
+    - pattern: $OBJ->$METHOD($HOST, $REST)
+    - pattern: $FUNC($HOST)
+    - pattern: $FUNC($REST, $HOST)
+    - pattern: $FUNC($HOST, $REST)
+    - pattern: return $HOST
+    - pattern: return $REST . $HOST
+    - pattern: return $HOST . $REST
+    - pattern: echo $HOST
+    - pattern: echo $REST . $HOST
+    - pattern: echo $HOST . $REST
+    - pattern: print $HOST
+    - pattern: print $REST . $HOST
+    - pattern: print $HOST . $REST
