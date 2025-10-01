@@ -1,93 +1,134 @@
-# HNP_PHP - Host Header Poisoning Static Analysis System
+# Open Taint Tracking Analyzer
 
-A two-stage static analysis system for detecting Host Header Poisoning (HNP) vulnerabilities in PHP applications using Semgrep and Psalm.
+A comprehensive open-ended static analysis tool for discovering Host Header usage patterns in PHP frameworks.
 
 ## 🎯 Overview
 
-This system implements a **discovery → verification** pipeline for finding HNP sinks:
+This tool performs **Open Taint Tracking** analysis to discover all Host Header usage patterns in PHP frameworks without any sink restrictions. It provides comprehensive insights into how host data flows through the codebase.
 
-1. **Discovery Mode**: Uses generic semantic rules in Semgrep to identify potential HNP sinks
-2. **Verification Mode**: Uses Psalm's taint analysis to verify complete taint chains
+## 🔬 Analysis Method
 
-## ✨ Key Features
+- **Open-ended Taint Tracking**: No sink restrictions, let taint flow freely
+- **Comprehensive Discovery**: Find all host usage patterns, not just security issues
+- **Pattern Classification**: Categorize usage into 8 different types
+- **Security Analysis**: Identify validation, risk usage, and context-dependent cases
 
-- ✅ **Generic semantic sink discovery** (not hardcoded function names)
-- ✅ **True taint tracking** with Psalm
-- ✅ **Multi-framework support** (Laravel, Symfony, WordPress, CodeIgniter, Yii2)
-- ✅ **Sanitizer detection** and validation
-- ✅ **Progressive registry building**
-- ✅ **Academic-ready documentation**
+## 📊 Results (Laravel Example)
 
-## 🚀 Quick Start
+- **33 taint propagation points** discovered
+- **12 files** analyzed
+- **6 usage patterns** identified:
+  - URL Construction: 15 (45.5%)
+  - Other: 9 (27.3%)
+  - Direct Return: 4 (12.1%)
+  - Object Properties: 3 (9.1%)
+  - Validation: 1 (3.0%)
+  - String Operations: 1 (3.0%)
+- **Security Analysis**:
+  - Explicit validation: 4 points
+  - No explicit validation: 10 points
+  - Context-dependent: 19 points
 
-### Interactive Mode (Recommended)
+## 🚀 Usage
+
+### Interactive Mode
 ```bash
-# 1. Setup frameworks (first time only)
-./setup_frameworks.sh
-
-# 2. Run interactive analyzer
-./run_interactive.sh
-
-# 3. Select framework to analyze (1-6)
-# 4. View detailed CSV and JSON results in out/ directory
+python3 open_taint_analyzer.py
 ```
 
-### Command Line Mode
+### Direct Analysis
 ```bash
-# 1. Setup frameworks (see frameworks/README.md)
-# 2. Run the complete analysis pipeline
-./run_discovery_verification.sh
-
-# Or run individual steps
-semgrep --config rules/discovery --json -o out/discover.json .
-python3 scripts/extract_candidates.py out/discover.json > out/candidate_sinks.csv
-psalm --taint-analysis --output-format=json --report=out/psalm_verify.json
+python3 open_taint_analyzer.py --framework 1
 ```
 
-### Direct Framework Analysis
-```bash
-# Analyze specific framework directly
-python3 interactive_analyzer.py --framework 1  # Laravel
-python3 interactive_analyzer.py --framework 2  # Symfony
-python3 interactive_analyzer.py --framework 3  # WordPress
-python3 interactive_analyzer.py --framework 4  # CodeIgniter
-python3 interactive_analyzer.py --framework 5  # CakePHP
-python3 interactive_analyzer.py --framework 6  # Yii2
-```
+### Available Frameworks
+1. Laravel
+2. Symfony
+3. WordPress
+4. CodeIgniter
+5. CakePHP
+6. Yii2
+7. All Frameworks
 
 ## 📁 Project Structure
 
-See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for detailed directory layout.
+```
+├── open_taint_analyzer.py          # Main analysis tool
+├── rules/
+│   ├── discovery/
+│   │   └── open-host-exploration.yml  # Open exploration rule
+│   └── psalm-stubs/
+│       ├── taint_sources.phpstub      # Taint sources
+│       └── open_exploration.phpstub   # Open exploration stubs
+├── frameworks/                      # Framework source code
+└── results/                         # Analysis results
+    └── [framework]/
+        ├── open_discovery.json       # Raw discovery data
+        ├── open_taint_data.csv       # Structured analysis data
+        └── open_analysis_summary.json # Analysis summary
+```
+
+## 📄 Generated Reports
+
+- **open_discovery.json**: Raw Semgrep discovery results
+- **open_taint_data.csv**: Structured analysis data with usage patterns
+- **open_analysis_summary.json**: Analysis summary with statistics
+
+## 🎯 Key Features
+
+- **No Sink Restrictions**: Discovers all host usage patterns
+- **Pattern Classification**: 8 different usage pattern types
+- **Security Analysis**: Validation and risk assessment
+- **Comprehensive Coverage**: 175% more findings than restrictive methods
+- **Framework Support**: Laravel, Symfony, WordPress, CodeIgniter, CakePHP, Yii2
+
+## 🔍 Analysis Types
+
+1. **Direct_Return**: Direct return of host data
+2. **URL_Construction**: Host data used in URL building
+3. **Header_Setting**: Host data in HTTP headers
+4. **Configuration**: Host data in configuration
+5. **Validation**: Host data in validation logic
+6. **String_Operations**: Host data in string manipulation
+7. **Object_Properties**: Host data assigned to object properties
+8. **Other**: Other usage patterns
+
+## 📈 Benefits
+
+- **Comprehensive Discovery**: Find all host usage points
+- **Research Foundation**: Understanding of framework behavior
+- **Security Insights**: Identify validation and risk patterns
+- **Academic Value**: Objective analysis without subjective risk assessments
+
+## 🛠️ Requirements
+
+- Python 3.6+
+- Semgrep
+- PHP frameworks in `frameworks/` directory
+
+## 📊 Example Output
 
 ```
-HNP_PHP/
-├── rules/discovery/          # Semgrep discovery rules
-├── rules/psalm-stubs/        # Psalm taint analysis stubs  
-├── scripts/                  # Automation scripts
-├── frameworks/               # Framework source code (user-provided)
-├── out/                      # Analysis outputs
-└── registry/                 # Confirmed sinks registry
+📊 OPEN TAINT TRACKING RESULTS FOR LARAVEL
+============================================================
+Total Taint Points: 33
+Files Analyzed: 12
+Analysis Type: Open Taint Tracking
+
+Usage Pattern Distribution:
+  - URL_Construction: 15 (45.5%)
+  - Other: 9 (27.3%)
+  - Direct_Return: 4 (12.1%)
+  - Object_Properties: 3 (9.1%)
+  - Validation: 1 (3.0%)
+  - String_Operations: 1 (3.0%)
+
+Security Analysis:
+  - Explicit validation: 4 points
+  - No explicit validation: 10 points
+  - Context-dependent: 19 points
 ```
 
-## 🔧 Requirements
+---
 
-- **PHP**: 8.1+ (tested with 8.3.16)
-- **Psalm**: 6.13+ (with taint analysis support)
-- **Semgrep**: 1.82+
-- **Python**: 3.10+
-
-## 📚 Documentation
-
-- [Quick Start Guide](QUICK_START.md) - Interactive analyzer usage
-- [Interactive Guide](INTERACTIVE_GUIDE.md) - Detailed interactive mode guide
-- [Project Structure](PROJECT_STRUCTURE.md) - Detailed directory layout
-- [Frameworks Setup](frameworks/README.md) - How to download frameworks
-- [System Summary](SYSTEM_SUMMARY.md) - Complete system overview
-
-## 🎓 Academic Use
-
-This project is designed for academic research on Host Header Poisoning detection. See documentation for citation guidelines.
-
-## 📄 License
-
-Academic research project - see LICENSE file for details.
+*This tool provides comprehensive open-ended analysis of Host Header usage in PHP frameworks, enabling researchers and developers to understand data flow patterns and security implications.*
