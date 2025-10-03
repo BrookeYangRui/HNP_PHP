@@ -1,6 +1,6 @@
 <?php
-// 开放式 HNP 探索 - 不限制任何 sink
-// 目标：发现所有使用 host 的 API
+// Open HNP exploration - do not restrict any sink
+// Goal: discover all APIs that use host
 
 namespace Illuminate\Http;
 class Request {
@@ -40,10 +40,10 @@ class Request {
     public function root(): string {}
 }
 
-// 不定义任何 sink，让污点自由传播
-// 这样可以看到 host 数据流到哪里去
+// Do not define any sink; let taint freely propagate
+// This helps observe where host data flows to
 
-// 全局函数
+// Global functions
 namespace {
     /**
      * @psalm-taint-source input

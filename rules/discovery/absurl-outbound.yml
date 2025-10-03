@@ -13,7 +13,7 @@ rules:
     - pattern: $REQ->getSchemeAndHttpHost()
     - pattern: $REQ->fullUrl()
   pattern-sinks:
-    # 构造 scheme://host/...（无 API 名）
+    # Build scheme://host/... (no API name)
     - pattern: $U = $SCHEME . "://" . $HOST . $PATH
     - pattern: $U = sprintf("%s://%s%s", $SCHEME, $HOST, $PATH)
     # Laravel URL generation

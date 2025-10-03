@@ -37,13 +37,13 @@ class OpenTaintAnalyzer:
     def show_menu(self):
         """Display the interactive menu"""
         print("\n" + "="*60)
-        print("🔬 Open Taint Tracking Analyzer")
+        print("Open Taint Tracking Analyzer")
         print("="*60)
         print("Select a framework to analyze:")
         print()
         
         for key, framework in self.frameworks.items():
-            status = "✅ Available" if self.is_framework_available(framework["path"]) else "❌ Not found"
+            status = "Available" if self.is_framework_available(framework["path"]) else "Not found"
             print(f"  {key}. {framework['name']} - {framework['description']} [{status}]")
         
         print()
@@ -76,7 +76,7 @@ class OpenTaintAnalyzer:
                 elif choice in self.frameworks:
                     return choice
                 else:
-                    print("❌ Invalid choice. Please select 0-7.")
+            print("Invalid choice. Please select 0-7.")
             except KeyboardInterrupt:
                 return None
     
@@ -86,45 +86,45 @@ class OpenTaintAnalyzer:
         framework_name = framework["name"]
         framework_path = framework["path"]
         
-        print(f"\n🚀 Starting Open Taint Tracking analysis of {framework_name}...")
-        print(f"📁 Target path: {self.frameworks_dir / framework_path}")
+        print(f"\nStarting Open Taint Tracking analysis of {framework_name}...")
+        print(f"Target path: {self.frameworks_dir / framework_path}")
         
         return self.run_open_analysis(framework_path, framework_name)
     
     def run_open_analysis(self, framework_path, framework_name):
         """Run open-ended taint tracking analysis"""
-        print(f"\n🔬 Running Open Taint Tracking Analysis...")
+        print(f"\nRunning Open Taint Tracking Analysis...")
         
         # Phase 1: Open Semgrep Discovery
-        print(f"\n📋 Phase 1: Open Taint Source Discovery")
+        print(f"\nPhase 1: Open Taint Source Discovery")
         print("-" * 50)
         discovery_file = self.run_open_semgrep_discovery(framework_path, framework_name)
         if not discovery_file:
-            print("❌ Open analysis failed at discovery phase")
+            print("Open analysis failed at discovery phase")
             return False
         
         # Phase 2: Open Taint Flow Analysis
-        print(f"\n📋 Phase 2: Open Taint Flow Analysis")
+        print(f"\nPhase 2: Open Taint Flow Analysis")
         print("-" * 50)
         flow_analysis = self.analyze_open_taint_flow(discovery_file, framework_name)
         if not flow_analysis:
-            print("❌ Open analysis failed at flow analysis phase")
+            print("Open analysis failed at flow analysis phase")
             return False
         
         # Phase 3: Open Security Analysis
-        print(f"\n📋 Phase 3: Open Security Analysis")
+        print(f"\nPhase 3: Open Security Analysis")
         print("-" * 50)
         security_analysis = self.analyze_open_security(discovery_file, framework_name)
         if not security_analysis:
-            print("❌ Open analysis failed at security analysis phase")
+            print("Open analysis failed at security analysis phase")
             return False
         
         # Phase 4: Generate Open Reports
-        print(f"\n📋 Phase 4: Generate Open Reports")
+        print(f"\nPhase 4: Generate Open Reports")
         print("-" * 50)
         open_reports = self.generate_open_reports(discovery_file, flow_analysis, security_analysis, framework_name)
         if not open_reports:
-            print("❌ Open analysis failed at report generation phase")
+            print("Open analysis failed at report generation phase")
             return False
         
         # Display open results
@@ -133,17 +133,17 @@ class OpenTaintAnalyzer:
     
     def run_open_semgrep_discovery(self, framework_path, framework_name):
         """Run open-ended Semgrep discovery"""
-        print(f"🔍 Running open Semgrep discovery on {framework_name}...")
+        print(f"Running open Semgrep discovery on {framework_name}...")
         
         target_path = self.frameworks_dir / framework_path
         if not target_path.exists():
-            print(f"❌ Framework path not found: {target_path}")
+            print(f"Framework path not found: {target_path}")
             return None
         
         # Use open exploration rule
         rule_file = self.project_root / "rules" / "discovery" / "open-host-exploration.yml"
         if not rule_file.exists():
-            print(f"❌ Open exploration rule not found: {rule_file}")
+            print(f"Open exploration rule not found: {rule_file}")
             return None
         
         results_dir = self.results_dir / framework_name.lower()
@@ -155,6 +155,7 @@ class OpenTaintAnalyzer:
             "semgrep",
             "--config", str(rule_file),
             "--json",
+            "--no-git-ignore",
             str(target_path)
         ]
         
@@ -165,30 +166,30 @@ class OpenTaintAnalyzer:
             
             if result.returncode == 0:
                 discovery_file.write_text(result.stdout)
-                print(f"✅ Open discovery completed. Results saved to {discovery_file}")
-                print(f"⏱ Took {discovery_time:.2f}s")
+                print(f"Open discovery completed. Results saved to {discovery_file}")
+                print(f"Took {discovery_time:.2f}s")
                 return discovery_file
             else:
-                print(f"❌ Open discovery failed: {result.stderr}")
+                print(f"Open discovery failed: {result.stderr}")
                 return None
                 
         except subprocess.TimeoutExpired:
-            print("⏰ Open discovery timed out")
+            print("Open discovery timed out")
             return None
         except Exception as e:
-            print(f"❌ Error running open discovery: {e}")
+            print(f"Error running open discovery: {e}")
             return None
     
     def analyze_open_taint_flow(self, discovery_file, framework_name):
         """Analyze open taint flow patterns"""
-        print(f"🔍 Analyzing open taint flow patterns...")
+        print(f"Analyzing open taint flow patterns...")
         
         try:
             with open(discovery_file, 'r') as f:
                 discovery_data = json.load(f)
             
             findings = discovery_data.get('results', [])
-            print(f"📊 Found {len(findings)} taint propagation points")
+            print(f"Found {len(findings)} taint propagation points")
             
             # Analyze usage patterns
             patterns = {
@@ -234,7 +235,7 @@ class OpenTaintAnalyzer:
                 except:
                     patterns['Other'] += 1
             
-            print(f"🔍 Open taint usage patterns identified:")
+            print(f"Open taint usage patterns identified:")
             for pattern, count in patterns.items():
                 if count > 0:
                     percentage = (count / len(findings)) * 100
@@ -247,12 +248,12 @@ class OpenTaintAnalyzer:
             }
             
         except Exception as e:
-            print(f"❌ Error analyzing taint flow: {e}")
+            print(f"Error analyzing taint flow: {e}")
             return None
     
     def analyze_open_security(self, discovery_file, framework_name):
         """Analyze open security patterns"""
-        print(f"🔍 Analyzing open security patterns...")
+        print(f"Analyzing open security patterns...")
         
         try:
             with open(discovery_file, 'r') as f:
@@ -315,7 +316,7 @@ class OpenTaintAnalyzer:
                 except:
                     pass
             
-            print(f"🛡️  Open security analysis results:")
+            print(f"Open security analysis results:")
             print(f"   - Explicit validation: {len(security_analysis['Explicit_Validation'])} points")
             print(f"   - No explicit validation: {len(security_analysis['No_Explicit_Validation'])} points")
             print(f"   - Context-dependent: {len(security_analysis['Context_Dependent'])} points")
@@ -323,12 +324,12 @@ class OpenTaintAnalyzer:
             return security_analysis
             
         except Exception as e:
-            print(f"❌ Error analyzing security: {e}")
+            print(f"Error analyzing security: {e}")
             return None
     
     def generate_open_reports(self, discovery_file, flow_analysis, security_analysis, framework_name):
         """Generate open analysis reports"""
-        print(f"📄 Generating open analysis reports...")
+        print(f"Generating open analysis reports...")
         
         try:
             results_dir = self.results_dir / framework_name.lower()
@@ -402,7 +403,7 @@ class OpenTaintAnalyzer:
                         context_notes
                     ])
             
-            print(f"✅ Open CSV data generated: {open_csv_file}")
+            print(f"Open CSV data generated: {open_csv_file}")
             
             # Generate open summary
             open_summary = {
@@ -422,7 +423,7 @@ class OpenTaintAnalyzer:
             with open(summary_file, 'w') as f:
                 json.dump(open_summary, f, indent=2)
             
-            print(f"✅ Open summary generated: {summary_file}")
+            print(f"Open summary generated: {summary_file}")
             
             return {
                 'csv_file': open_csv_file,
@@ -431,13 +432,13 @@ class OpenTaintAnalyzer:
             }
             
         except Exception as e:
-            print(f"❌ Error generating open reports: {e}")
+            print(f"Error generating open reports: {e}")
             return None
     
     def display_open_results(self, open_reports, framework_name):
         """Display open analysis results"""
         print(f"\n" + "="*60)
-        print(f"📊 OPEN TAINT TRACKING RESULTS FOR {framework_name.upper()}")
+        print(f"OPEN TAINT TRACKING RESULTS FOR {framework_name.upper()}")
         print("="*60)
         
         try:
@@ -470,15 +471,15 @@ class OpenTaintAnalyzer:
             print(f"  - Summary Report: {open_reports['summary_file']}")
             print(f"  - Raw Discovery: {open_reports['discovery_file']}")
             
-            print(f"\n📁 All results saved to: results/{framework_name.lower()}/")
+            print(f"\nAll results saved to: results/{framework_name.lower()}/")
             print("="*60)
             
         except Exception as e:
-            print(f"❌ Error reading open results: {e}")
+            print(f"Error reading open results: {e}")
     
     def run(self):
         """Main interactive loop"""
-        print("🔬 Welcome to Open Taint Tracking Analyzer!")
+        print("Welcome to Open Taint Tracking Analyzer!")
         print("This tool performs comprehensive open-ended analysis of Host Header usage in PHP frameworks.")
         
         while True:
@@ -486,23 +487,23 @@ class OpenTaintAnalyzer:
             choice = self.get_user_choice()
             
             if choice is None:
-                print("\n👋 Goodbye!")
+                print("\nGoodbye!")
                 break
             
             try:
                 success = self.analyze_framework(choice)
                 if success:
-                    print(f"\n🎉 Open Taint Tracking analysis completed! Check the 'results/' directory for detailed results.")
+                    print(f"\nOpen Taint Tracking analysis completed! Check the 'results/' directory for detailed results.")
                 else:
-                    print(f"\n❌ Analysis failed. Please check the error messages above.")
+                    print(f"\nAnalysis failed. Please check the error messages above.")
                 
                 input("\nPress Enter to continue...")
                 
             except KeyboardInterrupt:
-                print("\n\n👋 Goodbye!")
+                print("\n\nGoodbye!")
                 break
             except Exception as e:
-                print(f"\n❌ Unexpected error: {e}")
+                print(f"\nUnexpected error: {e}")
                 input("\nPress Enter to continue...")
 
 def main():
@@ -517,7 +518,7 @@ def main():
         if args.framework in analyzer.frameworks:
             analyzer.analyze_framework(args.framework)
         else:
-            print(f"❌ Invalid framework choice: {args.framework}")
+            print(f"Invalid framework choice: {args.framework}")
             print("Valid choices: 1-7")
     else:
         # Interactive mode

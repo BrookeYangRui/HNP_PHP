@@ -2,18 +2,18 @@
 
 A comprehensive open-ended static analysis tool for discovering Host Header usage patterns in PHP frameworks.
 
-## 🎯 Overview
+## Overview
 
 This tool performs **Open Taint Tracking** analysis to discover all Host Header usage patterns in PHP frameworks without any sink restrictions. It provides comprehensive insights into how host data flows through the codebase.
 
-## 🔬 Analysis Method
+## Analysis Method
 
 - **Open-ended Taint Tracking**: No sink restrictions, let taint flow freely
 - **Comprehensive Discovery**: Find all host usage patterns, not just security issues
 - **Pattern Classification**: Categorize usage into 8 different types
 - **Security Analysis**: Identify validation, risk usage, and context-dependent cases
 
-## 📊 Results (Laravel Example)
+## Results (Laravel Example)
 
 - **33 taint propagation points** discovered
 - **12 files** analyzed
@@ -29,7 +29,7 @@ This tool performs **Open Taint Tracking** analysis to discover all Host Header 
   - No explicit validation: 10 points
   - Context-dependent: 19 points
 
-## 🚀 Usage
+## Usage
 
 ### Interactive Mode
 ```bash
@@ -50,7 +50,7 @@ python3 open_taint_analyzer.py --framework 1
 6. Yii2
 7. All Frameworks
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── open_taint_analyzer.py          # Main analysis tool
@@ -68,13 +68,13 @@ python3 open_taint_analyzer.py --framework 1
         └── open_analysis_summary.json # Analysis summary
 ```
 
-## 📄 Generated Reports
+## Generated Reports
 
 - **open_discovery.json**: Raw Semgrep discovery results
 - **open_taint_data.csv**: Structured analysis data with usage patterns
 - **open_analysis_summary.json**: Analysis summary with statistics
 
-## 🎯 Key Features
+## Key Features
 
 - **No Sink Restrictions**: Discovers all host usage patterns
 - **Pattern Classification**: 8 different usage pattern types
@@ -82,7 +82,7 @@ python3 open_taint_analyzer.py --framework 1
 - **Comprehensive Coverage**: 175% more findings than restrictive methods
 - **Framework Support**: Laravel, Symfony, WordPress, CodeIgniter, CakePHP, Yii2
 
-## 🔍 Analysis Types
+## Analysis Types
 
 1. **Direct_Return**: Direct return of host data
 2. **URL_Construction**: Host data used in URL building
@@ -93,23 +93,23 @@ python3 open_taint_analyzer.py --framework 1
 7. **Object_Properties**: Host data assigned to object properties
 8. **Other**: Other usage patterns
 
-## 📈 Benefits
+## Benefits
 
 - **Comprehensive Discovery**: Find all host usage points
 - **Research Foundation**: Understanding of framework behavior
 - **Security Insights**: Identify validation and risk patterns
 - **Academic Value**: Objective analysis without subjective risk assessments
 
-## 🛠️ Requirements
+## Requirements
 
 - Python 3.6+
 - Semgrep
 - PHP frameworks in `frameworks/` directory
 
-## 📊 Example Output
+## Example Output
 
 ```
-📊 OPEN TAINT TRACKING RESULTS FOR LARAVEL
+OPEN TAINT TRACKING RESULTS FOR LARAVEL
 ============================================================
 Total Taint Points: 33
 Files Analyzed: 12

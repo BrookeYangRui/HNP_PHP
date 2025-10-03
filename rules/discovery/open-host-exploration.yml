@@ -6,7 +6,11 @@ rules:
   mode: taint
   pattern-sources:
     - pattern: $_SERVER["HTTP_HOST"]
+    - pattern: $_SERVER['HTTP_HOST']
     - pattern: $_SERVER["HTTP_X_FORWARDED_HOST"]
+    - pattern: $_SERVER['HTTP_X_FORWARDED_HOST']
+    - pattern: $_SERVER["SERVER_NAME"]
+    - pattern: $_SERVER['SERVER_NAME']
     - pattern: $REQ->getHost()
     - pattern: $REQ->host()
     - pattern: $REQ->getHttpHost()
@@ -15,10 +19,10 @@ rules:
     - pattern: $REQ->url()
     - pattern: $REQ->root()
   pattern-sinks:
-    # 不限制任何 sink，让污点传播到所有地方
+    # Do not restrict any sink; allow taint to propagate everywhere
     - pattern: $ANY
   pattern-either:
-    # 捕获所有使用 host 的地方
+    # Capture all places where host is used
     - pattern: $VAR = $HOST
     - pattern: $VAR = $HOST . $REST
     - pattern: $VAR = $REST . $HOST
