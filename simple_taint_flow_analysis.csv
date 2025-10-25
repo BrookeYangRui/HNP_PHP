@@ -1,0 +1,71 @@
+function_name,total_flows,developer_usable_flows,files,examples
+Other,65,25,"UriSigner.php, SiteURI.php, UrlHelper.php, HandleCors.php, class-wp-http.php",$_SERVER['HTTP_HOST'] = $host; | unset($_SERVER['HTTP_HOST']); | return (string) $uri;
+remove_query_arg,16,16,"misc.php, admin-bar.php, canonical.php, class-wp-list-table.php","$current_url = remove_query_arg( $removable_query_args, $current_url ); | $current_url = remove_query_arg( 'paged', $current_url ); | $filtered_url = remove_query_arg( $removable_query_args, $current_url );"
+getHost,13,13,"UrlHelper.php, HostRequestMatcher.php, 021.php, Request.php, OutgoingRequest.php",$host = $uri->getHost(); | if ($uri->getHost() !== '') { | $host = $this->getHost();
+url,12,12,"DocsCommand.php, Request.php, UrlGenerator.php, nav-menu-template.php, canonical.php","$url = $this->url(); | if (! Str::is(Str::start($url, '*'), $request->url())) { | return $request->url() == $url;"
+redirect,9,9,"canonical.php, class-wp-http-streams.php",$redirect     = $original; | if ( ! isset( $redirect['path'] ) ) { | $redirect['path'] = '';
+getSchemeAndHttpHost,7,7,"ResponseHeaderLocationSame.php, UriSigner.php, UrlHelper.php, Request.php","return rtrim($this->getSchemeAndHttpHost().$this->getBaseUrl(), '/'); | return $this->getSchemeAndHttpHost(); | return $this->getSchemeAndHttpHost().$this->getBaseUrl().$this->getPathInfo().$qs;"
+_remove_qs_args_if_not_in_url,6,6,canonical.php,$redirect['query'] = _remove_qs_args_if_not_in_url( | $redirect['query'] = _remove_qs_args_if_not_in_url( | $redirect['query'] = _remove_qs_args_if_not_in_url(
+set_url_scheme,5,5,"misc.php, nav-menu-template.php, pluggable.php, class-wp-list-table.php",$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ); | $current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ); | $current_url  = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+esc_url,5,5,"misc.php, class-wp-list-table.php","esc_url( remove_query_arg( 'paged', $current_url ) ), | esc_url( add_query_arg( 'paged', max( 1, $current - 1 ), $current_url ) ), | esc_url( add_query_arg( 'paged', min( $total_pages, $current + 1 ), $current_url ) ),"
+getScheme,3,3,"Request.php, SiteURI.php","return substr((string) $uri, strlen($uri->getScheme()) + 1); | return substr((string) $uri, strlen($uri->getScheme()) + 1); | return $this->getScheme().'://'.$this->getHttpHost();"
+root,3,3,UrlGenerator.php,"$this->cachedRoot = $this->forcedRoot ?: $this->request->root(); | $root = $this->cachedRoot; | return preg_replace('~'.$start.'~', $scheme, $root, 1);"
+is_ssl,3,3,"admin-bar.php, loginout.php, rest-api.php",$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; | $current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; | if ( is_ssl() && isset( $_SERVER['SERVER_NAME'] ) ) {
+wp_redirect,3,3,pluggable.php,wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ); | wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ); | wp_redirect( $login_url );
+isHostHeaderMissingOrEmpty,2,2,OutgoingRequest.php,if ($this->isHostHeaderMissingOrEmpty() && $uri->getHost() !== '') { | if ($this->isHostHeaderMissingOrEmpty() && $uri->getHost() === '') {
+self,2,2,SiteURI.php,"$uri = new self($config, $relativePath, $host, $scheme); | $uri = new self($config, $relativePath, $host, $scheme);"
+str_starts_with,2,2,"URI.php, UrlGenerator.php","str_starts_with($this->getScheme(), 'http') | $start = str_starts_with($root, 'http://') ? 'http://' : 'https://';"
+apply_filters,2,2,"misc.php, class-wp-http.php","$filtered_url = apply_filters( 'wp_admin_canonical_url', $filtered_url ); | return apply_filters( 'http_response', $response, $parsed_args, $url );"
+add_query_arg,2,2,admin-bar.php,"$customize_url = add_query_arg( 'url', urlencode( $current_url ), wp_customize_url() ); | $customize_url = add_query_arg( array( 'changeset_uuid' => $wp_customize->changeset_uuid() ), $customize_url );"
+parse_url,2,2,canonical.php,"$original = parse_url( $requested_url ); | $redirect['path'] = parse_url( $redirect_url, PHP_URL_PATH );"
+stream_socket_client,2,2,class-wp-http-streams.php,$handle = @stream_socket_client( | $handle = stream_socket_client(
+header,2,2,"ms-settings.php, class-wp-http-streams.php","$header_length = strpos( $response, ""\r\n\r\n"" ) + 4; | header( 'Location: ' . $bootstrap_result );"
+wp_safe_redirect,2,2,"class-wp-recovery-mode.php, wp-login.php",wp_safe_redirect( $url ); | wp_safe_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+home_url,2,2,"rest-api.php, nav-menu-template.php","if ( in_array( home_url(), array( untrailingslashit( $current_url ), untrailingslashit( $_indexless_current ) ), true ) ) { | if ( parse_url( get_home_url( $blog_id ), PHP_URL_HOST ) === $_SERVER['SERVER_NAME'] ) {"
+hasHeader,1,1,OutgoingRequest.php,if (! $this->hasHeader('Host') && $this->uri->getHost() !== '') {
+getPort,1,1,OutgoingRequest.php,return $host . ($uri->getPort() > 0 ? ':' . $uri->getPort() : '');
+SiteURI,1,1,SiteURIFactory.php,"return new SiteURI($this->appConfig, $relativePath, $this->getHost());"
+setHost,1,1,014.php,echo $uri->setHost('anotherexample.com')->getHost();    // anotherexample.com
+open,1,1,DocsCommand.php,$this->open($url);
+getPathsByHost,1,1,HandleCors.php,$paths = $this->getPathsByHost($request->getHost());
+fullUrlIs,1,1,HandleCors.php,if ($request->fullUrlIs($path) || $request->is($path)) {
+of,1,1,Request.php,return Uri::of($this->fullUrl());
+query,1,1,Request.php,return count($this->query()) > 0
+contains,1,1,Request.php,"->contains(fn ($pattern) => Str::is($pattern, $this->fullUrl()));"
+getHttpHost,1,1,Request.php,return $this->getHttpHost();
+currentPathResolver,1,1,PaginationState.php,Paginator::currentPathResolver(fn () => $app['request']->url());
+getHostRegex,1,1,RouteParameterBinder.php,"preg_match($this->route->compiled->getHostRegex(), $request->getHost(), $matches);"
+fullUrl,1,1,UrlGenerator.php,return $this->request->fullUrl();
+setPreviousUrl,1,1,StartSession.php,$session->setPreviousUrl($request->fullUrl());
+evaluate,1,1,ExpressionRequestMatcher.php,"return $this->language->evaluate($this->expression, ["
+sprintf,1,1,class-wp-list-table.php,$column_display_name = sprintf(
+wp_login_form,1,1,loginout.php,$contents = wp_login_form( array( 'echo' => false ) );
+curl_setopt,1,1,class-wp-http-curl.php,"curl_setopt( $handle, CURLOPT_PROXY, $proxy->host() );"
+verify_ssl_certificate,1,1,class-wp-http-streams.php,"if ( ! self::verify_ssl_certificate( $handle, $parsed_url['host'] ) ) {"
+fwrite,2,1,class-wp-http-streams.php,"fwrite( $handle, $headers ); | $bytes_written_to_file = fwrite( $stream_handle, $block );"
+processHeaders,1,1,class-wp-http-streams.php,"$processed_headers = WP_Http::processHeaders( $processed_response['headers'], $url );"
+handle_redirects,1,1,class-wp-http-streams.php,"$redirect_response = WP_Http::handle_redirects( $url, $parsed_args, $response );"
+Http,1,1,class-wp-http.php,$options['proxy'] = new WpOrg\Requests\Proxy\Http( $proxy->host() . ':' . $proxy->port() );
+username,1,1,class-wp-http.php,$options['proxy']->user               = $proxy->username();
+password,1,1,class-wp-http.php,$options['proxy']->pass               = $proxy->password();
+request,1,1,class-wp-http.php,"$requests_response = WpOrg\Requests\Requests::request( $url, $headers, $data, $type, $options );"
+WP_HTTP_Requests_Response,1,1,class-wp-http.php,"$http_response = new WP_HTTP_Requests_Response( $requests_response, $parsed_args['filename'] );"
+to_array,1,1,class-wp-http.php,$response      = $http_response->to_array();
+do_action,1,1,class-wp-http.php,"do_action( 'http_api_debug', $response, 'response', 'WpOrg\Requests\Requests', $parsed_args, $url );"
+untrailingslashit,1,1,nav-menu-template.php,"$_indexless_current = untrailingslashit( preg_replace( '/' . preg_quote( $wp_rewrite->index, '/' ) . '$/', '', $current_url ) );"
+wp_login_url,1,1,pluggable.php,"$login_url = wp_login_url( $redirect, true );"
+dirname,1,1,wp-login.php,$url = dirname( set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] ) );
+update_option,1,1,wp-login.php,"update_option( 'siteurl', $url );"
+add_node,1,0,admin-bar.php,$wp_admin_bar->add_node(
+wp_loginout,1,0,loginout.php,$contents = wp_loginout(
+stream_set_timeout,1,0,class-wp-http-streams.php,"stream_set_timeout( $handle, $timeout, $utimeout );"
+stream_set_blocking,1,0,class-wp-http-streams.php,"stream_set_blocking( $handle, 0 );"
+fclose,3,0,class-wp-http-streams.php,fclose( $handle ); | fclose( $handle ); | fclose( $handle );
+fread,2,0,class-wp-http-streams.php,"$block = fread( $handle, $block_size ); | $block     = fread( $handle, $block_size );"
+processResponse,2,0,class-wp-http-streams.php,$processed_response = WP_Http::processResponse( $response ); | $processed_response = WP_Http::processResponse( $response );
+chunkTransferDecode,1,0,class-wp-http-streams.php,$processed_response['body'] = WP_Http::chunkTransferDecode( $processed_response['body'] );
+decompress,1,0,class-wp-http-streams.php,$processed_response['body'] = WP_Http_Encoding::decompress( $processed_response['body'] );
+strtolower,1,0,ms-settings.php,$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
+stripslashes,1,0,ms-settings.php,$path = stripslashes( $_SERVER['REQUEST_URI'] );
+ms_load_current_site_and_network,1,0,ms-settings.php,"$bootstrap_result = ms_load_current_site_and_network( $domain, $path, is_subdomain_install() );"
+ms_not_installed,1,0,ms-settings.php,"ms_not_installed( $domain, $path );"

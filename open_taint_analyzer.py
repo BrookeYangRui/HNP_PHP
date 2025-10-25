@@ -76,7 +76,7 @@ class OpenTaintAnalyzer:
                 elif choice in self.frameworks:
                     return choice
                 else:
-            print("Invalid choice. Please select 0-7.")
+                    print("Invalid choice. Please select 0-7.")
             except KeyboardInterrupt:
                 return None
     
@@ -126,6 +126,17 @@ class OpenTaintAnalyzer:
         if not open_reports:
             print("Open analysis failed at report generation phase")
             return False
+
+        # Phase 5: Call Graph & Program Slicing
+        print(f"\nPhase 5: Host Call Graph & Program Slicing")
+        print("-" * 50)
+        call_graph_data = self.generate_host_call_graph(discovery_file, open_reports['csv_file'], framework_name)
+        if call_graph_data:
+            open_reports['call_graph_file'] = call_graph_data.get('call_graph_file')
+            if call_graph_data.get('data'):
+                open_reports['call_graph_data'] = call_graph_data.get('data')
+        else:
+            print("Call graph generation encountered issues; continuing without call chains.")
         
         # Display open results
         self.display_open_results(open_reports, framework_name)
@@ -434,6 +445,123 @@ class OpenTaintAnalyzer:
         except Exception as e:
             print(f"Error generating open reports: {e}")
             return None
+
+    def generate_host_call_graph(self, discovery_file, csv_file, framework_name):
+        """Generate call graph and program slices using discovery data."""
+        try:
+            script_path = self.project_root / "scripts" / "generate_host_call_graph.php"
+            if not script_path.exists():
+                print(f"Call graph script not found: {script_path}")
+                return None
+
+            call_graph_dir = self.results_dir / framework_name.lower() / "call_graph"
+            call_graph_dir.mkdir(exist_ok=True)
+
+            cmd = [
+                "php",
+                str(script_path),
+                str(discovery_file),
+                str(call_graph_dir)
+            ]
+
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+            if result.stdout.strip():
+                print(result.stdout.strip())
+            if result.stderr.strip():
+                print(result.stderr.strip())
+
+            if result.returncode != 0:
+                print("Call graph generation failed.")
+                return None
+
+            call_graph_file = call_graph_dir / "host_call_graph.json"
+            if not call_graph_file.exists():
+                print("Call graph output not found.")
+                return None
+
+            call_graph_data = self.enrich_call_graph_with_analysis(call_graph_file, csv_file)
+            return {
+                'call_graph_file': str(call_graph_file),
+                'data': call_graph_data
+            }
+
+        except subprocess.TimeoutExpired:
+            print("Call graph generation timed out.")
+            return None
+        except Exception as e:
+            print(f"Error generating call graph: {e}")
+            return None
+
+    def enrich_call_graph_with_analysis(self, call_graph_file, csv_file):
+        """Merge call graph data with existing analysis metadata."""
+        try:
+            with open(call_graph_file, 'r', encoding='utf-8') as f:
+                call_graph_data = json.load(f)
+        except Exception as e:
+            print(f"Failed to read call graph data: {e}")
+            return None
+
+        csv_map = {}
+        try:
+            with open(csv_file, newline='', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    file_key = row.get('File')
+                    line_number = row.get('Line')
+                    if not file_key or not line_number:
+                        continue
+                    key = (file_key, int(line_number))
+                    csv_map.setdefault(key, []).append(row)
+        except Exception as e:
+            print(f"Failed to read CSV data for enrichment: {e}")
+            csv_map = {}
+
+        pattern_counts = {}
+        validation_counts = {'true': 0, 'false': 0}
+        risk_counts = {'true': 0, 'false': 0}
+
+        for flow in call_graph_data.get('host_flows', []):
+            file_name = Path(flow.get('file', '')).name
+            line_no = flow.get('line')
+            key = (file_name, line_no)
+            row = None
+            if key in csv_map:
+                row = csv_map[key][0]
+            else:
+                # Attempt to match using discovery fingerprint (optional future use)
+                row = None
+
+            if row:
+                usage_pattern = row.get('Usage_Pattern', 'Unknown')
+                flow['usage_pattern'] = usage_pattern
+                has_validation = row.get('Has_Explicit_Validation', 'False')
+                has_risk = row.get('Has_Risk_Usage', 'False')
+
+                flow['has_explicit_validation'] = has_validation.lower() == 'true'
+                flow['has_risk_usage'] = has_risk.lower() == 'true'
+
+                pattern_counts[usage_pattern] = pattern_counts.get(usage_pattern, 0) + 1
+                validation_counts['true' if flow['has_explicit_validation'] else 'false'] += 1
+                risk_counts['true' if flow['has_risk_usage'] else 'false'] += 1
+            else:
+                flow['usage_pattern'] = 'Unknown'
+                flow['has_explicit_validation'] = False
+                flow['has_risk_usage'] = False
+                pattern_counts['Unknown'] = pattern_counts.get('Unknown', 0) + 1
+                validation_counts['false'] += 1
+                risk_counts['false'] += 1
+
+        call_graph_data['usage_pattern_counts'] = pattern_counts
+        call_graph_data['validation_counts'] = validation_counts
+        call_graph_data['risk_counts'] = risk_counts
+
+        try:
+            with open(call_graph_file, 'w', encoding='utf-8') as f:
+                json.dump(call_graph_data, f, indent=2)
+        except Exception as e:
+            print(f"Failed to update call graph file: {e}")
+
+        return call_graph_data
     
     def display_open_results(self, open_reports, framework_name):
         """Display open analysis results"""
@@ -470,6 +598,20 @@ class OpenTaintAnalyzer:
             print(f"  - CSV Report: {open_reports['csv_file']}")
             print(f"  - Summary Report: {open_reports['summary_file']}")
             print(f"  - Raw Discovery: {open_reports['discovery_file']}")
+
+            call_graph_file = open_reports.get('call_graph_file')
+            call_graph_data = open_reports.get('call_graph_data')
+            if call_graph_file:
+                print(f"  - Call Graph Report: {call_graph_file}")
+                if call_graph_data:
+                    total_flows = call_graph_data.get('total_host_flows', 0)
+                    print(f"\nCall Graph Overview:")
+                    print(f"  - Enriched host flows: {total_flows}")
+                    usage_counts = call_graph_data.get('usage_pattern_counts', {})
+                    if usage_counts:
+                        print("  - Flows by usage pattern:")
+                        for pattern, count in sorted(usage_counts.items(), key=lambda x: x[1], reverse=True):
+                            print(f"      * {pattern}: {count}")
             
             print(f"\nAll results saved to: results/{framework_name.lower()}/")
             print("="*60)

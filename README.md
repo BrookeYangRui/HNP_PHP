@@ -65,7 +65,9 @@ python3 open_taint_analyzer.py --framework 1
     └── [framework]/
         ├── open_discovery.json       # Raw discovery data
         ├── open_taint_data.csv       # Structured analysis data
-        └── open_analysis_summary.json # Analysis summary
+        ├── open_analysis_summary.json # Analysis summary
+        └── call_graph/
+            └── host_call_graph.json   # Host call graphs & program slices
 ```
 
 ## Generated Reports
@@ -73,6 +75,7 @@ python3 open_taint_analyzer.py --framework 1
 - **open_discovery.json**: Raw Semgrep discovery results
 - **open_taint_data.csv**: Structured analysis data with usage patterns
 - **open_analysis_summary.json**: Analysis summary with statistics
+- **call_graph/host_call_graph.json**: Enriched call graphs with per-finding slices, callers, and risk annotations
 
 ## Key Features
 
@@ -81,6 +84,7 @@ python3 open_taint_analyzer.py --framework 1
 - **Security Analysis**: Validation and risk assessment
 - **Comprehensive Coverage**: 175% more findings than restrictive methods
 - **Framework Support**: Laravel, Symfony, WordPress, CodeIgniter, CakePHP, Yii2
+- **Call Graph Insights**: Automatic extraction of host-related call chains and contextual slices per finding
 
 ## Analysis Types
 
